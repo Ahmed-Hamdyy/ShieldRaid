@@ -1,0 +1,927 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    /* Print-specific styles */
+    @media print {
+        /* Override ALL backgrounds and gradients */
+        body::before, body::after,
+        .base-content::before, .base-content::after,
+        .content-wrapper::before, .content-wrapper::after,
+        .report-container::before, .report-container::after,
+        *::before, *::after {
+            display: none !important;
+            background: none !important;
+            background-image: none !important;
+            background-color: transparent !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        /* Force white background on all elements */
+        html, body, .base-content, .content-wrapper, main, 
+        .report-container, .report-header, .report-section, 
+        .vulnerability-type, .vulnerability-instance,
+        .severity-card, .meta-item, .evidence-section {
+            background: #ffffff !important;
+            background-image: none !important;
+            background-color: #ffffff !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        /* Hide all decorative elements */
+        .sidebar, .navbar, .nav-section, .nav-item, 
+        #sidebar, #navbar, .base-header, .base-footer, 
+        .base-nav, .base-content > *:not(.report-container),
+        .print-controls {
+            display: none !important;
+        }
+
+        /* Reset container */
+        .report-container {
+            margin: 0 !important;
+            padding: 15px !important;
+            max-width: none !important;
+            width: 100% !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+        }
+
+        /* Ensure text is black */
+        * {
+            color: black !important;
+            text-shadow: none !important;
+        }
+
+        /* Keep code blocks readable */
+        .code-block {
+            background: transparent !important;
+            border: 1px solid #ddd !important;
+        }
+
+        /* Ensure badges are visible */
+        .severity-badge {
+            border: 1px solid #ddd !important;
+            background: transparent !important;
+            color: black !important;
+        }
+
+        /* Remove all gradients and transitions */
+        * {
+            transition: none !important;
+            background: none !important;
+            background-image: none !important;
+            background-color: transparent !important;
+        }
+
+        /* Ensure the report container is at the top */
+        .report-container {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        /* Reset any base template margins/padding */
+        body, html, .base-content, main, .content-wrapper {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+        }
+
+        html, body {
+            width: 100% !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            color: black !important;
+            font-size: 10pt;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        
+        .no-print, .print-controls, .sidebar, .navbar {
+            display: none !important;
+        }
+
+        .report-container {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 15px !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .report-header, .report-section, .vulnerability-type {
+            margin: 15px 0 !important;
+            padding: 15px !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .row {
+            display: flex !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+        .col-md-6 {
+            width: 50% !important;
+            padding: 0 10px !important;
+        }
+
+        .severity-summary {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+            margin: 15px 0 !important;
+        }
+
+        .severity-card {
+            flex: 1 !important;
+            min-width: 120px !important;
+            margin: 0 !important;
+            background: transparent !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .vulnerability-instance {
+            margin: 15px 0 !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: 1px solid #ddd !important;
+        }
+
+        .code-block {
+            white-space: pre-wrap !important;
+            word-break: break-word !important;
+            background: transparent !important;
+            border: 1px solid #ddd !important;
+            color: black !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+            font-size: 9pt !important;
+            padding: 10px !important;
+        }
+
+        .evidence-section {
+            margin: 10px 0 !important;
+            padding: 10px !important;
+            background: transparent !important;
+            border: 1px solid #ddd !important;
+        }
+
+        /* Remove all page breaks */
+        * {
+            page-break-inside: auto !important;
+            break-inside: auto !important;
+            page-break-before: avoid !important;
+            page-break-after: avoid !important;
+        }
+
+        /* Ensure proper text colors and spacing */
+        h1, h2, h3, h4, h5, h6, p, span, div {
+            color: black !important;
+            margin: 5px 0 !important;
+        }
+
+        /* Ensure icons are visible */
+        .fas {
+            color: black !important;
+            margin-right: 5px !important;
+        }
+
+        /* Fix badge colors for print */
+        .severity-badge {
+            border: 1px solid #ddd !important;
+            background: transparent !important;
+            color: black !important;
+            padding: 5px 10px !important;
+        }
+
+        /* Remove decorative effects */
+        * {
+            transform: none !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            background-image: none !important;
+        }
+
+        /* Ensure continuous flow */
+        .vulnerability-section, .recommendations {
+            margin: 15px 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Adjust font sizes */
+        .report-title { font-size: 16pt !important; }
+        .section-title { font-size: 14pt !important; }
+        .vulnerability-type h5 { font-size: 12pt !important; }
+        .vuln-description { font-size: 10pt !important; }
+    }
+
+    /* Regular styles */
+    .report-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: var(--background);
+    }
+
+    .report-header {
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-radius: 20px;
+        border: 1px solid var(--card-background);
+    }
+
+    .report-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .report-title i {
+        color: var(--primary-color);
+    }
+
+    .report-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .meta-item {
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--card-background);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .meta-item:hover {
+        transform: translateY(-2px);
+        border-color: rgba(0, 255, 157, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .meta-item h6 {
+        color: var(--text-secondary);
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .meta-item p {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        margin: 0;
+        word-break: break-all;
+    }
+
+    .severity-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .severity-card {
+        padding: 1.5rem;
+        border-radius: 16px;
+        text-align: center;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .severity-card.critical { 
+        background: rgba(220, 53, 69, 0.1); 
+        color: #dc3545; 
+        border-color: rgba(220, 53, 69, 0.2);
+    }
+    .severity-card.high { 
+        background: rgba(253, 126, 20, 0.1); 
+        color: #fd7e14; 
+        border-color: rgba(253, 126, 20, 0.2);
+    }
+    .severity-card.medium { 
+        background: rgba(255, 193, 7, 0.1); 
+        color: #ffc107; 
+        border-color: rgba(255, 193, 7, 0.2);
+    }
+    .severity-card.low { 
+        background: rgba(13, 202, 240, 0.1); 
+        color: #0dcaf0; 
+        border-color: rgba(13, 202, 240, 0.2);
+    }
+
+    .severity-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .severity-card h3 {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+        font-weight: 700;
+    }
+
+    .severity-card div {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .vulnerability-section {
+        margin-bottom: 3rem;
+    }
+
+    .vulnerability-section h4 {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--card-background);
+    }
+
+    .vulnerability-type {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border-radius: 20px;
+        border: 1px solid var(--card-background);
+    }
+
+    .vulnerability-type h5 {
+        color: var(--text-primary);
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .vulnerability-instance {
+        margin-bottom: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--card-background);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .vulnerability-instance:hover {
+        transform: translateY(-2px);
+        border-color: rgba(0, 255, 157, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .vulnerability-instance .card-body {
+        padding: 1.5rem;
+    }
+
+    .severity-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .severity-badge.critical { background: rgba(220, 53, 69, 0.1); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.2); }
+    .severity-badge.high { background: rgba(253, 126, 20, 0.1); color: #fd7e14; border: 1px solid rgba(253, 126, 20, 0.2); }
+    .severity-badge.medium { background: rgba(255, 193, 7, 0.1); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.2); }
+    .severity-badge.low { background: rgba(13, 202, 240, 0.1); color: #0dcaf0; border: 1px solid rgba(13, 202, 240, 0.2); }
+
+    .vuln-description {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-title {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+    }
+
+    .code-block {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--card-background);
+        color: var(--text-primary);
+        padding: 1rem !important;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .print-controls {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1000;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .print-controls .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .print-controls .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .print-controls .btn-primary {
+        background: rgba(0, 255, 157, 0.1);
+        border: 1px solid rgba(0, 255, 157, 0.2);
+        color: var(--primary-color);
+    }
+
+    .print-controls .btn-primary:hover {
+        background: rgba(0, 255, 157, 0.15);
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 20px rgba(0, 255, 157, 0.2);
+    }
+
+    .print-controls .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-background);
+        color: var(--text-secondary);
+    }
+
+    .print-controls .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: var(--text-primary);
+    }
+
+    /* Additional styles for new sections */
+    .report-section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border-radius: 20px;
+        border: 1px solid var(--card-background);
+    }
+
+    .section-title {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .section-title i {
+        color: var(--primary-color);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--card-background);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(0, 255, 157, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .risk-assessment {
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--card-background);
+        border-radius: 12px;
+        margin-bottom: 2rem;
+    }
+
+    .risk-level {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        display: inline-block;
+    }
+
+    .risk-level.high { background: rgba(220, 53, 69, 0.1); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.2); }
+    .risk-level.medium { background: rgba(255, 193, 7, 0.1); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.2); }
+    .risk-level.low { background: rgba(13, 202, 240, 0.1); color: #0dcaf0; border: 1px solid rgba(13, 202, 240, 0.2); }
+
+    .timeline {
+        position: relative;
+        padding-left: 2rem;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        border-left: 2px solid var(--card-background);
+    }
+
+    .timeline-item:last-child {
+        border-left: none;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -0.5rem;
+        top: 0;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        background: var(--primary-color);
+        border: 2px solid var(--background);
+    }
+
+    .timeline-time {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-content {
+        color: var(--text-primary);
+    }
+
+    .recommendations {
+        margin-top: 1.5rem;
+    }
+
+    .recommendation-item {
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--card-background);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .recommendation-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .recommendation-priority {
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .priority-high { color: #dc3545; }
+    .priority-medium { color: #ffc107; }
+    .priority-low { color: #0dcaf0; }
+
+    /* Additional styles for enhanced vulnerability details */
+    .finding-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--card-background);
+    }
+
+    .finding-title {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .technical-details {
+        margin-bottom: 2rem;
+    }
+
+    .detail-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .detail-title i {
+        color: var(--primary-color);
+        font-size: 0.9rem;
+    }
+
+    .evidence-section {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .evidence-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .evidence-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .evidence-item i {
+        color: var(--primary-color);
+        margin-top: 0.25rem;
+    }
+
+    .vulnerability-instance .card-body {
+        padding: 2rem;
+    }
+
+    .code-block {
+        font-family: 'Monaco', 'Consolas', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        padding: 1rem !important;
+    }
+</style>
+
+<div class="report-container">
+    <!-- Print Controls -->
+    <div class="print-controls no-print">
+        <button class="btn btn-primary" onclick="window.print()">
+            <i class="fas fa-print"></i> Print Report
+        </button>
+        <button class="btn btn-secondary" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+    </div>
+
+    <!-- Report Header -->
+    <div class="report-header">
+        <div class="report-title">
+            <i class="fas fa-shield-alt"></i> Security Scan Report
+        </div>
+        <div class="report-meta">
+            <div class="meta-item">
+                <h6>Target URL</h6>
+                <p id="targetUrl">{{ scan.target_url }}</p>
+            </div>
+            <div class="meta-item">
+                <h6>Scan Date</h6>
+                <p id="scanDate">{{ scan.created_at|datetime }}</p>
+            </div>
+            <div class="meta-item">
+                <h6>Scan Duration</h6>
+                <p id="scanDuration">{{ "%.2f"|format(scan.scan_duration|float) }}s</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="report-section">
+        <h4 class="section-title">
+            <i class="fas fa-file-alt"></i> Executive Summary
+        </h4>
+        <div class="risk-assessment">
+            <div class="risk-level {{ 'high' if stats.critical > 0 else 'medium' if stats.high > 0 else 'low' }}">
+                Overall Risk Level: {{ 'High' if stats.critical > 0 else 'Medium' if stats.high > 0 else 'Low' }}
+            </div>
+            <p>This security scan identified {{ stats.critical + stats.high + stats.medium + stats.low }} total vulnerabilities across different severity levels. 
+               {% if stats.critical > 0 %}Critical attention is required to address {{ stats.critical }} critical vulnerabilities.{% endif %}
+            </p>
+        </div>
+        
+        <!-- Key Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.critical + stats.high + stats.medium + stats.low }}</div>
+                <div class="stat-label">Total Vulnerabilities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ "%.1f"|format(scan.scan_duration|float) }}s</div>
+                <div class="stat-label">Scan Duration</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ vulnerabilities|length }}</div>
+                <div class="stat-label">Unique Vulnerability Types</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Severity Summary -->
+    <div class="severity-summary">
+        <div class="severity-card critical">
+            <h3>{{ stats.critical }}</h3>
+            <div>Critical</div>
+        </div>
+        <div class="severity-card high">
+            <h3>{{ stats.high }}</h3>
+            <div>High</div>
+        </div>
+        <div class="severity-card medium">
+            <h3>{{ stats.medium }}</h3>
+            <div>Medium</div>
+        </div>
+        <div class="severity-card low">
+            <h3>{{ stats.low }}</h3>
+            <div>Low</div>
+        </div>
+    </div>
+
+    <!-- Scan Timeline -->
+    <div class="report-section">
+        <h4 class="section-title">
+            <i class="fas fa-clock"></i> Scan Timeline
+        </h4>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-time">{{ scan.created_at|datetime }}</div>
+                <div class="timeline-content">Scan initiated for {{ scan.target_url }}</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">{{ (scan.created_at|datetime)[:-3] }}</div>
+                <div class="timeline-content">Vulnerability scanning started</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">{{ (scan.created_at|datetime)[:-3] }}</div>
+                <div class="timeline-content">Scan completed - {{ stats.critical + stats.high + stats.medium + stats.low }} vulnerabilities detected</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vulnerabilities Section -->
+    <div class="vulnerability-section">
+        <h4 class="section-title">
+            <i class="fas fa-exclamation-triangle"></i> Detected Vulnerabilities
+        </h4>
+        {% for type, vulns in vulnerabilities.items() %}
+        <div class="vulnerability-type">
+            <h5>
+                <i class="fas fa-bug"></i>
+                {{ type }} ({{ vulns|length }} instances found)
+            </h5>
+            {% with vuln = vulns[0] %}
+            <div class="vulnerability-instance card">
+                <div class="card-body">
+                    <div class="severity-badge {{ vuln.severity }}">
+                        {{ vuln.severity }} - {{ vulns|length }} instances
+                    </div>
+                    
+                    <!-- Primary Finding -->
+                    <div class="finding-header">
+                        <h6 class="finding-title">Primary Finding</h6>
+                        <p class="vuln-description">{{ vuln.description }}</p>
+                    </div>
+
+                    <!-- Technical Details -->
+                    <div class="technical-details">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="detail-group">
+                                    <h6 class="detail-title">
+                                        <i class="fas fa-map-marker-alt"></i> Example Location
+                                    </h6>
+                                    <code class="d-block code-block">{{ vuln.location }}</code>
+                                </div>
+                                {% if vuln.method %}
+                                <div class="detail-group">
+                                    <h6 class="detail-title">
+                                        <i class="fas fa-exchange-alt"></i> Method
+                                    </h6>
+                                    <code class="d-block code-block">{{ vuln.method }}</code>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {% if vuln.parameter %}
+                                <div class="detail-group">
+                                    <h6 class="detail-title">
+                                        <i class="fas fa-code"></i> Parameter
+                                    </h6>
+                                    <code class="d-block code-block">{{ vuln.parameter }}</code>
+                                </div>
+                                {% endif %}
+                                {% if vuln.payload %}
+                                <div class="detail-group">
+                                    <h6 class="detail-title">
+                                        <i class="fas fa-terminal"></i> Example Payload
+                                    </h6>
+                                    <code class="d-block code-block">{{ vuln.payload }}</code>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evidence Section -->
+                    {% if vuln.evidence %}
+                    <div class="evidence-section">
+                        <h6 class="detail-title">
+                            <i class="fas fa-search"></i> Evidence
+                        </h6>
+                        <div class="evidence-content">
+                            {% if vuln.evidence is string %}
+                                {% for evidence_item in vuln.evidence.split(',') %}
+                                <div class="evidence-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>{{ evidence_item.strip() }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                {% for evidence_item in vuln.evidence %}
+                                <div class="evidence-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>{{ evidence_item }}</span>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Additional Instances Note -->
+                    {% if vulns|length > 1 %}
+                    <div class="additional-instances mt-3">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Additional Instances:</strong> {{ vulns|length - 1 }} more instances of this vulnerability type were found. This is a representative example.
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endwith %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Recommendations -->
+    <div class="report-section">
+        <h4 class="section-title">
+            <i class="fas fa-lightbulb"></i> Recommendations
+        </h4>
+        <div class="recommendations">
+            {% if stats.critical > 0 %}
+            <div class="recommendation-item">
+                <div class="recommendation-priority priority-high">High Priority</div>
+                <p>Address the {{ stats.critical }} critical vulnerabilities immediately. These pose immediate security risks and should be remediated as soon as possible.</p>
+            </div>
+            {% endif %}
+            {% if stats.high > 0 %}
+            <div class="recommendation-item">
+                <div class="recommendation-priority priority-medium">Medium Priority</div>
+                <p>Plan to fix the {{ stats.high }} high severity vulnerabilities in the short term. These represent significant security risks that should be addressed promptly.</p>
+            </div>
+            {% endif %}
+            {% if stats.medium + stats.low > 0 %}
+            <div class="recommendation-item">
+                <div class="recommendation-priority priority-low">Low Priority</div>
+                <p>Review and address the {{ stats.medium + stats.low }} medium and low severity findings as part of regular security maintenance.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

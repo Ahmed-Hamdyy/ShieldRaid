@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}IDS - Intrusion Detection System{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- IDS Main Content -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-shield-virus me-2"></i>
+                        Intrusion Detection System
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="ids-alerts" class="mb-4">
+                        <!-- Alerts will be displayed here -->
+                    </div>
+                    
+                    <div class="ids-controls">
+                        <button class="btn btn-primary" id="startMonitoring">
+                            <i class="fas fa-play me-2"></i>Start Monitoring
+                        </button>
+                        <button class="btn btn-danger" id="stopMonitoring" disabled>
+                            <i class="fas fa-stop me-2"></i>Stop Monitoring
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Assistant Chat -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-robot me-2"></i>
+                        AI Security Assistant
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="chat-messages" class="chat-container mb-3">
+                        <!-- Chat messages will appear here -->
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" id="user-message" class="form-control" 
+                               placeholder="Ask about security...">
+                        <button class="btn btn-primary mt-2" id="send-message">
+                            <i class="fas fa-paper-plane me-2"></i>Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add custom CSS -->
+{% block extra_css %}
+<style>
+.chat-container {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 80%;
+}
+
+.user-message {
+    background-color: #007bff;
+    color: white;
+    margin-left: auto;
+}
+
+.ai-message {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+}
+</style>
+{% endblock %}
+
+<!-- Add custom JavaScript -->
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const socket = io();
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-message');
+    const sendButton = document.getElementById('send-message');
+    
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${isUser ? 'user-message' : 'ai-message'}`;
+        messageDiv.textContent = message;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    sendButton.addEventListener('click', function() {
+        const message = userInput.value.trim();
+        if (message) {
+            addMessage(message, true);
+            socket.emit('ids_message', {data: message});
+            userInput.value = '';
+        }
+    });
+    
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendButton.click();
+        }
+    });
+    
+    socket.on('ids_response', function(data) {
+        addMessage(data.response);
+    });
+    
+    socket.on('ids_error', function(data) {
+        console.error('IDS Error:', data.message);
+        addMessage('Error: ' + data.message);
+    });
+    
+    // IDS Controls
+    const startBtn = document.getElementById('startMonitoring');
+    const stopBtn = document.getElementById('stopMonitoring');
+    
+    startBtn.addEventListener('click', function() {
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        socket.emit('start_ids');
+    });
+    
+    stopBtn.addEventListener('click', function() {
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        socket.emit('stop_ids');
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

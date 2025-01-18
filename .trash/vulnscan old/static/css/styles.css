@@ -1,0 +1,49 @@
+/* static/css/styles.css */
+
+body {
+    background-color: #f0f2f5;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#scanForm {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#result h3 {
+    margin-bottom: 15px;
+}
+
+.accordion-button::after {
+    background-image: none;
+}
+
+.accordion-button::before {
+    content: '\f078';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+.accordion-button.collapsed::before {
+    content: '\f077';
+}
+
+.badge {
+    font-size: 0.9em;
+}
+
+.alert-success {
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}

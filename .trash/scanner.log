@@ -1,0 +1,253 @@
+2024-12-03 06:31:54,170 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:31:54,172 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:31:58,562 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:31:58] "GET / HTTP/1.1" 200 -
+2024-12-03 06:31:58,656 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:31:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:31:58,656 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:31:58] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:32:00,324 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:32:00,324 - scan_tools.scanner_manager - WARNING - No valid modules selected for scanning
+2024-12-03 06:32:00,325 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:32:00,326 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:32:00] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:32:06,758 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:32:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:32:20,328 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:32:20,328 - scan_tools.scanner_manager - WARNING - No valid modules selected for scanning
+2024-12-03 06:32:20,328 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:32:20,330 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:32:20] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:32:22,221 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:32:22] "GET / HTTP/1.1" 200 -
+2024-12-03 06:32:22,264 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:32:22] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:32:22,267 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:32:22] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:32:28,436 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:32:28,436 - scan_tools.scanner_manager - WARNING - No valid modules selected for scanning
+2024-12-03 06:32:28,437 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:32:28,438 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:32:28] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:32:51,968 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-12-03 06:32:51,968 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2024-12-03 06:32:51,969 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:32:52,581 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:32:52,583 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:33:55,787 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:33:55] "GET / HTTP/1.1" 200 -
+2024-12-03 06:33:56,012 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:33:56] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:33:56,013 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:33:56] "GET /static/js/main.js HTTP/1.1" 200 -
+2024-12-03 06:34:03,919 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:34:03,919 - scan_tools.scanner_manager - WARNING - No valid modules selected for scanning
+2024-12-03 06:34:03,919 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:34:03,921 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:34:03] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:35:03,231 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:35:03,370 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:35:04,215 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:35:04,217 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:35:08,017 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:35:08] "GET / HTTP/1.1" 200 -
+2024-12-03 06:35:08,135 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:35:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:35:08,138 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:35:08] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:35:13,343 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:35:13,343 - scan_tools.scanner_manager - WARNING - Unknown module: auth
+2024-12-03 06:35:13,343 - scan_tools.scanner_manager - WARNING - Unknown module: session
+2024-12-03 06:35:13,344 - scan_tools.scanner_manager - WARNING - Unknown module: headers
+2024-12-03 06:35:13,344 - scan_tools.scanner_manager - WARNING - Unknown module: config
+2024-12-03 06:35:13,344 - scan_tools.scanner_manager - ERROR - Error in module check_sql_injection: 'coroutine' object is not iterable
+2024-12-03 06:35:13,344 - scan_tools.check_xss - INFO - Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:35:13,345 - scan_tools.check_xss - INFO - Sending GET request to https://pypi.org/project/aiohttp/
+2024-12-03 06:35:13,820 - scan_tools.check_xss - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:35:13,820 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:35:13,820 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:14,226 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:14,751 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:15,132 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:15,534 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:15,820 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:16,197 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:16,478 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:35:16,479 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:16,640 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:16,797 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:16,960 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:17,127 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:17,567 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:17,722 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:35:18,344 - scan_tools.check_xss - INFO - Processing form with action: /locale/ and method: get
+2024-12-03 06:35:18,347 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:35:18,348 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:35:18] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:36:33,287 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:36:33,412 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:36:34,030 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:36:34,033 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:36:39,833 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:36:39] "GET / HTTP/1.1" 200 -
+2024-12-03 06:36:39,947 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:36:39] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:36:39,955 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:36:39] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:36:54,558 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:36:54,558 - scan_tools.scanner_manager - WARNING - Module not found: check_security_headers
+2024-12-03 06:36:54,558 - scan_tools.check_xss - INFO - Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:36:54,558 - scan_tools.check_xss - INFO - Sending GET request to https://pypi.org/project/aiohttp/
+2024-12-03 06:36:54,559 - scan_tools.check_security_misconfiguration - INFO - Checking for Security Misconfiguration vulnerabilities
+2024-12-03 06:36:54,560 - scan_tools.check_sql_injection - INFO - Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:36:55,198 - scan_tools.check_xss - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:36:55,265 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:36:55,296 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:55,392 - scan_tools.check_sql_injection - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:36:55,393 - scan_tools.check_sql_injection - ERROR - Error during SQL injection scan: name 'asyncio' is not defined
+2024-12-03 06:36:55,398 - scan_tools.utils - INFO - Allowed HTTP methods for https://pypi.org/project/aiohttp/: []
+2024-12-03 06:36:55,768 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:56,181 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:57,513 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:57,969 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:58,406 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:58,783 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:59,148 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:36:59,149 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:59,312 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:59,473 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:59,639 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:59,807 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:36:59,968 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:37:00,125 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:37:00,293 - scan_tools.check_xss - INFO - Processing form with action: /locale/ and method: get
+2024-12-03 06:37:00,296 - scan_tools.scanner_manager - ERROR - Error in module check_broken_authentication: check_broken_authentication() missing 1 required positional argument: 'response'
+2024-12-03 06:37:00,297 - scan_tools.scanner_manager - ERROR - Error in module check_session_fixation: check_session_fixation() missing 1 required positional argument: 'response'
+2024-12-03 06:37:00,298 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:37:00,299 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:37:00] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:38:08,695 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:38:08,901 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:38:09,736 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:38:09,740 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:38:11,037 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:38:11] "GET / HTTP/1.1" 200 -
+2024-12-03 06:38:11,167 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:38:11] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:38:11,169 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:38:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:38:38,508 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:38:38] "GET / HTTP/1.1" 200 -
+2024-12-03 06:38:38,548 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:38:38] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:38:38,548 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:38:38] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:38:43,644 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:38:43,852 - scan_tools.check_xss - INFO - Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:38:43,852 - scan_tools.check_xss - INFO - Sending GET request to https://pypi.org/project/aiohttp/
+2024-12-03 06:38:43,852 - scan_tools.check_broken_authentication - INFO - Checking for Broken Authentication vulnerabilities related to cookies
+2024-12-03 06:38:43,853 - scan_tools.check_session_fixation - INFO - Checking for Session Fixation vulnerabilities
+2024-12-03 06:38:43,854 - scan_tools.check_broken_authentication - INFO - No Broken Authentication vulnerabilities related to cookies were found.
+2024-12-03 06:38:43,854 - scan_tools.check_missing_security_headers - INFO - Checking for Missing or Misconfigured Security Headers
+2024-12-03 06:38:43,855 - scan_tools.check_security_misconfiguration - INFO - Checking for Security Misconfiguration vulnerabilities
+2024-12-03 06:38:43,855 - scan_tools.check_sql_injection - INFO - Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:38:43,855 - scan_tools.check_missing_security_headers - WARNING - Missing security headers: Expect-CT.
+2024-12-03 06:38:44,842 - scan_tools.check_xss - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:38:44,866 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:38:44,882 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:45,181 - scan_tools.check_sql_injection - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:38:45,182 - scan_tools.check_sql_injection - ERROR - Error during SQL injection scan: name 'asyncio' is not defined
+2024-12-03 06:38:45,183 - scan_tools.utils - INFO - Allowed HTTP methods for https://pypi.org/project/aiohttp/: []
+2024-12-03 06:38:45,650 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:46,143 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:46,532 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:46,929 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:47,367 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:47,642 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:48,026 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:38:48,027 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:48,187 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:48,354 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:48,583 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:48,803 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:48,962 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:49,342 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:38:49,502 - scan_tools.check_xss - INFO - Processing form with action: /locale/ and method: get
+2024-12-03 06:38:49,505 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:38:49,507 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:38:49] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:39:55,904 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\app.py', reloading
+2024-12-03 06:39:56,061 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:40:21,560 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:40:22,300 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:40:22,302 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:41:21,600 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:41:21,734 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:41:22,672 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:41:22,675 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:41:24,855 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:41:24,943 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:41:25,648 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:41:25,651 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:41:39,450 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:41:39,680 - scan_tools.check_sql_injection - INFO - Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:41:40,337 - scan_tools.check_sql_injection - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:41:40,338 - scan_tools.check_sql_injection - ERROR - Error during SQL injection scan: name 'asyncio' is not defined
+2024-12-03 06:41:40,340 - scan_tools.check_xss - INFO - Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:41:40,342 - scan_tools.check_xss - INFO - Sending GET request to https://pypi.org/project/aiohttp/
+2024-12-03 06:41:41,141 - scan_tools.check_xss - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:41:41,142 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:41:41,142 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:41,524 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:41,972 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:42,357 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:42,791 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:43,213 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:43,581 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:44,123 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:41:44,125 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:44,288 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:44,450 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:44,610 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:44,779 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:44,947 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:45,108 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:41:45,274 - scan_tools.check_xss - INFO - Processing form with action: /locale/ and method: get
+2024-12-03 06:41:45,276 - scan_tools.check_broken_authentication - INFO - Checking for Broken Authentication vulnerabilities related to cookies
+2024-12-03 06:41:45,277 - scan_tools.check_broken_authentication - INFO - No Broken Authentication vulnerabilities related to cookies were found.
+2024-12-03 06:41:45,277 - scan_tools.check_session_fixation - INFO - Checking for Session Fixation vulnerabilities
+2024-12-03 06:41:45,278 - scan_tools.check_missing_security_headers - INFO - Checking for Missing or Misconfigured Security Headers
+2024-12-03 06:41:45,278 - scan_tools.check_missing_security_headers - WARNING - Missing security headers: Expect-CT.
+2024-12-03 06:41:45,279 - scan_tools.check_security_misconfiguration - INFO - Checking for Security Misconfiguration vulnerabilities
+2024-12-03 06:41:46,017 - scan_tools.utils - INFO - Allowed HTTP methods for https://pypi.org/project/aiohttp/: []
+2024-12-03 06:41:46,019 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:41:46,021 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:41:46] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:42:55,135 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\check_sql_injection.py', reloading
+2024-12-03 06:42:55,294 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:42:55,991 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:42:55,993 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:43:22,811 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:43:22,899 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:43:23,528 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:43:23,530 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:43:25,667 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:43:25,734 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:43:26,390 - werkzeug - WARNING -  * Debugger is active!
+2024-12-03 06:43:26,391 - werkzeug - INFO -  * Debugger PIN: 715-949-509
+2024-12-03 06:43:32,871 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:43:32] "GET / HTTP/1.1" 200 -
+2024-12-03 06:43:33,004 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:43:33] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:43:33,006 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:43:33] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:43:36,867 - __main__ - INFO - Starting scan for https://pypi.org/project/aiohttp/ with modules: ['sql_injection', 'xss', 'auth', 'session', 'headers', 'config']
+2024-12-03 06:43:37,029 - scan_tools.check_xss - INFO - Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:43:37,030 - scan_tools.check_broken_authentication - INFO - Checking for Broken Authentication vulnerabilities related to cookies
+2024-12-03 06:43:37,030 - scan_tools.check_xss - INFO - Sending GET request to https://pypi.org/project/aiohttp/
+2024-12-03 06:43:37,030 - scan_tools.check_session_fixation - INFO - Checking for Session Fixation vulnerabilities
+2024-12-03 06:43:37,031 - scan_tools.check_broken_authentication - INFO - No Broken Authentication vulnerabilities related to cookies were found.
+2024-12-03 06:43:37,031 - scan_tools.check_missing_security_headers - INFO - Checking for Missing or Misconfigured Security Headers
+2024-12-03 06:43:37,033 - scan_tools.check_missing_security_headers - WARNING - Missing security headers: Expect-CT.
+2024-12-03 06:43:37,033 - scan_tools.check_sql_injection - INFO - Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:43:37,031 - scan_tools.check_security_misconfiguration - INFO - Checking for Security Misconfiguration vulnerabilities
+2024-12-03 06:43:38,020 - scan_tools.check_sql_injection - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:43:38,189 - scan_tools.check_xss - INFO - Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:43:38,191 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:43:38,191 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:38,198 - scan_tools.utils - INFO - Allowed HTTP methods for https://pypi.org/project/aiohttp/: []
+2024-12-03 06:43:38,600 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:38,880 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:39,150 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:39,419 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:39,714 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:39,993 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:40,273 - scan_tools.check_xss - INFO - Processing form with action: /search/ and method: get
+2024-12-03 06:43:40,274 - scan_tools.check_xss - INFO - Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:40,443 - scan_tools.check_xss - INFO - Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:40,718 - scan_tools.check_xss - INFO - Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:41,139 - scan_tools.check_xss - INFO - Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:41,411 - scan_tools.check_xss - INFO - Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:41,690 - scan_tools.check_xss - INFO - Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:42,290 - scan_tools.check_xss - INFO - Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:43:42,576 - scan_tools.check_xss - INFO - Processing form with action: /locale/ and method: get
+2024-12-03 06:43:42,577 - __main__ - INFO - Scan completed for https://pypi.org/project/aiohttp/
+2024-12-03 06:43:42,579 - werkzeug - INFO - 127.0.0.1 - - [03/Dec/2024 06:43:42] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:45:15,214 - werkzeug - INFO -  * Detected change in 'D:\\vulnscan1\\app.py', reloading
+2024-12-03 06:45:15,354 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:47:23,752 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:56:10,219 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 06:56:28,459 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 07:01:07,819 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 07:04:10,630 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 07:07:25,771 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 07:10:41,576 - werkzeug - INFO -  * Restarting with stat
+2024-12-03 07:11:33,335 - werkzeug - INFO -  * Restarting with stat

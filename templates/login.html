@@ -1,0 +1,431 @@
+{% extends "base.html" %}
+
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="security-grid"></div>
+    <div class="login-box">
+        <div class="login-header">
+            <div class="logo-container">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2>Welcome Back</h2>
+            <p>Sign in to continue to ShieldRaid</p>
+        </div>
+
+        
+
+        <form method="POST" action="{{ url_for('login') }}" class="login-form">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <input type="text" id="login" name="login" required>
+                    <label for="login">Username or Email</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" id="password" name="password" required>
+                    <label for="password">Password</label>
+                    <button type="button" class="password-toggle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group remember-group">
+                <label class="remember-label">
+                    <input type="checkbox" id="remember_me" name="remember_me">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+                <a href="#" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">
+                <span class="btn-content">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </span>
+                <div class="btn-border"></div>
+            </button>
+        </form>
+
+        <div class="register-link">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Register Now</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+:root {
+    --input-height: 56px;
+    --border-radius: 12px;
+    --primary-rgb: 0, 255, 157;
+    --secondary-rgb: 0, 102, 255;
+}
+
+.login-container {
+    width: -webkit-fill-available;
+    min-height: 100vh - var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.security-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        linear-gradient(rgba(var(--primary-rgb), 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--primary-rgb), 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg) translateY(-50%);
+    animation: gridMove 20s linear infinite;
+    opacity: 0.2;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 600px;
+    padding: 3rem 4rem;
+    background: rgba(10, 11, 14, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(var(--primary-rgb), 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.logo-container {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg,
+        rgba(var(--primary-rgb), 0.1),
+        rgba(var(--secondary-rgb), 0.1)
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-container i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    filter: drop-shadow(0 0 10px var(--primary-color));
+    animation: pulse 2s infinite;
+}
+
+.login-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.login-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.input-group {
+    position: relative;
+    height: 64px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 1.4rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input {
+    width: 100%;
+    height: 100%;
+    padding: 0 3.5rem 0 3.5rem;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    background: rgba(var(--primary-rgb), 0.05);
+    border-color: rgba(var(--primary-rgb), 0.5);
+    outline: none;
+}
+
+.input-group label {
+    position: absolute;
+    left: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 1rem;
+    transform: translateY(-50%) scale(0.8);
+    background: var(--background-dark);
+    padding: 0 0.5rem;
+}
+
+.input-group input:focus ~ .input-icon {
+    color: var(--primary-color);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+.remember-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+    font-size: 1rem;
+}
+
+.remember-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.remember-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(var(--primary-rgb), 0.5);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.checkmark::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remember-label input[type="checkbox"]:checked ~ .checkmark {
+    background: rgba(var(--primary-rgb), 0.1);
+    border-color: var(--primary-color);
+}
+
+.remember-label input[type="checkbox"]:checked ~ .checkmark::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.forgot-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: var(--primary-color);
+}
+
+.login-btn {
+    width: 100%;
+    height: 64px;
+    background: linear-gradient(45deg,
+        rgba(var(--primary-rgb), 0.2),
+        rgba(var(--secondary-rgb), 0.2)
+    );
+    border: 1px solid rgba(var(--primary-rgb), 0.3);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.login-btn .btn-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.login-btn:hover {
+    background: linear-gradient(45deg,
+        rgba(var(--primary-rgb), 0.3),
+        rgba(var(--secondary-rgb), 0.3)
+    );
+    transform: translateY(-2px);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 2.5rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+@keyframes gridMove {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(-50%); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+}
+
+@keyframes pulse {
+    0% { filter: drop-shadow(0 0 10px var(--primary-color)); }
+    50% { filter: drop-shadow(0 0 20px var(--primary-color)); }
+    100% { filter: drop-shadow(0 0 10px var(--primary-color)); }
+}
+
+@media (max-width: 768px) {
+    .login-box {
+        padding: 2.5rem;
+        margin: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-box {
+        padding: 2rem;
+    }
+
+    .login-header h2 {
+        font-size: 2rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Password visibility toggle
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const input = toggle.parentElement.querySelector('input');
+            const icon = toggle.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+
+    // Input animation
+    const inputs = document.querySelectorAll('.input-group input');
+    
+    inputs.forEach(input => {
+        // Set initial state
+        if (input.value) {
+            input.classList.add('has-value');
+        }
+
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('focused');
+        });
+
+        input.addEventListener('blur', () => {
+            input.parentElement.classList.remove('focused');
+            if (input.value) {
+                input.classList.add('has-value');
+            } else {
+                input.classList.remove('has-value');
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 

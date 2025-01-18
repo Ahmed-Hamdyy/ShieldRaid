@@ -1,0 +1,549 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - ShieldRaid{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <div class="welcome-content">
+            <h1>Welcome back, {{ session.get('username', 'User') }}</h1>
+            <p class="text-muted">Here's what's happening with your security scans</p>
+        </div>
+        <div class="welcome-actions">
+            <a href="{{ url_for('vulnscan') }}" class="btn btn-primary">
+                <i class="fas fa-search me-2"></i>New Scan
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <!-- Total Scans -->
+        <div class="stat-card primary">
+            <div class="stat-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ total_scans }}</div>
+                <div class="stat-label">Total Scans</div>
+            </div>
+        </div>
+
+        <!-- Total Vulnerabilities -->
+        <div class="stat-card primary">
+            <div class="stat-icon">
+                <i class="fas fa-bug"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ total_vulnerabilities }}</div>
+                <div class="stat-label">Vulnerabilities Found</div>
+            </div>
+        </div>
+
+        <!-- Average Scan Time -->
+        <div class="stat-card primary">
+            <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ "%.1f"|format(total_scan_time / total_scans if total_scans > 0 else 0) }}s</div>
+                <div class="stat-label">Average Scan Time</div>
+            </div>
+        </div>
+
+        <!-- Success Rate -->
+        <div class="stat-card primary">
+            <div class="stat-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-value">{{ "%.1f"|format(success_rate) }}%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="dashboard-grid">
+        <!-- Recent Scans -->
+        <div class="dashboard-card card recent-scans">
+            <div class="card-header">
+                <h2>Recent Scans</h2>
+                <a href="{{ url_for('history') }}" class="btn btn-outline-primary btn-sm">View All</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Target</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                                <th>Vulns</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for scan in scan_history[:5] %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="scan-icon">
+                                            <i class="fas fa-globe"></i>
+                                        </div>
+                                        <div class="scan-url text-truncate">
+                                            {{ scan.target_url }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ scan.created_at | datetime }}</td>
+                                <td>{{ scan.scan_duration }}s</td>
+                                <td>
+                                    <span class="status-badge success">
+                                        <i class="fas fa-check-circle"></i>
+                                        Done
+                                    </span>
+                                </td>
+                                <td>
+                                    {% set vuln_count = scan.vulnerabilities|length %}
+                                    <div class="vuln-badge {{ 'danger' if vuln_count > 5 else 'warning' if vuln_count > 0 else 'success' }}">
+                                        <i class="fas fa-bug" style="font-size: 0.9rem;"></i> 
+                                        {{ vuln_count }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-icon" title="View Details">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-card card quick-actions">
+            <div class="card-header">
+                <h2>Quick Actions</h2>
+            </div>
+            <div class="card-body">
+                <div class="quick-actions-grid">
+                    <a href="{{ url_for('vulnscan') }}" class="quick-action-card">
+                        <div class="quick-action-icon primary">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="quick-action-content">
+                            <h3>New Scan</h3>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('history') }}" class="quick-action-card">
+                        <div class="quick-action-icon warning">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="quick-action-content">
+                            <h3>History</h3>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('profile') }}" class="quick-action-card">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h3>Profile</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Dashboard Container */
+.dashboard-container {
+    padding: 2rem;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    max-width: 1400px;
+}
+.table-responsive{
+    background: var(--card-background);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(5px);
+}
+.table-responsive td{
+    color: var(--text-primary);
+}
+/* Welcome Section */
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-background);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.welcome-content h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary-color), #00ff9d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.welcome-content p {
+    margin: 0.5rem 0 0;
+    opacity: 0.7;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--background-dark);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--card-background);
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.05)
+    );
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(0, 255, 157, 0.1),
+        rgba(0, 102, 255, 0.1)
+    );
+    color: var(--primary-color);
+    border: 1px solid rgba(0, 255, 157, 0.2);
+}
+
+.stat-card.danger .stat-icon {
+    background: linear-gradient(135deg,
+        rgba(255, 71, 87, 0.1),
+        rgba(255, 99, 132, 0.1)
+    );
+    color: #ff4757;
+    border-color: rgba(255, 71, 87, 0.2);
+}
+
+.stat-card.info .stat-icon {
+    background: linear-gradient(135deg,
+        rgba(33, 150, 243, 0.1),
+        rgba(3, 169, 244, 0.1)
+    );
+    color: #2196f3;
+    border-color: rgba(33, 150, 243, 0.2);
+}
+
+.stat-card.success .stat-icon {
+    background: linear-gradient(135deg,
+        rgba(76, 175, 80, 0.1),
+        rgba(129, 199, 132, 0.1)
+    );
+    color: #4caf50;
+    border-color: rgba(76, 175, 80, 0.2);
+}
+
+.stat-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.dashboard-card {
+    background: var(--card-background);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(5px);
+}
+
+.card-header {
+    padding: 1.5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.stat-card i{
+    font-size: 1.5em;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    --bs-table-bg: transparent;
+}
+
+.table th {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border-top: none;
+    border-bottom: 1px solid var(--card-background);
+    color: var(--text-secondary);
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--card-background);
+}
+
+.scan-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(0, 255, 157, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.scan-url {
+    max-width: 200px;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-badge.success {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+}
+
+.vuln-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.vuln-badge.success {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+}
+
+.vuln-badge.warning {
+    background: rgba(255, 171, 0, 0.1);
+    color: #ffab00;
+}
+
+.vuln-badge.danger {
+    background: rgba(255, 71, 87, 0.1);
+    color: #ff4757;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--card-background);
+    color: var(--text-secondary);
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+    background: rgba(0, 255, 157, 0.1);
+    color: var(--primary-color);
+}
+
+/* Quick Actions */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.quick-action-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-background);
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    display: flex;
+    text-decoration: none;
+    backdrop-filter: blur(5px);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    flex-direction: column;
+    align-items: center;
+}
+.quick-action-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary-color);
+}
+
+.quick-action-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.quick-action-icon.primary {
+    background: linear-gradient(135deg,
+        rgba(0, 255, 157, 0.1),
+        rgba(0, 102, 255, 0.1)
+    );
+    color: var(--primary-color);
+}
+
+.quick-action-icon.warning {
+    background: linear-gradient(135deg,
+        rgba(255, 171, 0, 0.1),
+        rgba(255, 123, 0, 0.1)
+    );
+    color: #ffab00;
+}
+
+.quick-action-icon.info {
+    background: linear-gradient(135deg,
+        rgba(33, 150, 243, 0.1),
+        rgba(3, 169, 244, 0.1)
+    );
+    color: #2196f3;
+}
+
+.quick-action-icon.success {
+    background: linear-gradient(135deg,
+        rgba(76, 175, 80, 0.1),
+        rgba(129, 199, 132, 0.1)
+    );
+    color: #4caf50;
+}
+
+.quick-action-content h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    text-align: center;
+}
+
+.quick-action-content p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+    
+    .welcome-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .scan-url {
+        max-width: 150px;
+    }
+}
+</style>
+{% endblock %} 

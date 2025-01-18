@@ -1,0 +1,720 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="register-container">
+    <div class="security-grid"></div>
+    <div class="register-box">
+        <div class="register-header">
+            <div class="logo-container">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2>Create Account</h2>
+            <p>Join ShieldRaid and secure your applications</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" data-auto-dismiss="4000">
+                        {{ message }}
+                        <button type="button" class="btn-close" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}" class="register-form" id="registerForm">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+                    <label for="username">Username</label>
+                    <div class="validation-indicator"></div>
+                </div>
+                <div class="validation-message" data-for="username"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email Address</label>
+                    <div class="validation-indicator"></div>
+                </div>
+                <div class="validation-message" data-for="email"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-icon">
+                        <i class="fas fa-user-tag"></i>
+                    </span>
+                    <select id="role" name="role" required class="form-select">
+                        <option value="regular_user">Regular User</option>
+                        <option value="red_teamer">Red Team</option>
+                        <option value="blue_teamer">Blue Team</option>
+                        <option value="analyzer">Analyzer</option>
+                    </select>
+                    <label for="role">Role</label>
+                    <div class="validation-indicator"></div>
+                </div>
+                <div class="validation-message" data-for="role"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" id="password" name="password" required minlength="8">
+                    <label for="password">Password</label>
+                    <button type="button" class="password-toggle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="validation-indicator"></div>
+                </div>
+                <div class="password-strength">
+                    <div class="strength-bar">
+                        <div class="strength-progress"></div>
+                    </div>
+                    <div class="strength-label">Password Strength</div>
+                </div>
+                <div class="validation-message" data-for="password"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
+                    <label for="confirm_password">Confirm Password</label>
+                    <button type="button" class="password-toggle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <div class="validation-indicator"></div>
+                </div>
+                <div class="validation-message" data-for="confirm_password"></div>
+            </div>
+
+            <div class="form-group terms-group">
+                <label class="terms-label">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <span class="checkmark"></span>
+                    I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                </label>
+            </div>
+
+            <button type="submit" class="register-btn">
+                <span class="btn-content">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </span>
+                <div class="btn-border"></div>
+            </button>
+        </form>
+
+        <div class="login-link">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Sign In</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+:root {
+    --input-height: 56px;
+    --border-radius: 12px;
+    --primary-rgb: 0, 255, 157;
+    --secondary-rgb: 0, 102, 255;
+}
+
+.register-container {
+    width: -webkit-fill-available;
+    min-height: 100vh - var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.security-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        linear-gradient(rgba(var(--primary-rgb), 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--primary-rgb), 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg) translateY(-50%);
+    animation: gridMove 20s linear infinite;
+    opacity: 0.2;
+}
+
+.register-box {
+    width: 100%;
+    max-width: 600px;
+    padding: 2.5rem;
+    background: rgba(10, 11, 14, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(var(--primary-rgb), 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.logo-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(var(--primary-rgb), 0.1),
+        rgba(var(--secondary-rgb), 0.1)
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-container i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    filter: drop-shadow(0 0 10px var(--primary-color));
+    animation: pulse 2s infinite;
+}
+
+.register-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.register-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.input-group {
+    position: relative;
+    height: var(--input-height);
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input {
+    width: 100%;
+    height: 100%;
+    padding: 0 3rem;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    background: rgba(var(--primary-rgb), 0.05);
+    border-color: rgba(var(--primary-rgb), 0.5);
+    outline: none;
+}
+
+.input-group label {
+    position: absolute;
+    left: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 1rem;
+    transform: translateY(-50%) scale(0.8);
+    background: var(--background-dark);
+    padding: 0 0.5rem;
+}
+
+.input-group input:focus ~ .input-icon {
+    color: var(--primary-color);
+}
+
+.validation-indicator {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.input-group.valid .validation-indicator {
+    opacity: 1;
+    background: rgba(0, 255, 157, 0.1);
+    color: var(--primary-color);
+}
+
+.input-group.invalid .validation-indicator {
+    opacity: 1;
+    background: rgba(255, 51, 102, 0.1);
+    color: #ff3366;
+}
+
+.validation-message {
+    font-size: 0.85rem;
+    color: #ff3366;
+    margin-top: 0.5rem;
+    min-height: 1.2em;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.strength-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.strength-progress {
+    height: 100%;
+    width: 0;
+    background: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.strength-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.terms-group {
+    margin: 2rem 0;
+}
+
+.terms-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.terms-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(var(--primary-rgb), 0.5);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.checkmark::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.terms-label input[type="checkbox"]:checked ~ .checkmark {
+    background: rgba(var(--primary-rgb), 0.1);
+    border-color: var(--primary-color);
+}
+
+.terms-label input[type="checkbox"]:checked ~ .checkmark::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.terms-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+.register-btn {
+    width: 100%;
+    height: var(--input-height);
+    background: linear-gradient(45deg,
+        rgba(var(--primary-rgb), 0.2),
+        rgba(var(--secondary-rgb), 0.2)
+    );
+    border: 1px solid rgba(var(--primary-rgb), 0.3);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.register-btn .btn-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.register-btn:hover {
+    background: linear-gradient(45deg,
+        rgba(var(--primary-rgb), 0.3),
+        rgba(var(--secondary-rgb), 0.3)
+    );
+    transform: translateY(-2px);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--text-secondary);
+}
+
+.login-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+@keyframes gridMove {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(-50%); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+}
+
+@keyframes pulse {
+    0% { filter: drop-shadow(0 0 10px var(--primary-color)); }
+    50% { filter: drop-shadow(0 0 20px var(--primary-color)); }
+    100% { filter: drop-shadow(0 0 10px var(--primary-color)); }
+}
+
+@media (max-width: 576px) {
+    .register-container {
+        padding: 1rem;
+    }
+
+    .register-box {
+        padding: 2rem;
+    }
+
+    .register-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .terms-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* Add styles for role select */
+.form-select {
+    width: 100%;
+    height: var(--input-height);
+    padding: 0 3rem;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.form-select:focus {
+    background: rgba(var(--primary-rgb), 0.05);
+    border-color: rgba(var(--primary-rgb), 0.5);
+    outline: none;
+}
+
+.form-select option {
+    background: var(--background-dark);
+    color: var(--text-primary);
+    padding: 10px;
+}
+
+.input-group select + label {
+    background: transparent;
+}
+
+.input-group select:focus + label,
+.input-group select:not([value=""]) + label {
+    top: 0;
+    left: 1rem;
+    transform: translateY(-50%) scale(0.8);
+    background: var(--background-dark);
+    padding: 0 0.5rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('registerForm');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm_password');
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+
+    // Password visibility toggle
+    document.querySelectorAll('.password-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const input = toggle.parentElement.querySelector('input');
+            const icon = toggle.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+
+    // Password strength checker
+    function checkPasswordStrength(password) {
+        let strength = 0;
+        const progressBar = document.querySelector('.strength-progress');
+        const strengthLabel = document.querySelector('.strength-label');
+
+        if (password.length >= 8) strength += 25;
+        if (password.match(/[a-z]/)) strength += 25;
+        if (password.match(/[A-Z]/)) strength += 25;
+        if (password.match(/[0-9]/)) strength += 25;
+
+        progressBar.style.width = `${strength}%`;
+        
+        if (strength <= 25) {
+            progressBar.style.background = '#ff3366';
+            strengthLabel.textContent = 'Weak Password';
+        } else if (strength <= 50) {
+            progressBar.style.background = '#ffcc00';
+            strengthLabel.textContent = 'Moderate Password';
+        } else if (strength <= 75) {
+            progressBar.style.background = '#00ccff';
+            strengthLabel.textContent = 'Strong Password';
+        } else {
+            progressBar.style.background = '#00ff9d';
+            strengthLabel.textContent = 'Very Strong Password';
+        }
+    }
+
+    // Real-time validation
+    function validateInput(input, validationRules) {
+        const group = input.closest('.input-group');
+        const message = group.parentElement.querySelector('.validation-message');
+        
+        let isValid = true;
+        let errorMessage = '';
+
+        for (const rule of validationRules) {
+            if (!rule.validate(input.value)) {
+                isValid = false;
+                errorMessage = rule.message;
+                break;
+            }
+        }
+
+        group.classList.toggle('valid', isValid);
+        group.classList.toggle('invalid', !isValid);
+        message.textContent = isValid ? '' : errorMessage;
+
+        return isValid;
+    }
+
+    // Validation rules
+    const validationRules = {
+        username: [
+            {
+                validate: value => value.length >= 3,
+                message: 'Username must be at least 3 characters long'
+            },
+            {
+                validate: value => /^[a-zA-Z0-9_]+$/.test(value),
+                message: 'Username can only contain letters, numbers, and underscores'
+            }
+        ],
+        email: [
+            {
+                validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+                message: 'Please enter a valid email address'
+            }
+        ],
+        password: [
+            {
+                validate: value => value.length >= 6,
+                message: 'Password must be at least 6 characters long'
+            }
+        ],
+        confirmPassword: [
+            {
+                validate: value => value === passwordInput.value,
+                message: 'Passwords do not match'
+            }
+        ]
+    };
+
+    // Input event listeners
+    usernameInput.addEventListener('input', () => {
+        validateInput(usernameInput, validationRules.username);
+    });
+
+    emailInput.addEventListener('input', () => {
+        validateInput(emailInput, validationRules.email);
+    });
+
+    passwordInput.addEventListener('input', () => {
+        validateInput(passwordInput, validationRules.password);
+        checkPasswordStrength(passwordInput.value);
+        if (confirmPasswordInput.value) {
+            validateInput(confirmPasswordInput, validationRules.confirmPassword);
+        }
+    });
+
+    confirmPasswordInput.addEventListener('input', () => {
+        validateInput(confirmPasswordInput, validationRules.confirmPassword);
+    });
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const isUsernameValid = validateInput(usernameInput, validationRules.username);
+        const isEmailValid = validateInput(emailInput, validationRules.email);
+        const isPasswordValid = validateInput(passwordInput, validationRules.password);
+        const isConfirmPasswordValid = validateInput(confirmPasswordInput, validationRules.confirmPassword);
+
+        if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
+            form.submit();
+        }
+    });
+
+    // Input animation
+    document.querySelectorAll('.input-group input').forEach(input => {
+        if (input.value) {
+            input.classList.add('has-value');
+        }
+
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('focused');
+        });
+
+        input.addEventListener('blur', () => {
+            input.parentElement.classList.remove('focused');
+            if (input.value) {
+                input.classList.add('has-value');
+            } else {
+                input.classList.remove('has-value');
+            }
+        });
+    });
+
+    // Add role select handling
+    const roleSelect = document.getElementById('role');
+    if (roleSelect) {
+        roleSelect.addEventListener('change', () => {
+            if (roleSelect.value) {
+                roleSelect.classList.add('has-value');
+            } else {
+                roleSelect.classList.remove('has-value');
+            }
+        });
+    }
+});
+</script>
+{% endblock %} 

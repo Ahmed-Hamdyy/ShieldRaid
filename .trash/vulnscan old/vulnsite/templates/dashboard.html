@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ username }}</h1>
+    <p>Your role: {{ role }}</p>
+    {% if role == 'admin' %}
+        <h2>Admin Panel</h2>
+        <p><a href="/admin/logs">View Honeypot Logs</a></p>
+        <p>Only visible to admins.</p>
+    {% endif %}
+    <p><a href="/logout">Logout</a></p>
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>

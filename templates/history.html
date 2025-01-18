@@ -1,0 +1,726 @@
+{% extends "base.html" %}
+
+{% block title %}Scan History - ShieldRaid{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <div class="history-header">
+        <h1><i class="fas fa-history"></i> Scan History</h1>
+        <div class="header-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search scans...">
+            </div>
+            <select id="filterSelect">
+                <option value="all">All Scans</option>
+                <option value="has_vulnerabilities">With Vulnerabilities</option>
+                <option value="no_vulnerabilities">No Vulnerabilities</option>
+            </select>
+        </div>
+    </div>
+
+    {% if scans %}
+    <div class="scan-list">
+        {% for scan in scans %}
+        <div class="scan-item">
+            <div class="scan-header">
+                <div class="scan-info"> 
+                    <h3><i class="fas fa-globe"></i> {{ scan.target_url }}</h3>
+                    
+                </div>
+                <div class="scan-metrics">
+                    <div class="metric">
+                        <div class="metric-label">Duration</div>
+                        <div class="metric-value">{{ scan.scan_duration }}s</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Vulnerabilities</div>
+                        <div class="metric-value">{{ scan.total_vulnerabilities }}</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Status</div>
+                        <div class="metric-value">
+                            <span class="status-badge {{ 'success' if scan.status == 'completed' else 'warning' }}">
+                                {{ scan.status | title }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="severity-analysis">
+                <div class="severity-bar">
+                    <div class="severity-info">
+                        <span>Critical</span>
+                        <span>{{ scan.severity_counts.critical }}</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar critical" style="width: {{ scan.severity_counts.critical|progress_width(scan.total_vulnerabilities) }}"></div>
+                    </div>
+                </div>
+                <div class="severity-bar">
+                    <div class="severity-info">
+                        <span>High</span>
+                        <span>{{ scan.severity_counts.high }}</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar high" style="width: {{ scan.severity_counts.high|progress_width(scan.total_vulnerabilities) }}"></div>
+                    </div>
+                </div>
+                <div class="severity-bar">
+                    <div class="severity-info">
+                        <span>Medium/Low</span>
+                        <span>{{ scan.severity_counts.medium + scan.severity_counts.low }}</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar medium" style="width: {{ (scan.severity_counts.medium + scan.severity_counts.low)|progress_width(scan.total_vulnerabilities) }}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scan-actions">
+                <div class="scan-meta">
+                    <span class="action-btn"><i class="fas fa-calendar-alt"></i> {{ scan.created_at | datetime }}</span>
+                </div>
+                <button class="action-btn" data-bs-toggle="collapse" data-bs-target="#vulnerabilities-{{ loop.index }}">
+                    <i class="fas fa-chevron-down"></i> View Details
+                </button>
+            </div>
+
+            <div class="collapse" id="vulnerabilities-{{ loop.index }}">
+                <div class="vulnerabilities-container">
+                    {% if scan.vulnerabilities %}
+                    <div class="table-responsive">
+                        <table class="vuln-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Severity</th>
+                                    <th>Location</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vuln in scan.vulnerabilities %}
+                                <tr>
+                                    <td>{{ vuln.type }}</td>
+                                    <td>
+                                        <span class="severity-badge {{ vuln.severity | lower }}">
+                                            {{ vuln.severity | title }}
+                                        </span>
+                                    </td>
+                                    <td>{{ vuln.location }}</td>
+                                    <td>{{ vuln.description }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="no-vulns-message">
+                        <i class="fas fa-shield-alt"></i>
+                        <p>No vulnerabilities found</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-history"></i>
+        <h2>No scan history available</h2>
+        <p>Start scanning websites to see your history here.</p>
+        <a href="{{ url_for('vulnscan') }}" class="start-scan-btn">
+            <i class="fas fa-search"></i> Start Scanning
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.history-container {
+    width: -webkit-fill-available;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--card-background);
+}
+
+.history-header h1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    font-size: 2rem;
+    color: var(--text-primary);
+}
+
+.history-header h1 i {
+    color: var(--primary-color);
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.search-box input {
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-primary);
+    min-width: 300px;
+}
+
+#filterSelect {
+    padding: 0.75rem 1.5rem;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-primary);
+}
+
+.scan-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.scan-item {
+    background: var(--card-background);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.scan-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 255, 157, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 255, 157, 0.1);
+}
+
+.scan-header {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2.5rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    border-radius: 8px;
+}
+
+.scan-info h3 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.scan-info h3 i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    padding: 0.6rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 12px;
+}
+
+.scan-meta {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.scan-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.scan-meta i {
+    color: var(--primary-color);
+}
+
+.scan-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 0.5rem;
+    background: var(--card-background);
+    border-radius: 16px;
+    border: 1px solid var(--card-background);
+}
+
+.metric {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.metric:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.metric-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.metric-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.severity-analysis {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    background: linear-gradient(90deg, rgba(20, 21, 24, 0.95), rgb(255 193 5 /0.15), rgba(10, 11, 14, 0.95));;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    border-radius: 15px 15px 0px 0px;
+    overflow: hidden;
+}
+
+.severity-analysis::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(0, 255, 157, 0.1), transparent 60%),
+                radial-gradient(circle at bottom left, rgba(255, 71, 87, 0.1), transparent 60%);
+    pointer-events: none;
+}
+
+.severity-bar {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgb(255 255 255 / 8%);
+    border-radius: 16px;
+    border: 1px solid var(--card-background);
+    transition: all 0.3s ease;
+    flex-direction: column;
+    max-width: 33%;
+    width: -webkit-fill-available;
+}
+
+.severity-bar:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.severity-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: 0 0.5rem;
+}
+
+.severity-info span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.severity-info span:first-child::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.severity-bar:nth-child(1) .severity-info span:first-child::before {
+    background: linear-gradient(90deg, #ff4757, #ff6b81);
+    box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+}
+
+.severity-bar:nth-child(2) .severity-info span:first-child::before {
+    background: linear-gradient(90deg, #ffa502, #ffc107);
+    box-shadow: 0 0 10px rgba(255, 165, 2, 0.5);
+}
+
+.severity-bar:nth-child(3) .severity-info span:first-child::before {
+    background: linear-gradient(90deg, #2ed573, #7bed9f);
+    box-shadow: 0 0 10px rgba(46, 213, 115, 0.5);
+}
+
+.severity-info span:last-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.severity-bar:nth-child(1) .severity-info span:last-child {
+    background: rgba(255, 71, 87, 0.1);
+    color: #ff6b81;
+}
+
+.severity-bar:nth-child(2) .severity-info span:last-child {
+    background: rgba(255, 165, 2, 0.1);
+    color: #ffc107;
+}
+
+.severity-bar:nth-child(3) .severity-info span:last-child {
+    background: rgba(46, 213, 115, 0.1);
+    color: #7bed9f;
+}
+
+.progress {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--card-background);
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 6px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: shimmer 2s infinite;
+}
+
+.progress-bar.critical {
+    background: linear-gradient(90deg, #ff4757, #ff6b81);
+    box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+}
+
+.progress-bar.high {
+    background: linear-gradient(90deg, #ffa502, #ffc107);
+    box-shadow: 0 0 20px rgba(255, 165, 2, 0.3);
+}
+
+.progress-bar.medium {
+    background: linear-gradient(90deg, #2ed573, #7bed9f);
+    box-shadow: 0 0 20px rgba(46, 213, 115, 0.3);
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.scan-actions {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    background: var(--card-background);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0px 0px 15px 15px;
+    overflow: hidden;
+}
+
+.action-btn {
+    background: rgba(0, 255, 157, 0.1);
+    border: 1px solid rgba(0, 255, 157, 0.2);
+    color: var(--primary-color);
+    padding: 0.875rem 1.75rem;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background: rgba(0, 255, 157, 0.15);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 255, 157, 0.2);
+}
+
+.vulnerabilities-container {
+    padding: 2.5rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.vuln-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 0.5rem;
+}
+
+.vuln-table th {
+    background: var(--card-background);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1.25rem;
+    text-align: left;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+.vuln-table td {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--card-background);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.vuln-table tr:hover td {
+    background: rgba(0, 255, 157, 0.05);
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-badge.success {
+    background: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+    border: 1px solid rgba(46, 213, 115, 0.3);
+}
+
+.status-badge.warning {
+    background: rgba(255, 165, 2, 0.15);
+    color: #ffa502;
+    border: 1px solid rgba(255, 165, 2, 0.3);
+}
+
+.severity-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.severity-badge.critical {
+    background: rgba(255, 71, 87, 0.15);
+    color: #ff4757;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.severity-badge.high {
+    background: rgba(255, 165, 2, 0.15);
+    color: #ffa502;
+    border: 1px solid rgba(255, 165, 2, 0.3);
+}
+
+.severity-badge.medium {
+    background: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+    border: 1px solid rgba(46, 213, 115, 0.3);
+}
+
+.severity-badge.low {
+    background: rgba(30, 144, 255, 0.15);
+    color: #1e90ff;
+    border: 1px solid rgba(30, 144, 255, 0.3);
+}
+
+@media (max-width: 1200px) {
+    .scan-header {
+        grid-template-columns: 1fr;
+    }
+
+    .scan-metrics {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .scan-header,
+    .severity-analysis,
+    .vulnerabilities-container {
+        padding: 1.5rem;
+    }
+
+    .scan-metrics {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .metric {
+        padding: 0.75rem;
+    }
+
+    .vuln-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--card-background);
+    border-radius: 20px;
+    border: 1px solid var(--card-background);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h2 {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.start-scan-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 102, 255, 0.2));
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.start-scan-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 157, 0.2);
+}
+
+.no-vulns-message {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.no-vulns-message i {
+    font-size: 2.5rem;
+    color: #2ed573;
+    margin-bottom: 1rem;
+}
+
+.no-vulns-message p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filterSelect = document.getElementById('filterSelect');
+    const scanItems = document.querySelectorAll('.scan-item');
+    
+    function filterScans() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filterValue = filterSelect.value;
+        
+        scanItems.forEach(item => {
+            const url = item.querySelector('.scan-url').textContent.toLowerCase();
+            const vulnerabilities = parseInt(item.querySelector('.metric-value').textContent);
+            
+            const matchesSearch = url.includes(searchTerm);
+            const matchesFilter = filterValue === 'all' ||
+                (filterValue === 'has_vulnerabilities' && vulnerabilities > 0) ||
+                (filterValue === 'no_vulnerabilities' && vulnerabilities === 0);
+
+            item.style.display = matchesSearch && matchesFilter ? 'block' : 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', filterScans);
+    filterSelect.addEventListener('change', filterScans);
+
+    document.querySelectorAll('.action-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            icon.style.transform = this.getAttribute('aria-expanded') === 'true' ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+    });
+});
+</script>
+{% endblock %} 

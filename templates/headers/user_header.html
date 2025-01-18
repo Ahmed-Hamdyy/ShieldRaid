@@ -1,0 +1,77 @@
+<!-- User Header -->
+<header class="main-header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <div id="logoAnimation" style="width: 200px; height: 100px; display: inline-block; vertical-align: middle;"></div>
+                <span class="pro-badge">Final Proj3ct</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint in ['index', 'ShieldRaid'] }}" href="{{ url_for('index') }}">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Scanner
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'dashboard' }}" href="{{ url_for('dashboard') }}">
+                            <i class="fa-solid fa-gauge"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'documentation' }}" href="{{ url_for('documentation') }}">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="theme-switch">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Add Lottie library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Lottie animation
+    const animation = lottie.loadAnimation({
+        container: document.getElementById('logoAnimation'),
+        renderer: 'svg',
+        loop: false,
+        autoplay: false,
+        path: '/static/images/logo.json'
+    });
+
+    // Set animation to last frame when loaded
+    animation.addEventListener('DOMLoaded', function() {
+        animation.goToAndStop(animation.totalFrames - 1, true);
+    });
+
+    // Play animation on hover
+    const logoContainer = document.getElementById('logoAnimation');
+    logoContainer.addEventListener('mouseenter', function() {
+        animation.goToAndPlay(0, true);
+    });
+
+    // Return to last frame when hover ends
+    logoContainer.addEventListener('mouseleave', function() {
+        animation.goToAndStop(animation.totalFrames - 1, true);
+    });
+});
+</script> 

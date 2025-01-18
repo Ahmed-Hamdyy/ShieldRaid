@@ -1,0 +1,119 @@
+/* Features Section Styling */
+.features-section {
+    background: linear-gradient(180deg, 
+        rgba(0, 255, 157, 0.05) 0%,
+        transparent 50%,
+        rgba(0, 102, 255, 0.05) 100%
+    );
+    padding: 80px 0;
+    margin: 40px 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    background: linear-gradient(135deg, 
+        var(--primary-color),
+        var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.feature-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    background: var(--card-background);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
+}
+
+.feature-icon {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    border-radius: 50%;
+    background: rgba(0, 255, 157, 0.1);
+}
+
+.feature-icon i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    z-index: 1;
+}
+
+.feature-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+/* Fire animation for icons */
+@keyframes fire {
+    0%, 100% {
+        color: #ff4d4d;
+        text-shadow: 0 0 10px #ff4d4d;
+    }
+    25% {
+        color: #ff9933;
+        text-shadow: 0 0 15px #ff9933;
+    }
+    50% {
+        color: #ffcc00;
+        text-shadow: 0 0 20px #ffcc00;
+    }
+    75% {
+        color: #ff9933;
+        text-shadow: 0 0 15px #ff9933;
+    }
+}
+
+.feature-icon i.fire-effect {
+    animation: fire 3s infinite;
+} 

@@ -1,0 +1,607 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - ShieldRaid{% endblock %}
+
+{% block content %}
+<div class="reports-container">
+    <div class="reports-header">
+        <h1><i class="fas fa-file-alt"></i> Security Reports</h1>
+        <div class="header-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search reports...">
+            </div>
+            <select id="filterSelect">
+                <option value="all">All Reports</option>
+                <option value="pdf">PDF Reports</option>
+                <option value="html">HTML Reports</option>
+                <option value="json">JSON Reports</option>
+            </select>
+        </div>
+    </div>
+
+    {% if reports %}
+    <div class="reports-list">
+        {% for report in reports %}
+        <div class="report-item">
+            <div class="report-header">
+                <div class="report-info">
+                    <h3>
+                        <i class="fas {% if report.format == 'pdf' %}fa-file-pdf{% elif report.format == 'html' %}fa-file-code{% else %}fa-file-code{% endif %}"></i>
+                        Report #{{ loop.index }}
+                    </h3>
+                    <div class="report-meta">
+                        <span><i class="fas fa-calendar-alt"></i> {{ report.created_at | datetime }}</span>
+                        <span><i class="fas fa-file-alt"></i> {{ report.format | upper }}</span>
+                    </div>
+                </div>
+                <div class="report-metrics">
+                    <div class="metric">
+                        <div class="metric-label">Total Vulnerabilities</div>
+                        <div class="metric-value">{{ report.total_vulnerabilities }}</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Status</div>
+                        <div class="metric-value">
+                            <span class="status-badge {{ report.status }}">
+                                {{ report.status | title }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="severity-analysis">
+                <div class="severity-bar">
+                    <div class="severity-info">
+                        <span>Critical</span>
+                        <span>{{ report.severity_counts.critical }}</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar critical" style="width: {{ (report.severity_counts.critical / report.total_vulnerabilities * 100) if report.total_vulnerabilities > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+                <div class="severity-bar">
+                    <div class="severity-info">
+                        <span>High</span>
+                        <span>{{ report.severity_counts.high }}</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar high" style="width: {{ (report.severity_counts.high / report.total_vulnerabilities * 100) if report.total_vulnerabilities > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+                <div class="severity-bar">
+                    <div class="severity-info">
+                        <span>Medium/Low</span>
+                        <span>{{ report.severity_counts.medium + report.severity_counts.low }}</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar medium" style="width: {{ ((report.severity_counts.medium + report.severity_counts.low) / report.total_vulnerabilities * 100) if report.total_vulnerabilities > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-summary">
+                <p>{{ report.summary }}</p>
+            </div>
+
+            <div class="report-actions">
+                {% if report.status == 'completed' and report.download_url %}
+                <a href="{{ url_for('download_report', report_id=report.id) }}" class="action-btn download">
+                    <i class="fas fa-download"></i> Download Report
+                </a>
+                {% elif report.status == 'generating' %}
+                <button class="action-btn generating" disabled>
+                    <i class="fas fa-spinner fa-spin"></i> Generating...
+                </button>
+                {% elif report.status == 'failed' %}
+                <button class="action-btn retry" onclick="regenerateReport('{{ report.scan_id }}')">
+                    <i class="fas fa-sync"></i> Retry Generation
+                </button>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-file-alt"></i>
+        <h2>No reports available</h2>
+        <p>Generate reports from your scan results to see them here.</p>
+        <a href="{{ url_for('history') }}" class="start-scan-btn">
+            <i class="fas fa-history"></i> View Scan History
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.reports-container {
+    width: -webkit-fill-available;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.reports-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    background: rgba(10, 11, 14, 0.8);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--card-background);
+}
+
+.reports-header h1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    font-size: 2rem;
+    color: var(--text-primary);
+}
+
+.reports-header h1 i {
+    color: var(--primary-color);
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.search-box input {
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-primary);
+    min-width: 300px;
+}
+
+#filterSelect {
+    padding: 0.75rem 1.5rem;
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-primary);
+}
+
+.reports-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.report-item {
+    background: linear-gradient(145deg, rgba(10, 11, 14, 0.95), rgba(20, 21, 24, 0.95));
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.report-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 255, 157, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 255, 157, 0.1);
+}
+
+.report-header {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2.5rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.report-info h3 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.report-info h3 i {
+    color: var(--primary-color);
+    padding: 0.6rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 12px;
+}
+
+.report-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.report-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.report-meta i {
+    color: var(--primary-color);
+}
+
+.report-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    border: 1px solid var(--card-background);
+}
+
+.metric {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.metric:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.metric-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.metric-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.severity-analysis {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    background: linear-gradient(90deg, rgba(20, 21, 24, 0.95), rgba(10, 11, 14, 0.98));
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.severity-bar {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    border: 1px solid var(--card-background);
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.severity-bar:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.severity-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.severity-info span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.severity-info span:first-child::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.severity-bar:nth-child(1) .severity-info span:first-child::before {
+    background: linear-gradient(90deg, #ff4757, #ff6b81);
+    box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+}
+
+.severity-bar:nth-child(2) .severity-info span:first-child::before {
+    background: linear-gradient(90deg, #ffa502, #ffc107);
+    box-shadow: 0 0 10px rgba(255, 165, 2, 0.5);
+}
+
+.severity-bar:nth-child(3) .severity-info span:first-child::before {
+    background: linear-gradient(90deg, #2ed573, #7bed9f);
+    box-shadow: 0 0 10px rgba(46, 213, 115, 0.5);
+}
+
+.progress {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--card-background);
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 6px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar.critical {
+    background: linear-gradient(90deg, #ff4757, #ff6b81);
+    box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+}
+
+.progress-bar.high {
+    background: linear-gradient(90deg, #ffa502, #ffc107);
+    box-shadow: 0 0 20px rgba(255, 165, 2, 0.3);
+}
+
+.progress-bar.medium {
+    background: linear-gradient(90deg, #2ed573, #7bed9f);
+    box-shadow: 0 0 20px rgba(46, 213, 115, 0.3);
+}
+
+.report-summary {
+    padding: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.report-actions {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.action-btn {
+    padding: 0.875rem 1.75rem;
+    border-radius: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.action-btn.download {
+    background: rgba(0, 255, 157, 0.1);
+    border: 1px solid rgba(0, 255, 157, 0.2);
+    color: var(--primary-color);
+}
+
+.action-btn.download:hover {
+    background: rgba(0, 255, 157, 0.15);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 255, 157, 0.2);
+}
+
+.action-btn.generating {
+    background: rgba(255, 165, 2, 0.1);
+    border: 1px solid rgba(255, 165, 2, 0.2);
+    color: #ffa502;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.action-btn.retry {
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.2);
+    color: #ff4757;
+}
+
+.action-btn.retry:hover {
+    background: rgba(255, 71, 87, 0.15);
+    border-color: #ff4757;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(255, 71, 87, 0.2);
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-badge.completed {
+    background: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+    border: 1px solid rgba(46, 213, 115, 0.3);
+}
+
+.status-badge.generating {
+    background: rgba(255, 165, 2, 0.15);
+    color: #ffa502;
+    border: 1px solid rgba(255, 165, 2, 0.3);
+}
+
+.status-badge.failed {
+    background: rgba(255, 71, 87, 0.15);
+    color: #ff4757;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(10, 11, 14, 0.8);
+    border-radius: 20px;
+    border: 1px solid var(--card-background);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h2 {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.start-scan-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 102, 255, 0.2));
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.start-scan-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 157, 0.2);
+}
+
+@media (max-width: 1200px) {
+    .report-header {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .report-metrics {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .reports-header {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-box,
+    .search-box input,
+    #filterSelect {
+        width: 100%;
+    }
+
+    .severity-analysis {
+        flex-direction: column;
+    }
+
+    .severity-bar {
+        width: 100%;
+    }
+
+    .report-actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filterSelect = document.getElementById('filterSelect');
+    const reportItems = document.querySelectorAll('.report-item');
+    
+    function filterReports() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filterValue = filterSelect.value;
+        
+        reportItems.forEach(item => {
+            const summary = item.querySelector('.report-summary').textContent.toLowerCase();
+            const format = item.querySelector('.report-meta span:nth-child(2)').textContent.toLowerCase();
+            
+            const matchesSearch = summary.includes(searchTerm);
+            const matchesFilter = filterValue === 'all' || format.includes(filterValue);
+            
+            item.style.display = matchesSearch && matchesFilter ? 'block' : 'none';
+        });
+    }
+    
+    searchInput.addEventListener('input', filterReports);
+    filterSelect.addEventListener('change', filterReports);
+});
+
+function regenerateReport(scanId) {
+    fetch(`/api/reports/generate/${scanId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error regenerating report. Please try again.');
+    });
+}
+</script>
+{% endblock %} 

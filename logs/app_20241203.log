@@ -1,0 +1,281 @@
+2024-12-03 05:56:12,630 INFO __main__ MainThread : Starting Flask application
+2024-12-03 05:56:12,666 WARNING werkzeug MainThread :  * Debugger is active!
+2024-12-03 05:56:12,670 INFO werkzeug MainThread :  * Debugger PIN: 715-949-509
+2024-12-03 05:56:47,936 INFO __main__ Thread-2 (process_request_thread) : Rendering index page
+2024-12-03 05:56:47,942 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:56:47] "GET / HTTP/1.1" 200 -
+2024-12-03 05:56:48,034 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:56:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 05:56:48,036 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:56:48] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 05:56:48,045 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:56:48] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 05:57:13,440 INFO __main__ Thread-6 (process_request_thread) : Rendering index page
+2024-12-03 05:57:13,444 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:57:13] "GET / HTTP/1.1" 200 -
+2024-12-03 05:57:13,488 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:57:13] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2024-12-03 05:59:36,488 INFO __main__ Thread-8 (process_request_thread) : Rendering index page
+2024-12-03 05:59:36,493 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:59:36] "GET / HTTP/1.1" 200 -
+2024-12-03 05:59:36,553 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:59:36] "GET /static/js/main.js HTTP/1.1" 200 -
+2024-12-03 05:59:36,554 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 05:59:36] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:00:24,892 INFO __main__ Thread-11 (process_request_thread) : Rendering index page
+2024-12-03 06:00:24,892 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:24] "GET / HTTP/1.1" 200 -
+2024-12-03 06:00:24,954 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:24] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:00:24,954 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:24] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:33,884 INFO __main__ Thread-14 (process_request_thread) : Rendering index page
+2024-12-03 06:00:33,885 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:33] "GET / HTTP/1.1" 200 -
+2024-12-03 06:00:33,934 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:33] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:33,934 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:33] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:00:33,949 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:33] "GET /static/js/main.js HTTP/1.1" 200 -
+2024-12-03 06:00:34,890 INFO __main__ Thread-18 (process_request_thread) : Rendering index page
+2024-12-03 06:00:34,894 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:34] "GET / HTTP/1.1" 200 -
+2024-12-03 06:00:34,937 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:00:34,939 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:34] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:35,026 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:35] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:43,848 INFO __main__ Thread-22 (process_request_thread) : Rendering index page
+2024-12-03 06:00:43,849 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:43] "GET /?url=https://generator.lorem-ipsum.info/_arabic HTTP/1.1" 200 -
+2024-12-03 06:00:43,896 INFO werkzeug Thread-23 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:00:43,897 INFO werkzeug Thread-24 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:43] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:43,920 INFO werkzeug Thread-25 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:43] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:49,481 INFO __main__ Thread-26 (process_request_thread) : Rendering index page
+2024-12-03 06:00:49,481 INFO werkzeug Thread-26 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:49] "GET /?url=https://generator.lorem-ipsum.info/_arabic HTTP/1.1" 200 -
+2024-12-03 06:00:49,523 INFO werkzeug Thread-27 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:00:49,523 INFO werkzeug Thread-28 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:49] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:49,536 INFO werkzeug Thread-29 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:49] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:52,051 INFO __main__ Thread-30 (process_request_thread) : Rendering index page
+2024-12-03 06:00:52,054 INFO werkzeug Thread-30 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:52] "GET /?url=https://generator.lorem-ipsum.info/_arabic HTTP/1.1" 200 -
+2024-12-03 06:00:52,099 INFO werkzeug Thread-31 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:52] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:00:52,100 INFO werkzeug Thread-32 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:52] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:00:52,111 INFO werkzeug Thread-33 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:00:52] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:01:03,900 INFO __main__ Thread-34 (process_request_thread) : Rendering index page
+2024-12-03 06:01:03,900 INFO werkzeug Thread-34 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:03] "GET /?url=https://generator.lorem-ipsum.info/_arabic HTTP/1.1" 200 -
+2024-12-03 06:01:03,940 INFO werkzeug Thread-35 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:03] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:01:03,941 INFO werkzeug Thread-36 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:03] "GET /static/js/main.js HTTP/1.1" 200 -
+2024-12-03 06:01:03,952 INFO werkzeug Thread-37 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:03] "GET /static/js/main.js HTTP/1.1" 200 -
+2024-12-03 06:01:05,841 INFO werkzeug Thread-38 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:05] "[35m[1mPOST /scan HTTP/1.1[0m" 500 -
+2024-12-03 06:01:15,598 INFO werkzeug Thread-39 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:01:47,355 INFO __main__ Thread-40 (process_request_thread) : Rendering index page
+2024-12-03 06:01:47,356 INFO werkzeug Thread-40 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:47] "GET /?url=https://generator.lorem-ipsum.info/_arabic HTTP/1.1" 200 -
+2024-12-03 06:01:47,410 INFO werkzeug Thread-41 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:47] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:01:47,414 INFO werkzeug Thread-42 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:01:47,449 INFO werkzeug Thread-43 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:47] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:01:56,554 INFO werkzeug Thread-44 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:01:56] "[35m[1mPOST /scan HTTP/1.1[0m" 500 -
+2024-12-03 06:02:30,100 INFO werkzeug MainThread :  * Detected change in 'd:\\vulnscan1\\app.py', reloading
+2024-12-03 06:02:31,186 INFO __main__ MainThread : Starting Flask application
+2024-12-03 06:02:31,219 WARNING werkzeug MainThread :  * Debugger is active!
+2024-12-03 06:02:31,223 INFO werkzeug MainThread :  * Debugger PIN: 715-949-509
+2024-12-03 06:02:42,890 INFO __main__ Thread-2 (process_request_thread) : Rendering index page
+2024-12-03 06:02:42,900 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:02:42] "GET /?url=https://generator.lorem-ipsum.info/_arabic HTTP/1.1" 200 -
+2024-12-03 06:02:43,018 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:02:43] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:02:43,027 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:02:43] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:02:46,117 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:02:46] "[35m[1mPOST /scan HTTP/1.1[0m" 500 -
+2024-12-03 06:03:46,418 INFO __main__ Thread-6 (process_request_thread) : Rendering index page
+2024-12-03 06:03:46,421 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:03:46] "GET /?url=https://generator.lorem-ipsum.info/_arabic HTTP/1.1" 200 -
+2024-12-03 06:03:46,482 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:03:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:03:46,483 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:03:46] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:03:49,231 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:03:49] "[35m[1mPOST /scan HTTP/1.1[0m" 500 -
+2024-12-03 06:04:02,775 INFO werkzeug MainThread :  * Detected change in 'd:\\vulnscan1\\app.py', reloading
+2024-12-03 06:06:54,459 INFO __main__ MainThread : Starting Flask application
+2024-12-03 06:06:54,484 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.156:8000
+2024-12-03 06:06:54,484 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2024-12-03 06:06:54,486 INFO werkzeug MainThread :  * Restarting with stat
+2024-12-03 06:06:55,119 INFO __main__ MainThread : Starting Flask application
+2024-12-03 06:06:55,129 WARNING werkzeug MainThread :  * Debugger is active!
+2024-12-03 06:06:55,132 INFO werkzeug MainThread :  * Debugger PIN: 715-949-509
+2024-12-03 06:07:11,719 INFO __main__ MainThread : Starting Flask application
+2024-12-03 06:07:11,742 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.156:8000
+2024-12-03 06:07:11,742 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2024-12-03 06:07:11,743 INFO werkzeug MainThread :  * Restarting with stat
+2024-12-03 06:07:12,375 INFO __main__ MainThread : Starting Flask application
+2024-12-03 06:07:12,383 WARNING werkzeug MainThread :  * Debugger is active!
+2024-12-03 06:07:12,386 INFO werkzeug MainThread :  * Debugger PIN: 715-949-509
+2024-12-03 06:07:13,678 INFO __main__ Thread-2 (process_request_thread) : Rendering index page
+2024-12-03 06:07:13,685 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:13] "GET / HTTP/1.1" 200 -
+2024-12-03 06:07:13,801 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:13] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:07:13,855 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:13] "GET /static/js/main.js HTTP/1.1" 200 -
+2024-12-03 06:07:18,443 INFO __main__ ThreadPoolExecutor-1_0 : Received scan request
+2024-12-03 06:07:18,647 INFO scan_tools.check_sql_injection ThreadPoolExecutor-1_0 : Starting SQL injection scan for https://chatgpt.com/
+2024-12-03 06:07:18,647 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:07:18,807 ERROR scan_tools.check_sql_injection ThreadPoolExecutor-1_0 : Failed to fetch https://chatgpt.com/. Status code: 403
+2024-12-03 06:07:18,812 ERROR scan_tools.check_xss ThreadPoolExecutor-1_0 : Failed to fetch https://chatgpt.com/. Status code: 403
+2024-12-03 06:07:18,812 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:18] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:07:23,323 INFO __main__ Thread-6 (process_request_thread) : Rendering index page
+2024-12-03 06:07:23,323 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:23] "GET / HTTP/1.1" 200 -
+2024-12-03 06:07:23,362 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:07:23,368 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:23] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:07:34,868 INFO __main__ ThreadPoolExecutor-2_0 : Received scan request
+2024-12-03 06:07:35,019 INFO scan_tools.check_sql_injection ThreadPoolExecutor-2_0 : Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:07:35,020 INFO scan_tools.check_xss ThreadPoolExecutor-2_0 : Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:07:35,670 INFO scan_tools.check_xss ThreadPoolExecutor-2_0 : Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:07:36,164 INFO scan_tools.check_sql_injection ThreadPoolExecutor-2_0 : Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:07:36,164 ERROR scan_tools.check_sql_injection ThreadPoolExecutor-2_0 : Error during SQL injection scan: name 'asyncio' is not defined
+2024-12-03 06:07:36,670 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <img src=x onerror=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:07:36,903 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <img src=x onerror=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:07:37,725 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <svg/onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:07:37,853 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <svg/onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:07:38,233 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <body onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:07:38,464 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <body onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:07:39,564 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: javascript:alert(1) in form https://pypi.org/search/
+2024-12-03 06:07:39,697 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: javascript:alert(1) in form https://pypi.org/search/
+2024-12-03 06:07:40,114 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <img src=1 href=1 onerror="javascript:alert(1)"></img> in form https://pypi.org/search/
+2024-12-03 06:07:40,336 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <audio src=1 href=1 onerror="javascript:alert(1)"></audio> in form https://pypi.org/search/
+2024-12-03 06:07:40,458 WARNING scan_tools.check_xss ThreadPoolExecutor-2_0 : XSS vulnerability detected with payload: <audio src=1 href=1 onerror="javascript:alert(1)"></audio> in form https://pypi.org/search/
+2024-12-03 06:07:41,200 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:41] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:07:41,213 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:41] "[33mGET /x HTTP/1.1[0m" 404 -
+2024-12-03 06:07:41,213 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:41] "[33mGET /1 HTTP/1.1[0m" 404 -
+2024-12-03 06:07:45,824 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:45] "[33mGET /1 HTTP/1.1[0m" 404 -
+2024-12-03 06:07:45,827 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:07:45] "[33mGET /1 HTTP/1.1[0m" 404 -
+2024-12-03 06:09:35,637 INFO __main__ ThreadPoolExecutor-3_0 : Received scan request
+2024-12-03 06:09:35,803 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:09:35] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:09:59,084 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:09:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:10:45,299 INFO __main__ Thread-16 (process_request_thread) : Rendering index page
+2024-12-03 06:10:45,303 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:10:45] "GET / HTTP/1.1" 200 -
+2024-12-03 06:10:45,405 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:10:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:10:45,440 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:10:45] "GET /static/js/main.js HTTP/1.1" 200 -
+2024-12-03 06:10:53,061 INFO __main__ ThreadPoolExecutor-4_0 : Received scan request
+2024-12-03 06:10:53,212 INFO scan_tools.check_sql_injection ThreadPoolExecutor-4_0 : Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:10:53,215 INFO scan_tools.check_xss ThreadPoolExecutor-4_0 : Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:10:53,832 INFO scan_tools.check_xss ThreadPoolExecutor-4_0 : Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:10:54,175 INFO scan_tools.check_sql_injection ThreadPoolExecutor-4_0 : Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:10:54,181 ERROR scan_tools.check_sql_injection ThreadPoolExecutor-4_0 : Error during SQL injection scan: name 'asyncio' is not defined
+2024-12-03 06:10:54,692 WARNING scan_tools.check_xss ThreadPoolExecutor-4_0 : XSS vulnerability detected with payload: <img src=x onerror=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:10:54,822 WARNING scan_tools.check_xss ThreadPoolExecutor-4_0 : XSS vulnerability detected with payload: <img src=x onerror=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:10:55,412 WARNING scan_tools.check_xss ThreadPoolExecutor-4_0 : XSS vulnerability detected with payload: <svg/onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:10:55,675 WARNING scan_tools.check_xss ThreadPoolExecutor-4_0 : XSS vulnerability detected with payload: <svg/onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:10:57,542 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:10:57] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:12:33,421 INFO __main__ Thread-20 (process_request_thread) : Rendering index page
+2024-12-03 06:12:33,427 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:12:33] "GET / HTTP/1.1" 200 -
+2024-12-03 06:12:33,525 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:12:33] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:12:33,555 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:12:33] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:13:16,516 INFO __main__ Thread-23 (process_request_thread) : Rendering index page
+2024-12-03 06:13:16,517 INFO werkzeug Thread-23 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:13:16] "GET / HTTP/1.1" 200 -
+2024-12-03 06:13:16,621 INFO werkzeug Thread-24 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:13:16] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:13:16,661 INFO werkzeug Thread-25 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:13:16] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:13:27,621 INFO werkzeug Thread-26 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:13:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:15:32,829 INFO __main__ Thread-27 (process_request_thread) : Rendering index page
+2024-12-03 06:15:32,830 INFO werkzeug Thread-27 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:15:32] "GET / HTTP/1.1" 200 -
+2024-12-03 06:15:32,933 INFO werkzeug Thread-28 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:15:32] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:15:33,031 INFO werkzeug Thread-29 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:15:33] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:16:53,161 INFO __main__ Thread-30 (process_request_thread) : Rendering index page
+2024-12-03 06:16:53,165 INFO werkzeug Thread-30 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:16:53] "GET / HTTP/1.1" 200 -
+2024-12-03 06:16:53,216 INFO werkzeug Thread-31 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:16:53] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:16:53,217 INFO werkzeug Thread-32 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:16:53] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:17:20,164 INFO __main__ Thread-33 (process_request_thread) : Rendering index page
+2024-12-03 06:17:20,165 INFO werkzeug Thread-33 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:17:20] "GET / HTTP/1.1" 200 -
+2024-12-03 06:17:20,200 INFO werkzeug Thread-34 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:17:20] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:17:20,201 INFO werkzeug Thread-35 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:17:20] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:17:31,000 INFO __main__ Thread-36 (process_request_thread) : Rendering index page
+2024-12-03 06:17:31,001 INFO werkzeug Thread-36 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:17:31] "GET / HTTP/1.1" 200 -
+2024-12-03 06:17:31,038 INFO werkzeug Thread-37 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:17:31] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:17:31,040 INFO werkzeug Thread-38 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:17:31] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:18:30,255 INFO __main__ Thread-39 (process_request_thread) : Rendering index page
+2024-12-03 06:18:30,256 INFO werkzeug Thread-39 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:18:30] "GET / HTTP/1.1" 200 -
+2024-12-03 06:18:30,330 INFO werkzeug Thread-40 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:18:30] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:18:30,480 INFO werkzeug Thread-41 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:18:30] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:19:19,566 INFO __main__ Thread-42 (process_request_thread) : Rendering index page
+2024-12-03 06:19:19,571 INFO werkzeug Thread-42 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:19:19] "GET / HTTP/1.1" 200 -
+2024-12-03 06:19:19,631 INFO werkzeug Thread-43 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:19:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:19:19,634 INFO werkzeug Thread-44 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:19:19] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:19:37,952 INFO werkzeug Thread-45 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:19:37] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:21:14,680 INFO __main__ Thread-46 (process_request_thread) : Rendering index page
+2024-12-03 06:21:14,684 INFO werkzeug Thread-46 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:21:14] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:21:14,758 INFO werkzeug Thread-47 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:21:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:21:14,764 INFO werkzeug Thread-48 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:21:14] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:21:22,880 INFO werkzeug Thread-49 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:21:22] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:22:16,219 INFO __main__ Thread-50 (process_request_thread) : Rendering index page
+2024-12-03 06:22:16,223 INFO werkzeug Thread-50 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:16] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:22:16,288 INFO werkzeug Thread-51 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:22:16,393 INFO werkzeug Thread-52 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:16] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:22:36,991 INFO __main__ Thread-53 (process_request_thread) : Rendering index page
+2024-12-03 06:22:36,995 INFO werkzeug Thread-53 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:36] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:22:37,028 INFO werkzeug Thread-54 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:37] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:22:37,032 INFO werkzeug Thread-55 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:37] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:22:49,069 INFO __main__ Thread-56 (process_request_thread) : Rendering index page
+2024-12-03 06:22:49,074 INFO werkzeug Thread-56 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:49] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:22:49,110 INFO werkzeug Thread-57 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:22:49,116 INFO werkzeug Thread-58 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:49] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:22:53,464 INFO __main__ Thread-59 (process_request_thread) : Rendering index page
+2024-12-03 06:22:53,469 INFO werkzeug Thread-59 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:53] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:22:53,504 INFO werkzeug Thread-60 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:53] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:22:53,505 INFO werkzeug Thread-61 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:53] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:22:58,466 INFO __main__ Thread-62 (process_request_thread) : Rendering index page
+2024-12-03 06:22:58,468 INFO werkzeug Thread-62 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:58] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:22:58,504 INFO werkzeug Thread-63 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:22:58,505 INFO werkzeug Thread-64 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:22:58] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:23:04,190 INFO __main__ Thread-65 (process_request_thread) : Rendering index page
+2024-12-03 06:23:04,194 INFO werkzeug Thread-65 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:23:04] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:23:04,261 INFO werkzeug Thread-66 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:23:04] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:23:04,286 INFO werkzeug Thread-67 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:23:04] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:24:05,600 INFO __main__ ThreadPoolExecutor-5_0 : Received scan request
+2024-12-03 06:24:05,783 INFO scan_tools.check_sql_injection ThreadPoolExecutor-5_0 : Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:24:05,786 INFO scan_tools.check_xss ThreadPoolExecutor-5_0 : Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:24:06,452 INFO scan_tools.check_sql_injection ThreadPoolExecutor-5_0 : Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:24:06,452 ERROR scan_tools.check_sql_injection ThreadPoolExecutor-5_0 : Error during SQL injection scan: name 'asyncio' is not defined
+2024-12-03 06:24:07,159 INFO scan_tools.check_xss ThreadPoolExecutor-5_0 : Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:24:08,074 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <img src=x onerror=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:24:08,256 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <img src=x onerror=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:24:08,878 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <svg/onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:24:09,047 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <svg/onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:24:09,513 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <body onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:24:09,673 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <body onload=alert(1)> in form https://pypi.org/search/
+2024-12-03 06:24:11,266 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: javascript:alert(1) in form https://pypi.org/search/
+2024-12-03 06:24:11,436 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: javascript:alert(1) in form https://pypi.org/search/
+2024-12-03 06:24:11,860 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <img src=1 href=1 onerror="javascript:alert(1)"></img> in form https://pypi.org/search/
+2024-12-03 06:24:12,143 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <img src=1 href=1 onerror="javascript:alert(1)"></img> in form https://pypi.org/search/
+2024-12-03 06:24:12,501 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <audio src=1 href=1 onerror="javascript:alert(1)"></audio> in form https://pypi.org/search/
+2024-12-03 06:24:12,656 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <audio src=1 href=1 onerror="javascript:alert(1)"></audio> in form https://pypi.org/search/
+2024-12-03 06:24:12,952 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <video src=1 href=1 onerror="javascript:alert(1)"></video> in form https://pypi.org/search/
+2024-12-03 06:24:13,226 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <video src=1 href=1 onerror="javascript:alert(1)"></video> in form https://pypi.org/search/
+2024-12-03 06:24:13,394 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <body src=1 href=1 onerror="javascript:alert(1)"></body> in form https://pypi.org/search/
+2024-12-03 06:24:13,530 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <body src=1 href=1 onerror="javascript:alert(1)"></body> in form https://pypi.org/search/
+2024-12-03 06:24:13,849 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <image src=1 href=1 onerror="javascript:alert(1)"></image> in form https://pypi.org/search/
+2024-12-03 06:24:14,101 WARNING scan_tools.check_xss ThreadPoolExecutor-5_0 : XSS vulnerability detected with payload: <image src=1 href=1 onerror="javascript:alert(1)"></image> in form https://pypi.org/search/
+2024-12-03 06:24:14,164 INFO werkzeug Thread-68 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:24:14] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:24:43,398 INFO werkzeug MainThread :  * Detected change in 'D:\\vulnscan1\\scan_tools\\check_xss.py', reloading
+2024-12-03 06:24:43,570 INFO werkzeug MainThread :  * Restarting with stat
+2024-12-03 06:24:44,249 INFO __main__ MainThread : Starting Flask application
+2024-12-03 06:24:44,261 WARNING werkzeug MainThread :  * Debugger is active!
+2024-12-03 06:24:44,263 INFO werkzeug MainThread :  * Debugger PIN: 715-949-509
+2024-12-03 06:24:49,033 INFO __main__ ThreadPoolExecutor-1_0 : Received scan request
+2024-12-03 06:24:49,191 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Checking for Cross-Site Scripting (XSS) vulnerabilities
+2024-12-03 06:24:49,191 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Sending GET request to https://pypi.org/project/aiohttp/
+2024-12-03 06:24:49,788 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Found 3 forms on https://pypi.org/project/aiohttp/
+2024-12-03 06:24:49,788 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Processing form with action: /search/ and method: get
+2024-12-03 06:24:49,788 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:50,207 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:50,763 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:51,158 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:52,232 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:52,706 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:53,142 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:53,666 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Processing form with action: /search/ and method: get
+2024-12-03 06:24:53,673 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:53,938 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<img src=x onerror=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:54,349 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: ''"><script>alert('XSS')</script>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:54,558 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<svg/onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:55,270 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<body onload=alert(1)>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:55,506 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<iframe src='javascript:alert(1)'></iframe>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:55,717 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Testing XSS payload: '<object data='javascript:alert(1)'>' in input: 'q' on form: https://pypi.org/search/
+2024-12-03 06:24:55,925 INFO scan_tools.check_xss ThreadPoolExecutor-1_0 : Processing form with action: /locale/ and method: get
+2024-12-03 06:24:55,926 INFO scan_tools.check_sql_injection ThreadPoolExecutor-1_0 : Starting SQL injection scan for https://pypi.org/project/aiohttp/
+2024-12-03 06:24:55,932 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:24:55] "POST /scan HTTP/1.1" 200 -
+2024-12-03 06:25:23,994 INFO __main__ Thread-3 (process_request_thread) : Rendering index page
+2024-12-03 06:25:24,000 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:25:24] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:25:24,113 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:25:24] "GET /static/css/style.css HTTP/1.1" 200 -
+2024-12-03 06:25:24,115 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:25:24] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:25:48,929 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:25:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:26:08,020 INFO __main__ Thread-7 (process_request_thread) : Rendering index page
+2024-12-03 06:26:08,021 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:26:08] "GET /?url=https://pypi.org/project/aiohttp/ HTTP/1.1" 200 -
+2024-12-03 06:26:08,059 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:26:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2024-12-03 06:26:08,060 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [03/Dec/2024 06:26:08] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2024-12-03 06:27:57,470 INFO werkzeug MainThread :  * Detected change in 'D:\\vulnscan1\\scan_tools\\scanner_manager.py', reloading
+2024-12-03 06:27:57,565 INFO werkzeug MainThread :  * Restarting with stat
+2024-12-03 06:27:58,229 INFO __main__ MainThread : Starting Flask application
+2024-12-03 06:27:58,239 WARNING werkzeug MainThread :  * Debugger is active!
+2024-12-03 06:27:58,242 INFO werkzeug MainThread :  * Debugger PIN: 715-949-509
+2024-12-03 06:28:18,890 INFO werkzeug MainThread :  * Detected change in 'D:\\vulnscan1\\app.py', reloading
+2024-12-03 06:28:18,969 INFO werkzeug MainThread :  * Restarting with stat
+2024-12-03 06:29:42,521 INFO werkzeug MainThread :  * Restarting with stat
+2024-12-03 06:31:28,815 INFO werkzeug MainThread :  * Restarting with stat
+2024-12-03 06:31:53,565 INFO werkzeug MainThread :  * Restarting with stat

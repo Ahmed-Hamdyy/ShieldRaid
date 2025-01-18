@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Scan Results</h2>
+    
+    {% if not vulnerabilities %}
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">No Vulnerabilities Found!</h4>
+        <p>The scan completed successfully and no vulnerabilities were detected.</p>
+    </div>
+    {% else %}
+    
+    {% for vuln in vulnerabilities %}
+    <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+            <div class="d-flex justify-content-between align-items-center" 
+                 data-bs-toggle="collapse" 
+                 data-bs-target="#vuln{{ loop.index }}" 
+                 style="cursor: pointer;">
+                <h5 class="mb-0">{{ vuln.type }}</h5>
+                <div>
+                    <span class="badge bg-light text-danger me-2">{{ vuln.severity }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="collapse show" id="vuln{{ loop.index }}">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-item mb-3">
+                            <strong>Location:</strong> {{ vuln.location }}
+                        </div>
+                        <div class="detail-item mb-3">
+                            <strong>Method:</strong> {{ vuln.method }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="detail-item mb-3">
+                            <strong>Parameter:</strong> {{ vuln.parameter }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidence-section p-3 bg-light rounded">
+                    <h6 class="mb-3">Evidence</h6>
+                    <div class="code-block mb-3">
+                        <pre><code>{{ vuln.payload }}</code></pre>
+                    </div>
+                    {% if vuln.evidence %}
+                        {% if vuln.evidence is string %}
+                            <p>{{ vuln.evidence }}</p>
+                        {% else %}
+                            <ul class="mb-0">
+                            {% for evidence in vuln.evidence %}
+                                <li>{{ evidence }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+<style>
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.card-header {
+    border-bottom: none;
+    padding: 1rem;
+}
+
+.card-header:hover {
+    background-color: #dc3545 !important;
+}
+
+.detail-item {
+    background: rgba(0,0,0,0.03);
+    padding: 0.75rem;
+    border-radius: 4px;
+}
+
+.evidence-section {
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.code-block {
+    background: #2d2d2d;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.code-block pre {
+    margin: 0;
+}
+
+.code-block code {
+    color: #e6e6e6;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+ul {
+    padding-left: 1.2rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click handlers for collapse
+    document.querySelectorAll('.card-header').forEach(header => {
+        header.addEventListener('click', function() {
+            const icon = this.querySelector('.fa-chevron-down');
+            const isExpanded = this.querySelector('[data-bs-toggle="collapse"]').getAttribute('aria-expanded') === 'true';
+            
+            if (isExpanded) {
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                icon.style.transform = 'rotate(180deg)';
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 

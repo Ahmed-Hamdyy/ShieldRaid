@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="verify-container">
+    <div class="security-grid"></div>
+    <div class="verify-box">
+        <div class="verify-header">
+            <div class="logo-container">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <h2>Verify Your Email</h2>
+            <p>We've sent a verification code to:</p>
+            <div class="email-display">{{ email }}</div>
+        </div>
+
+       
+
+        <div class="verification-methods">
+            <div class="method-section">
+                <h5><i class="fas fa-key"></i> Option 1: Enter Code</h5>
+                <p>Enter the 6-digit verification code sent to your email:</p>
+                
+                <form id="verificationForm" method="POST" action="{{ url_for('verify_email_code') }}" class="verification-form">
+                    <div class="input-group">
+                        <input type="text" 
+                               id="code" 
+                               name="code" 
+                               class="verification-code" 
+                               placeholder="Enter 6-digit code"
+                               pattern="[0-9]{6}" 
+                               maxlength="6" 
+                               required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Verify Email</button>
+                </form>
+            </div>
+
+            <div class="method-divider">
+                <span>OR</span>
+            </div>
+
+            <div class="method-section">
+                <h5><i class="fas fa-link"></i> Option 2: Click the Link</h5>
+                <p>Check your email inbox for a verification link and click it to verify your account.</p>
+            </div>
+        </div>
+
+        <div class="resend-section">
+            <p>Didn't receive the email?</p>
+            <form action="{{ url_for('resend_verification') }}" method="POST" class="resend-form">
+                <button type="submit" class="resend-btn" {% if cooldown > 0 %}disabled{% endif %}>
+                    <i class="fas fa-redo"></i>
+                    {% if cooldown > 0 %}
+                        Resend in {{ cooldown }}s
+                    {% else %}
+                        Resend Verification Email
+                    {% endif %}
+                </button>
+            </form>
+            {% if resend_count > 0 %}
+                <small class="resend-count">
+                    Resent {{ resend_count }}/3 times
+                </small>
+            {% endif %}
+        </div>
+
+        <div class="help-section">
+            <p>Having trouble? <a href="#" class="help-link">Get Help</a></p>
+            <a href="{{ url_for('login') }}" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Login
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+:root {
+    --input-height: 56px;
+    --border-radius: 12px;
+    --primary-rgb: 0, 255, 157;
+    --secondary-rgb: 0, 102, 255;
+}
+
+.verify-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, 
+        rgba(var(--primary-rgb), 0.1),
+        rgba(var(--secondary-rgb), 0.1)
+    );
+}
+
+.security-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        linear-gradient(rgba(var(--primary-rgb), 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--primary-rgb), 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg) translateY(-50%);
+    animation: gridMove 20s linear infinite;
+    opacity: 0.2;
+}
+
+.verify-box {
+    width: 100%;
+    max-width: 520px;
+    padding: 2.5rem;
+    background: rgba(10, 11, 14, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(var(--primary-rgb), 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.verify-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.logo-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg,
+        rgba(var(--primary-rgb), 0.1),
+        rgba(var(--secondary-rgb), 0.1)
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-container i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    filter: drop-shadow(0 0 10px var(--primary-color));
+    animation: pulse 2s infinite;
+}
+
+.verify-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.verify-header p {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.email-display {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    background: rgba(var(--primary-rgb), 0.1);
+    border-radius: var(--border-radius);
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.verification-methods {
+    margin: 2rem 0;
+}
+
+.method-section {
+    padding: 1.5rem;
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+}
+
+.method-section h5 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.method-section h5 i {
+    color: var(--primary-color);
+}
+
+.method-section p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.method-divider {
+    text-align: center;
+    position: relative;
+    margin: 2rem 0;
+}
+
+.method-divider::before,
+.method-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.method-divider::before {
+    left: 0;
+}
+
+.method-divider::after {
+    right: 0;
+}
+
+.method-divider span {
+    background: var(--background-dark);
+    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.verification-form {
+    margin-top: 1.5rem;
+}
+
+.code-input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.verification-input {
+    width: 100%;
+    height: var(--input-height);
+    background: var(--card-background);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.verification-input:focus {
+    outline: none;
+    background: rgba(var(--primary-rgb), 0.1);
+}
+
+.code-underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(var(--primary-rgb), 0.3);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.verification-input:focus ~ .code-underline {
+    transform: scaleX(1);
+}
+
+.verify-btn,
+.resend-btn {
+    width: 100%;
+    height: var(--input-height);
+    background: linear-gradient(45deg,
+        rgba(var(--primary-rgb), 0.2),
+        rgba(var(--secondary-rgb), 0.2)
+    );
+    border: 1px solid rgba(var(--primary-rgb), 0.3);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.verify-btn:hover,
+.resend-btn:hover:not(:disabled) {
+    background: linear-gradient(45deg,
+        rgba(var(--primary-rgb), 0.3),
+        rgba(var(--secondary-rgb), 0.3)
+    );
+    transform: translateY(-2px);
+}
+
+.resend-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.resend-section {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.resend-section p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.resend-count {
+    display: block;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.help-section {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.help-link,
+.back-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.help-link:hover,
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+@keyframes gridMove {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(-50%); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+}
+
+@keyframes pulse {
+    0% { filter: drop-shadow(0 0 10px var(--primary-color)); }
+    50% { filter: drop-shadow(0 0 20px var(--primary-color)); }
+    100% { filter: drop-shadow(0 0 10px var(--primary-color)); }
+}
+
+@media (max-width: 576px) {
+    .verify-container {
+        padding: 1rem;
+    }
+
+    .verify-box {
+        padding: 2rem;
+    }
+
+    .verify-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .verification-input {
+        font-size: 1.25rem;
+        letter-spacing: 0.75rem;
+    }
+}
+
+.verification-form button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.verification-code {
+    height: 64px;
+    width: 100%;
+    padding: 0 20px;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.verification-code:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.1);
+    outline: none;
+}
+
+.verification-code::placeholder {
+    color: var(--muted-text);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group input {
+    height: 64px;
+    width: 100%;
+    padding: 0 20px;
+    background: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.1);
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: var(--muted-text);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Countdown timer for resend button
+    const resendBtn = document.querySelector('.resend-btn');
+    let cooldown = {{ cooldown }};
+    
+    if (cooldown > 0) {
+        const updateCooldown = () => {
+            if (cooldown > 0) {
+                resendBtn.innerHTML = `<i class="fas fa-redo"></i> Resend in ${cooldown}s`;
+                cooldown--;
+                setTimeout(updateCooldown, 1000);
+            } else {
+                resendBtn.innerHTML = `<i class="fas fa-redo"></i> Resend Verification Email`;
+                resendBtn.disabled = false;
+            }
+        };
+        updateCooldown();
+    }
+
+    // Format verification code input
+    const codeInput = document.querySelector('.verification-input');
+    if (codeInput) {
+        codeInput.addEventListener('input', function(e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/\D/g, '');
+            
+            // Limit to 6 digits
+            if (this.value.length > 6) {
+                this.value = this.value.slice(0, 6);
+            }
+        });
+    }
+});
+
+// Prevent double submission
+document.getElementById('verificationForm').addEventListener('submit', function(e) {
+    const button = this.querySelector('.verify-btn');
+    
+    // If the form is already submitted, prevent resubmission
+    if (button.disabled) {
+        e.preventDefault();
+        return;
+    }
+    
+    // Disable the button
+    button.disabled = true;
+});
+
+// Prevent form resubmission on page refresh
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}
+</script>
+{% endblock %} 

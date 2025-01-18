@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+
+{% block title %}SIEM Correlations{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --success-rgb: 34, 197, 94;
+        --danger-rgb: 239, 68, 68;
+        --success-color: rgb(var(--success-rgb));
+        --danger-color: rgb(var(--danger-rgb));
+    }
+
+    .siem-container {
+        min-height: 100vh;
+        background: var(--darker-bg);
+        color: var(--text-primary);
+    }
+
+    .main-content {
+        padding: 1rem;
+        max-width: 1920px;
+        margin: 0 auto;
+    }
+
+    /* Top navigation styles */
+    .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--card-bg);
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .header-left, .header-center, .header-right {
+        display: flex;
+        align-items: center;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    .logo i {
+        font-size: 1.5rem;
+    }
+
+    .header-center h1 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: var(--text-primary);
+    }
+    
+    .nav-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-right: 1.5rem;
+    }
+    
+    .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-1px);
+        border-color: rgba(0, 255, 157, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 255, 157, 0.2);
+    }
+    
+    .nav-btn i {
+        font-size: 1rem;
+        color: var(--primary-color);
+    }
+    
+    .control-buttons {
+        display: flex;
+        gap: 0.75rem;
+    }
+    
+    .control-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .start-btn {
+        background: var(--primary-color);
+        color: var(--darker-bg);
+    }
+    
+    .start-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+    }
+
+    /* Section styles */
+    .correlation-rules,
+    .correlation-results,
+    .timeline-view,
+    .pattern-analysis {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section-header h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .section-header h2 i {
+        color: var(--primary-color);
+    }
+
+    /* Grid layouts */
+    .rules-grid,
+    .analysis-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* Card styles */
+    .correlation-card,
+    .event-item,
+    .timeline-content,
+    .pattern-item,
+    .threat-item {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .correlation-card:hover,
+    .event-item:hover,
+    .timeline-content:hover,
+    .pattern-item:hover,
+    .threat-item:hover {
+        transform: translateY(-4px);
+        border-color: rgba(0, 255, 157, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 255, 157, 0.1);
+    }
+
+    .card-header {
+        padding: 1rem 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .card-header h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    /* Timeline styles */
+    .timeline-container {
+        position: relative;
+        padding: 2rem 0;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 2.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .timeline-point {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1rem;
+        height: 1rem;
+        background: var(--primary-color);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
+    }
+
+    .timeline-point::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 1rem;
+        bottom: -2rem;
+        width: 2px;
+        background: linear-gradient(to bottom,
+            rgba(0, 255, 157, 0.3),
+            rgba(0, 255, 157, 0.1)
+        );
+        transform: translateX(-50%);
+    }
+
+    .timeline-item:last-child .timeline-point::before {
+        display: none;
+    }
+
+    /* Status indicators */
+    .severity-high {
+        border-left: 4px solid var(--danger-color);
+    }
+
+    .severity-medium {
+        border-left: 4px solid var(--warning-color);
+    }
+
+    .severity-low {
+        border-left: 4px solid var(--success-color);
+    }
+
+    /* Custom scrollbar */
+    .card-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .card-body::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .card-body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+
+    .card-body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Responsive design */
+    @media (max-width: 1200px) {
+        .top-nav {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+    
+        .header-left, .header-center, .header-right {
+            width: 100%;
+            justify-content: center;
+        }
+    
+        .nav-buttons {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .nav-buttons, .control-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+    
+        .nav-btn, .control-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="siem-container">
+    <div class="main-content">
+        <!-- Navigation -->
+        <nav class="top-nav">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>SIEM Tool</span>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <h1>Security Event Correlations</h1>
+            </div>
+
+            <div class="header-right">
+                <div class="nav-buttons">
+                    <a href="{{ url_for('siem.index') }}" class="nav-btn">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ url_for('siem.analytics') }}" class="nav-btn">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+                <div class="control-buttons">
+                    <button id="refreshButton" class="control-btn start-btn">
+                        <i class="fas fa-sync"></i>
+                        <span>Refresh Data</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Correlation Rules -->
+        <div class="correlation-rules">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-shield-alt"></i>
+                    Correlation Rules
+                </h2>
+            </div>
+            <div class="rules-grid" id="rulesContainer">
+                <!-- Rules will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Correlation Results -->
+        <div class="correlation-results">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-search"></i>
+                    Detected Patterns
+                </h2>
+            </div>
+            <div class="results-container" id="correlationResults">
+                <!-- Results will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Timeline View -->
+        <div class="timeline-view">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-clock"></i>
+                    Event Timeline
+                </h2>
+            </div>
+            <div class="timeline-container" id="eventTimeline">
+                <!-- Timeline will be dynamically generated here -->
+            </div>
+        </div>
+
+        <!-- Pattern Analysis -->
+        <div class="pattern-analysis">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-chart-network"></i>
+                    Pattern Analysis
+                </h2>
+            </div>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <h3>Common Patterns</h3>
+                    </div>
+                    <div class="card-body" id="commonPatterns">
+                        <!-- Patterns will be dynamically added here -->
+                    </div>
+                </div>
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <h3>Threat Indicators</h3>
+                    </div>
+                    <div class="card-body" id="threatIndicators">
+                        <!-- Threats will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="{{ url_for('static', filename='js/SiemCorrelations.js') }}"></script>
+{% endblock %} 

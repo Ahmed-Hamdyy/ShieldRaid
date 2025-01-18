@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Honeypot Logs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 5px;
+            text-align: left;
+        }
+        th {
+            background-color: #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Honeypot Activity Logs</h1>
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>IP Address</th>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>User Agent</th>
+            <th>Parameters</th>
+            <th>Data</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log[1] }}</td>
+            <td>{{ log[2] }}</td>
+            <td>{{ log[3] }}</td>
+            <td>{{ log[4] }}</td>
+            <td>{{ log[8] }}</td>
+            <td><pre>{{ log[6] }}</pre></td>
+            <td><pre>{{ log[7] }}</pre></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+</body>
+</html>

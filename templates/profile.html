@@ -1,0 +1,696 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - ShieldRaid{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="row g-4">
+        <!-- Profile Overview -->
+        <div class="col-lg-4">
+            <div class="profile-card">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div class="avatar-circle mb-3">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="profile-name">{{ user.username }}</h3>
+                        <p class="profile-email">{{ user.email }}</p>
+                        <div class="role-badge">{{ user.role | replace('_', ' ') | title }}</div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <span class="info-label">
+                                <i class="fas fa-calendar-alt"></i>
+                                Member since
+                            </span>
+                            <span class="info-value">{{ user.created_at | datetime('%Y-%m-%d') }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">
+                                <i class="fas fa-clock"></i>
+                                Last active
+                            </span>
+                            <span class="info-value">{{ user.updated_at | datetime('%Y-%m-%d %H:%M') if user.updated_at else 'N/A' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="col-lg-8">
+            <div class="stats-card">
+                <div class="card-body">
+                    <h4 class="section-title">
+                        <i class="fas fa-chart-bar"></i>
+                        Scanning Statistics
+                    </h4>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h6>Total Scans</h6>
+                                    <h3>{{ stats.total_scans }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="stat-item">
+                                <div class="stat-icon warning">
+                                    <i class="fas fa-bug"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h6>Total Vulnerabilities</h6>
+                                    <h3>{{ stats.total_vulnerabilities }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="stat-item">
+                                <div class="stat-icon success">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h6>Avg. Vulnerabilities/Scan</h6>
+                                    <h3>{{ stats.avg_vulnerabilities }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="stat-item">
+                                <div class="stat-icon info">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h6>Avg. Scan Time</h6>
+                                    <h3>{{ stats.avg_scan_time }}s</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vulnerability Distribution -->
+                    <div class="vulnerability-distribution">
+                        <h5 class="distribution-title">
+                            <i class="fas fa-chart-pie"></i>
+                            Vulnerability Severity Distribution
+                        </h5>
+                        <div class="severity-bars">
+                            <div class="severity-item critical">
+                                <div class="severity-header">
+                                    <span class="severity-label">Critical</span>
+                                    <span class="severity-count">{{ stats.vulnerability_severity.critical }}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar critical" style="width: {{ (stats.vulnerability_severity.critical / stats.total_vulnerabilities * 100) if stats.total_vulnerabilities > 0 else 0 }}%"></div>
+                                </div>
+                            </div>
+                            <div class="severity-item high">
+                                <div class="severity-header">
+                                    <span class="severity-label">High</span>
+                                    <span class="severity-count">{{ stats.vulnerability_severity.high }}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar high" style="width: {{ (stats.vulnerability_severity.high / stats.total_vulnerabilities * 100) if stats.total_vulnerabilities > 0 else 0 }}%;"></div>
+                                </div>
+                            </div>
+                            <div class="severity-item medium">
+                                <div class="severity-header">
+                                    <span class="severity-label">Medium</span>
+                                    <span class="severity-count">{{ stats.vulnerability_severity.medium }}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar medium" style="width: {{ (stats.vulnerability_severity.medium / stats.total_vulnerabilities * 100) if stats.total_vulnerabilities > 0 else 0 }}%"></div>
+                                </div>
+                            </div>
+                            <div class="severity-item low">
+                                <div class="severity-header">
+                                    <span class="severity-label">Low</span>
+                                    <span class="severity-count">{{ stats.vulnerability_severity.low }}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar low" style="width: {{ (stats.vulnerability_severity.low / stats.total_vulnerabilities * 100) if stats.total_vulnerabilities > 0 else 0 }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="col-lg-8">
+            <div class="activity-card">
+                <div class="card-body">
+                    <h4 class="section-title">
+                        <i class="fas fa-history"></i>
+                        Recent Activity
+                    </h4>
+                    {% if recent_activity %}
+                    <div class="activity-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Target URL</th>
+                                    <th>Date</th>
+                                    <th>Vulnerabilities</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for activity in recent_activity %}
+                                <tr>
+                                    <td class="url-cell">{{ activity.target_url }}</td>
+                                    <td>{{ activity.created_at | datetime }}</td>
+                                    <td>
+                                        <span class="vuln-count">{{ activity.vulnerabilities }}</span>
+                                    </td>
+                                    <td>{{ activity.scan_duration }}s</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="no-activity">
+                        <i class="fas fa-search"></i>
+                        <p>No recent activity</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="col-lg-4">
+            <div class="settings-card mb-4">
+                <div class="card-body">
+                    <h4 class="section-title">
+                        <i class="fas fa-user-cog"></i>
+                        Profile Settings
+                    </h4>
+                    <form action="{{ url_for('update_profile') }}" method="POST" class="settings-form">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" value="{{ user.username }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <div class="card-body">
+                    <h4 class="section-title">
+                        <i class="fas fa-lock"></i>
+                        Change Password
+                    </h4>
+                    <form action="{{ url_for('change_password') }}" method="POST" class="settings-form">
+                        <div class="form-group">
+                            <label class="form-label">Current Password</label>
+                            <input type="password" class="form-control" name="current_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">New Password</label>
+                            <input type="password" class="form-control" name="new_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" name="confirm_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-container {
+    width: -webkit-fill-available;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Cards */
+.profile-card,
+.stats-card,
+.activity-card,
+.settings-card {
+    background: var(--card-background);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+
+}
+
+.severity-item.critical {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid var(--card-background);
+    color: var(--danger-color);
+}
+
+.severity-item.high {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid var(--card-background);
+    color: var(--warning-color);
+}
+
+.severity-item.medium {
+    background: rgba(23, 162, 184, 0.1);
+    border: 1px solid var(--card-background);
+    color: var(--info-color);
+}
+
+.severity-item.low {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid var(--card-background);
+    color: var(--success-color);
+}
+
+.profile-card:hover,
+.stats-card:hover,
+.activity-card:hover,
+.settings-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Profile Section */
+.avatar-circle {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.15), rgba(0, 102, 255, 0.15));
+    border: 2px solid rgba(0, 255, 157, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.avatar-circle i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.avatar-circle::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 102, 255, 0.2));
+    z-index: -1;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.avatar-circle:hover {
+    transform: scale(1.05);
+}
+
+.avatar-circle:hover::after {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.profile-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 1rem 0 0.5rem;
+}
+
+.profile-email {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+.profile-info {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    margin: 10px 0;
+    color: var(--text-secondary);
+}
+
+.info-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.info-label i {
+    color: var(--primary-color);
+}
+
+/* Stats Section */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.section-title i {
+    color: var(--primary-color);
+    padding: 0.6rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 12px;
+}
+
+.stat-item {
+    background: var(--card-background);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 16px;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.stat-icon.warning {
+    background: rgba(255, 165, 2, 0.1);
+    color: #ffa502;
+}
+
+.stat-icon.success {
+    background: rgba(46, 213, 115, 0.1);
+    color: #2ed573;
+}
+
+.stat-icon.info {
+    background: rgba(30, 144, 255, 0.1);
+    color: #1e90ff;
+}
+
+.stat-content h6 {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-content h3 {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Vulnerability Distribution */
+.vulnerability-distribution {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.distribution-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.distribution-title i {
+    color: var(--primary-color);
+    padding: 0.5rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 10px;
+}
+
+.severity-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.severity-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--card-background);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.severity-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    transform: translateX(5px);
+}
+
+.severity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.severity-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.severity-count {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.progress {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: shimmer 2s infinite;
+}
+
+.progress-bar.critical {
+    background: linear-gradient(90deg, #ff4757, #ff6b81);
+    box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+}
+
+.progress-bar.high {
+    background: linear-gradient(90deg, #ffa502, #ffc107);
+    box-shadow: 0 0 20px rgba(255, 165, 2, 0.3);
+}
+
+.progress-bar.medium {
+    background: linear-gradient(90deg, #2ed573, #7bed9f);
+    box-shadow: 0 0 20px rgba(46, 213, 115, 0.3);
+}
+
+.progress-bar.low {
+    background: linear-gradient(90deg, #1e90ff, #70a1ff);
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.3);
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Activity Table */
+.activity-table {
+    backdrop-filter: blur(5px);
+    background: var(--card-background);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.table th {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1.25rem;
+    border: none;
+}
+
+.table td {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--card-background);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.table tr:hover td {
+    background: rgba(0, 255, 157, 0.05);
+}
+
+.url-cell {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vuln-count {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid rgba(255, 71, 87, 0.2);
+    border-radius: 8px;
+    color: #ff4757;
+    font-weight: 600;
+}
+
+.no-activity {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.no-activity i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Forms */
+.settings-form {
+    margin-top: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--card-background);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 157, 0.25);
+}
+
+.btn-primary {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 102, 255, 0.2));
+    border: 1px solid rgba(0, 255, 157, 0.3);
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.3), rgba(0, 102, 255, 0.3));
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 157, 0.2);
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .stat-item {
+        padding: 1rem;
+    }
+    
+    .activity-table {
+        margin: 0 -1.5rem;
+        padding: 0 1.5rem;
+    }
+    
+    .table-responsive {
+        margin: 0 -1.5rem;
+    }
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,593 @@
+{% extends "base.html" %}
+
+{% block title %}File Upload - ShieldRaid{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="upload-container">
+        <div class="group relative">
+            <div class="upload-card">
+                <!-- Gradient Effects -->
+                <div class="gradient-effect gradient-effect-1"></div>
+                <div class="gradient-effect gradient-effect-2"></div>
+
+                <div class="upload-content">
+                    <!-- Header -->
+                    <div class="upload-header">
+                        <div>
+                            <h3>Upload Files</h3>
+                            <p>Drag & drop your files here</p>
+                        </div>
+                        <div class="upload-icon">
+                            <svg class="icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Dropzone -->
+                    <div class="dropzone-container" id="dropzone">
+                        <input type="file" id="fileInput" class="file-input" multiple />
+                        <div class="dropzone-content">
+                            <div class="dropzone-icon">
+                                <svg class="icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="dropzone-text">
+                                <p class="primary-text">Drop your files here or browse</p>
+                                <p class="secondary-text">Support files: PDF, DOC, DOCX, JPG, PNG</p>
+                                <p class="tertiary-text">Max file size: 10MB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File List -->
+                    <div class="file-list" id="fileList">
+                        <!-- Files will be added here dynamically -->
+                    </div>
+
+                    <!-- Storage Info -->
+                    <div class="storage-info">
+                        <div class="storage-text">
+                            <p>Storage Used</p>
+                            <div class="storage-amount">
+                                <span class="amount">4.2</span>
+                                <span class="total">/ 10 GB</span>
+                            </div>
+                        </div>
+                        <div class="storage-chart">
+                            <svg class="progress-ring" viewBox="0 0 36 36">
+                                <circle class="progress-ring-bg" cx="18" cy="18" r="16"></circle>
+                                <circle class="progress-ring-stroke" cx="18" cy="18" r="16" stroke-dasharray="100" stroke-dashoffset="58"></circle>
+                            </svg>
+                            <span class="progress-text">42%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn-upload">
+                            <span class="btn-content">
+                                Upload More
+                                <svg class="icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                            </span>
+                        </button>
+                        <button class="btn-clear">Clear All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Container Styles */
+.upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+    padding: 2rem;
+}
+
+.upload-card {
+    width: 420px;
+    position: relative;
+    overflow: hidden;
+    background: var(--darker-bg);
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.upload-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px -12px rgba(0, 255, 157, 0.15);
+}
+
+/* Gradient Effects */
+.gradient-effect {
+    position: absolute;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(0, 255, 157, 0.15) 0%, rgba(0, 102, 255, 0) 70%);
+    transition: all 0.5s ease;
+}
+
+.gradient-effect-1 {
+    top: -4rem;
+    left: -4rem;
+}
+
+.gradient-effect-2 {
+    bottom: -4rem;
+    right: -4rem;
+}
+
+.upload-card:hover .gradient-effect {
+    transform: scale(1.5);
+    opacity: 0.7;
+}
+
+/* Content Styles */
+.upload-content {
+    position: relative;
+    padding: 1.5rem;
+}
+
+/* Header Styles */
+.upload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.upload-header h3 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+.upload-header p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.upload-icon {
+    padding: 0.5rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 0.5rem;
+}
+
+.upload-icon .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary-color);
+}
+
+/* Dropzone Styles */
+.dropzone-container {
+    position: relative;
+    margin: 1.5rem 0;
+    border: 2px dashed var(--card-background);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
+}
+
+.dropzone-container:hover {
+    border-color: var(--primary-color);
+    background: rgba(0, 255, 157, 0.02);
+}
+
+.file-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.dropzone-content {
+    padding: 2rem;
+    text-align: center;
+}
+
+.dropzone-icon {
+    width: 5rem;
+    height: 5rem;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 9999px;
+}
+
+.dropzone-icon .icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--primary-color);
+}
+
+.dropzone-text .primary-text {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.dropzone-text .secondary-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.dropzone-text .tertiary-text {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+/* File Item Styles */
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.file-icon {
+    padding: 0.5rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 0.5rem;
+}
+
+.file-icon .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary-color);
+}
+
+.file-details p {
+    margin: 0;
+}
+
+.file-name {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.file-meta {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+.file-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.progress-value {
+    color: var(--primary-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.progress-bar {
+    height: 0.25rem;
+    width: 100%;
+    background: var(--card-background);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-top: 0.75rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--primary-color), #00ccff);
+    border-radius: 9999px;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+    );
+    animation: shimmer 2s infinite;
+}
+
+/* Storage Info Styles */
+.storage-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.storage-text p {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0 0 0.25rem 0;
+}
+
+.storage-amount {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.storage-amount .amount {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.storage-amount .total {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.storage-chart {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: var(--card-background);
+    stroke-width: 2;
+}
+
+.progress-ring-stroke {
+    fill: none;
+    stroke: var(--primary-color);
+    stroke-width: 2;
+    transition: stroke-dashoffset 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Button Styles */
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-upload {
+    position: relative;
+    background: linear-gradient(to right, var(--primary-color), #00ccff);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-upload .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--darker-bg);
+    border-radius: 0.75rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.btn-upload:hover .btn-content {
+    background: transparent;
+}
+
+.btn-upload .icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-upload:hover .icon {
+    transform: translateX(0.25rem);
+}
+
+.btn-clear {
+    background: var(--card-background);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-clear:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    // Highlight dropzone when dragging over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, unhighlight, false);
+    });
+
+    // Handle dropped files
+    dropzone.addEventListener('drop', handleDrop, false);
+    fileInput.addEventListener('change', handleFiles, false);
+
+    function preventDefaults (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function highlight(e) {
+        dropzone.classList.add('highlight');
+    }
+
+    function unhighlight(e) {
+        dropzone.classList.remove('highlight');
+    }
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles({ target: { files: files } });
+    }
+
+    function handleFiles(e) {
+        const files = [...e.target.files];
+        files.forEach(uploadFile);
+    }
+
+    function uploadFile(file) {
+        const fileId = Math.random().toString(36).substring(7);
+        const fileItem = createFileItem(file, fileId);
+        fileList.appendChild(fileItem);
+        
+        // Simulate upload progress
+        simulateUploadProgress(fileId);
+    }
+
+    function createFileItem(file, fileId) {
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML = `
+            <div class="file-info">
+                <div class="file-icon">
+                    <svg class="icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="file-details">
+                    <p class="file-name">${file.name}</p>
+                    <p class="file-meta">${formatFileSize(file.size)} • ${file.type.split('/')[1].toUpperCase()}</p>
+                </div>
+            </div>
+            <div class="file-progress">
+                <span class="progress-value" data-id="${fileId}">0%</span>
+                <button class="text-slate-400 transition-colors hover:text-white" onclick="this.closest('.file-item').remove()">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%" data-id="${fileId}"></div>
+            </div>
+        `;
+        return div;
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    function simulateUploadProgress(fileId) {
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.random() * 10;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+            }
+            
+            const progressBar = document.querySelector(`.progress-fill[data-id="${fileId}"]`);
+            const progressText = document.querySelector(`.progress-value[data-id="${fileId}"]`);
+            
+            if (progressBar && progressText) {
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}%`;
+            } else {
+                clearInterval(interval);
+            }
+        }, 200);
+    }
+});
+</script>
+{% endblock %} 

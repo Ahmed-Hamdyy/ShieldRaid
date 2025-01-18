@@ -1,0 +1,21 @@
+!-- templates/report_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan Report</title>
+</head>
+<body>
+    <h1>Vulnerability Scan Report</h1>
+    <ul>
+    {% for vulnerability in vulnerabilities %}
+        <li>
+            <strong>Type:</strong> {{ vulnerability.type }} <br>
+            <strong>Description:</strong> {{ vulnerability.description }} <br>
+            <strong>Location:</strong> {{ vulnerability.location }} <br>
+            <strong>Severity:</strong> {{ vulnerability.severity }}
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

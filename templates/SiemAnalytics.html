@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block title %}SIEM Analytics{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --success-rgb: 34, 197, 94;
+        --danger-rgb: 239, 68, 68;
+        --success-color: rgb(var(--success-rgb));
+        --danger-color: rgb(var(--danger-rgb));
+    }
+
+    .siem-container {
+        min-height: 100vh;
+        background: var(--darker-bg);
+        color: var(--text-primary);
+    }
+
+    .main-content {
+        padding: 1rem;
+        max-width: 1920px;
+        margin: 0 auto;
+    }
+
+    /* Top navigation styles */
+    .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--card-bg);
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .header-left, .header-center, .header-right {
+        display: flex;
+        align-items: center;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    .logo i {
+        font-size: 1.5rem;
+    }
+
+    .header-center h1 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: var(--text-primary);
+    }
+    
+    .nav-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-right: 1.5rem;
+    }
+    
+    .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-1px);
+        border-color: rgba(0, 255, 157, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 255, 157, 0.2);
+    }
+    
+    .nav-btn i {
+        font-size: 1rem;
+        color: var(--primary-color);
+    }
+    
+    .control-buttons {
+        display: flex;
+        gap: 0.75rem;
+    }
+    
+    .control-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .start-btn {
+        background: var(--primary-color);
+        color: var(--darker-bg);
+    }
+    
+    .start-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+    }
+
+    /* Analytics Grid */
+    .analytics-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .analytics-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .analytics-card h2 {
+        margin: 0 0 1.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .analytics-card h2 i {
+        color: var(--primary-color);
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Summary Stats */
+    .summary-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .stat-item {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+        transform: translateY(-4px);
+        border-color: rgba(0, 255, 157, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 255, 157, 0.1);
+    }
+
+    .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+        color: var(--primary-color);
+        font-size: 2rem;
+        font-weight: 600;
+        text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+    }
+
+    /* Loading States */
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(10, 11, 14, 0.8);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        border-radius: 0.75rem;
+    }
+
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(0, 255, 157, 0.1);
+        border-top-color: var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Error States */
+    .error-message {
+        color: var(--danger-color);
+        background: rgba(239, 68, 68, 0.1);
+        padding: 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+    }
+
+    /* Custom Scrollbar */
+    .chart-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .chart-container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .chart-container::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+
+    .chart-container::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+        .analytics-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .summary-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .top-nav {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .header-left, .header-center, .header-right {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .nav-buttons {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+
+        .nav-buttons, .control-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .nav-btn, .control-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .summary-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .chart-container {
+            height: 250px;
+        }
+    }
+</style>
+
+<div class="siem-container">
+    <div class="main-content">
+        <!-- Navigation -->
+        <nav class="top-nav">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>SIEM Tool</span>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <h1>SIEM Analytics</h1>
+            </div>
+
+            <div class="header-right">
+                <div class="nav-buttons">
+                    <a href="{{ url_for('siem.index') }}" class="nav-btn">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ url_for('siem.correlations_page') }}" class="nav-btn">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security Correlations</span>
+                    </a>
+                </div>
+                <div class="control-buttons">
+                    <button id="refreshButton" class="control-btn start-btn">
+                        <i class="fas fa-sync"></i>
+                        <span>Refresh Data</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Analytics Grid -->
+        <div class="analytics-grid">
+            <!-- Event Distribution -->
+            <div class="analytics-card">
+                <h2>
+                    <i class="fas fa-chart-pie"></i>
+                    Event Distribution
+                </h2>
+                <div class="chart-container">
+                    <canvas id="eventDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Alert Types -->
+            <div class="analytics-card">
+                <h2>
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Alert Types
+                </h2>
+                <div class="chart-container">
+                    <canvas id="alertTypesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Command Execution -->
+            <div class="analytics-card">
+                <h2>
+                    <i class="fas fa-terminal"></i>
+                    Command Execution
+                </h2>
+                <div class="chart-container">
+                    <canvas id="commandExecutionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="analytics-card">
+                <h2>
+                    <i class="fas fa-chart-bar"></i>
+                    Summary
+                </h2>
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Events</span>
+                        <span class="stat-value" id="totalEvents">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Alerts</span>
+                        <span class="stat-value" id="totalAlerts">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/SiemAnalytics.js') }}"></script>
+{% endblock %} 

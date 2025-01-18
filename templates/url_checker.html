@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}URL Checker - ShieldRaid{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-link me-2"></i>
+                        URL Security Checker
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="urlCheckerForm">
+                        <div class="mb-3">
+                            <label for="url" class="form-label">Enter URL to Check</label>
+                            <div class="input-group">
+                                <input type="url" class="form-control" id="url" name="url" 
+                                       placeholder="https://example.com" required>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search me-2"></i>Analyze
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div id="results" class="mt-4" style="display: none;">
+                        <h6>Security Analysis Results:</h6>
+                        <div id="resultContent" class="space-y-3">
+                            <!-- Results will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('urlCheckerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const url = document.getElementById('url').value;
+    const resultContent = document.getElementById('resultContent');
+    const results = document.getElementById('results');
+    
+    // Show loading state
+    results.style.display = 'block';
+    resultContent.innerHTML = `
+        <div class="d-flex align-items-center">
+            <div class="spinner-border text-primary me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span>Analyzing URL security...</span>
+        </div>
+    `;
+    
+    // Send request to backend
+    fetch('/api/check-url', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: url })
+    })
+    .then(response => response.json())
+    .then(data => {
+        resultContent.innerHTML = '';
+        
+        // Add overall status
+        const overallStatus = document.createElement('div');
+        overallStatus.className = `alert ${data.is_safe ? 'alert-success' : 'alert-danger'} mb-4`;
+        overallStatus.innerHTML = `
+            <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas ${data.is_safe ? 'fa-check-circle' : 'fa-exclamation-triangle'} me-2"></i>
+                </div>
+                <div>
+                    <h6 class="mb-0">Overall Status: ${data.is_safe ? 'Safe' : 'Potentially Unsafe'}</h6>
+                </div>
+            </div>
+        `;
+        resultContent.appendChild(overallStatus);
+        
+        // Add detailed checks
+        const checks = data.checks;
+        Object.entries(checks).forEach(([check, result]) => {
+            const checkDiv = document.createElement('div');
+            checkDiv.className = `alert ${result.passed ? 'alert-success' : 'alert-warning'} mb-2`;
+            checkDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas ${result.passed ? 'fa-check' : 'fa-exclamation-circle'} me-2"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0">${result.message}</p>
+                    </div>
+                </div>
+            `;
+            resultContent.appendChild(checkDiv);
+        });
+    })
+    .catch(error => {
+        resultContent.innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Error analyzing URL: ${error.message}
+            </div>
+        `;
+    });
+});
+</script>
+{% endblock %} 

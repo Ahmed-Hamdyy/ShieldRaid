@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ping a Host</title>
+</head>
+<body>
+    <h1>Ping a Host</h1>
+    <form method="POST">
+        Host: <input type="text" name="target"><br>
+        <button type="submit">Ping</button>
+    </form>
+    {% if result %}
+        <pre>{{ result }}</pre>
+    {% endif %}
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>

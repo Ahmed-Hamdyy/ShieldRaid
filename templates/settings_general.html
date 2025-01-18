@@ -1,0 +1,472 @@
+{% extends "base.html" %}
+
+{% block title %}General Settings - ShieldRaid{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <div class="settings-header">
+        <h1 class="settings-title">
+            <i class="fas fa-cog"></i>
+            General Settings
+        </h1>
+        <p class="settings-subtitle">Configure your scanning preferences and application settings</p>
+    </div>
+
+    <div class="settings-grid">
+        <!-- Scan Settings -->
+        <div class="settings-card">
+            <div class="card-body">
+                <h4 class="section-title">
+                    <i class="fas fa-search"></i>
+                    Scan Settings
+                </h4>
+                <form class="settings-form" action="{{ url_for('update_scan_settings') }}" method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Default Scan Depth</label>
+                        <select class="form-control" name="scan_depth">
+                            <option value="1" {% if settings.scan_depth == 1 %}selected{% endif %}>Light (Quick Scan)</option>
+                            <option value="2" {% if settings.scan_depth == 2 %}selected{% endif %}>Medium (Standard Scan)</option>
+                            <option value="3" {% if settings.scan_depth == 3 %}selected{% endif %}>Deep (Thorough Scan)</option>
+                        </select>
+                        <div class="form-text">Choose the default depth level for your security scans</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Concurrent Scans</label>
+                        <input type="number" class="form-control" name="concurrent_scans" 
+                               value="{{ settings.concurrent_scans }}" min="1" max="5">
+                        <div class="form-text">Number of simultaneous scans allowed (1-5)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Scan Timeout (minutes)</label>
+                        <input type="number" class="form-control" name="scan_timeout" 
+                               value="{{ settings.scan_timeout }}" min="5" max="120">
+                        <div class="form-text">Maximum duration for a single scan (5-120 minutes)</div>
+                    </div>
+
+                    <div class="form-check-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="auto_scan" 
+                                   name="auto_scan" {% if settings.auto_scan %}checked{% endif %}>
+                            <label class="form-check-label" for="auto_scan">Enable Automatic Scanning</label>
+                        </div>
+                        <div class="form-text">Automatically scan URLs when added to the queue</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Scan Settings</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="settings-card">
+            <div class="card-body">
+                <h4 class="section-title">
+                    <i class="fas fa-bell"></i>
+                    Notification Settings
+                </h4>
+                <form class="settings-form" action="{{ url_for('update_notification_settings') }}" method="POST">
+                    <div class="form-check-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="email_notifications" 
+                                   name="email_notifications" {% if settings.email_notifications %}checked{% endif %}>
+                            <label class="form-check-label" for="email_notifications">Email Notifications</label>
+                        </div>
+                        <div class="form-text">Receive scan results and alerts via email</div>
+                    </div>
+
+                    <div class="form-check-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="critical_alerts" 
+                                   name="critical_alerts" {% if settings.critical_alerts %}checked{% endif %}>
+                            <label class="form-check-label" for="critical_alerts">Critical Vulnerability Alerts</label>
+                        </div>
+                        <div class="form-text">Instant notifications for critical vulnerabilities</div>
+                    </div>
+
+                    <div class="form-check-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="scan_completion" 
+                                   name="scan_completion" {% if settings.scan_completion %}checked{% endif %}>
+                            <label class="form-check-label" for="scan_completion">Scan Completion Notifications</label>
+                        </div>
+                        <div class="form-text">Get notified when scans are completed</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Report Settings -->
+        <div class="settings-card">
+            <div class="card-body">
+                <h4 class="section-title">
+                    <i class="fas fa-file-alt"></i>
+                    Report Settings
+                </h4>
+                <form class="settings-form" action="{{ url_for('update_report_settings') }}" method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Default Report Format</label>
+                        <select class="form-control" name="report_format">
+                            <option value="pdf" {% if settings.report_format == 'pdf' %}selected{% endif %}>PDF</option>
+                            <option value="html" {% if settings.report_format == 'html' %}selected{% endif %}>HTML</option>
+                            <option value="json" {% if settings.report_format == 'json' %}selected{% endif %}>JSON</option>
+                        </select>
+                        <div class="form-text">Choose the default format for scan reports</div>
+                    </div>
+
+                    <div class="form-check-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="include_details" 
+                                   name="include_details" {% if settings.include_details %}checked{% endif %}>
+                            <label class="form-check-label" for="include_details">Include Technical Details</label>
+                        </div>
+                        <div class="form-text">Add detailed technical information to reports</div>
+                    </div>
+
+                    <div class="form-check-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="auto_export" 
+                                   name="auto_export" {% if settings.auto_export %}checked{% endif %}>
+                            <label class="form-check-label" for="auto_export">Automatic Report Export</label>
+                        </div>
+                        <div class="form-text">Automatically export reports after scan completion</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Report Settings</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- API Settings -->
+        <div class="settings-card">
+            <div class="card-body">
+                <h4 class="section-title">
+                    <i class="fas fa-code"></i>
+                    API Settings
+                </h4>
+                <div class="api-info">
+                    <div class="api-key-section">
+                        <label class="form-label">API Key</label>
+                        <div class="api-key-display">
+                            <input type="password" class="form-control" value="{{ settings.api_key }}" readonly>
+                            <button class="btn btn-secondary" onclick="toggleApiKey(this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-secondary" onclick="copyApiKey(this)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">Your unique API key for accessing the ShieldRaid API</div>
+                    </div>
+                    <div class="api-actions">
+                        <button class="btn btn-warning" onclick="regenerateApiKey()">
+                            <i class="fas fa-sync-alt"></i>
+                            Regenerate API Key
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.settings-container {
+    width: -webkit-fill-available;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.settings-header {
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: linear-gradient(145deg, rgba(10, 11, 14, 0.95), rgba(20, 21, 24, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.settings-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.settings-title i {
+    color: var(--primary-color);
+    padding: 0.75rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 16px;
+}
+
+.settings-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.settings-card {
+    background: linear-gradient(145deg, rgba(10, 11, 14, 0.95), rgba(20, 21, 24, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.settings-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 255, 157, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 255, 157, 0.1);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.section-title i {
+    color: var(--primary-color);
+    padding: 0.6rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-radius: 12px;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--card-background);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.form-control:focus {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 157, 0.25);
+}
+
+.form-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.form-check-group {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px solid var(--card-background);
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-check-label {
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn {
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 102, 255, 0.2));
+    border: 1px solid rgba(0, 255, 157, 0.3);
+    color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.3), rgba(0, 102, 255, 0.3));
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 157, 0.2);
+}
+
+.btn-secondary {
+    background: var(--card-background);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.btn-warning {
+    background: rgba(255, 165, 2, 0.1);
+    border: 1px solid rgba(255, 165, 2, 0.2);
+    color: #ffa502;
+}
+
+.btn-warning:hover {
+    background: rgba(255, 165, 2, 0.2);
+    border-color: #ffa502;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 165, 2, 0.2);
+}
+
+.api-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.api-key-section {
+    margin-bottom: 1.5rem;
+}
+
+.api-key-display {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.api-key-display .form-control {
+    font-family: monospace;
+    letter-spacing: 2px;
+}
+
+.api-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+    .settings-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-container {
+        padding: 1rem;
+    }
+}
+</style>
+
+<script>
+function toggleApiKey(button) {
+    const input = button.previousElementSibling;
+    const icon = button.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+function copyApiKey(button) {
+    const input = button.previousElementSibling.previousElementSibling;
+    input.type = 'text';
+    input.select();
+    document.execCommand('copy');
+    input.type = 'password';
+    
+    // Show feedback
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check"></i>';
+    setTimeout(() => {
+        button.innerHTML = originalText;
+    }, 2000);
+}
+
+function regenerateApiKey() {
+    if (confirm('Are you sure you want to regenerate your API key? The current key will be invalidated.')) {
+        // Add your API key regeneration logic here
+        fetch('/api/regenerate-key', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    }
+}
+</script>
+{% endblock %} 

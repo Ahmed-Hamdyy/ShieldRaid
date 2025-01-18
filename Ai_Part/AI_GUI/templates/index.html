@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Traffic Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Network Traffic Analyzer</h1>
+            
+            <!-- Upload Section -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Upload Network Traffic File</h2>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="dropZone">
+                    <input type="file" id="fileInput" accept=".txt,.csv" class="hidden">
+                    <label for="fileInput" class="cursor-pointer">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="mt-1 text-sm text-gray-600">Drop your .txt or .csv file here or click to browse</p>
+                    </label>
+                </div>
+                <div id="fileInfo" class="mt-4 text-sm text-gray-600 hidden">
+                    Selected file: <span id="fileName"></span>
+                    <button id="uploadBtn" class="ml-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Analyze
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="hidden">
+                <div class="flex items-center justify-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    <span class="ml-2 text-gray-600">Analyzing traffic...</span>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="bg-white rounded-lg shadow-md p-6 hidden">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Analysis Results</h2>
+                <div id="resultContent" class="space-y-3"></div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" role="alert">
+                <span id="errorMessage"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const resultContent = document.getElementById('resultContent');
+        const error = document.getElementById('error');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Handle drag and drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-blue-500');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-blue-500');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-500');
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            handleFile(file);
+        });
+
+        function handleFile(file) {
+            if (file && (file.name.endsWith('.txt') || file.name.endsWith('.csv'))) {
+                fileName.textContent = file.name;
+                fileInfo.classList.remove('hidden');
+                error.classList.add('hidden');
+            } else {
+                errorMessage.textContent = 'Please select either a .txt or .csv file';
+                error.classList.remove('hidden');
+                fileInfo.classList.add('hidden');
+            }
+        }
+
+        uploadBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                loading.classList.remove('hidden');
+                results.classList.add('hidden');
+                error.classList.add('hidden');
+
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultContent.innerHTML = '';
+                    data.predictions.forEach((prediction, index) => {
+                        const div = document.createElement('div');
+                        div.className = prediction.includes('benign') 
+                            ? 'p-4 bg-green-50 text-green-800 rounded border border-green-200'
+                            : 'p-4 bg-red-50 text-red-800 rounded border border-red-200';
+                        div.innerHTML = `
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    ${prediction.includes('benign')
+                                        ? '<svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>'
+                                        : '<svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'
+                                    }
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium">
+                                        ${prediction}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                        resultContent.appendChild(div);
+                    });
+                    results.classList.remove('hidden');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (err) {
+                errorMessage.textContent = err.message || 'An error occurred during analysis';
+                error.classList.remove('hidden');
+            } finally {
+                loading.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShieldRaid - Advanced Security Scanner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1d4ed8;
+            --accent-color: #60a5fa;
+            --text-color: #f3f4f6;
+            --dark-bg: #111827;
+            --darker-bg: #0f172a;
+            --card-bg: #1f2937;
+            --hover-bg: #374151;
+            --border-color: #374151;
+            --muted-text: #9ca3af;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--dark-bg);
+        }
+
+        /* Hero Section Styles */
+            .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--darker-bg), var(--dark-bg));
+            color: white;
+                position: relative;
+                overflow: hidden;
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border-color);
+            }
+
+            .hero-container {
+            display: flex;
+                align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            }
+
+            .hero-content {
+            flex: 1;
+            max-width: 600px;
+            z-index: 1;
+            }
+
+            .gradient-text {
+            background: linear-gradient(45deg, var(--accent-color), #93c5fd);
+                -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 4rem;
+                font-weight: 800;
+            margin-bottom: 1.5rem;
+            }
+
+            .hero-description {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            }
+
+            .feature-tags {
+                display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            }
+
+            .tag {
+                display: flex;
+                align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        /* Feature Cards Styles */
+        .features-section {
+            padding: 5rem 0;
+            background: var(--darker-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: var(--hover-bg);
+        }
+
+        .feature-3d-wrapper {
+                position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+                position: relative;
+                z-index: 2;
+            }
+
+        .icon-3d-platform {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+                border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        /* Dashboard Preview Styles */
+        .dashboard-preview-section {
+            padding: 5rem 0;
+            background: var(--dark-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .preview-window {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .window-header {
+            background: var(--darker-bg);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .window-controls span {
+            width: 12px;
+            height: 12px;
+                border-radius: 50%;
+            background: #e2e8f0;
+        }
+
+        .window-controls span:nth-child(1) { background: #ef4444; }
+        .window-controls span:nth-child(2) { background: #f59e0b; }
+        .window-controls span:nth-child(3) { background: #10b981; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .dashboard-card h4 {
+            color: var(--text-color);
+        }
+
+        .metric {
+            margin-top: 1rem;
+        }
+
+        .metric .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: block;
+        }
+
+        .metric .label {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        /* Team Section Styles */
+        .team-section {
+            padding: 5rem 0;
+            background: var(--darker-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            background: var(--hover-bg);
+        }
+
+        .member-image {
+            position: relative;
+            padding-top: 100%;
+            background: var(--darker-bg);
+        }
+
+        .image-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--muted-text);
+        }
+
+        .member-social {
+            position: absolute;
+            bottom: 0;
+                left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .team-card:hover .member-social {
+            opacity: 1;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .member-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .member-info .role {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        /* Threats Section Styles */
+        .threats-section {
+            padding: 5rem 0;
+            background: var(--dark-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .threats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .threat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .threat-card:hover {
+            background: var(--hover-bg);
+        }
+
+        .threat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .threat-icon.critical { 
+            background: rgba(220, 38, 38, 0.1); 
+            color: #ef4444;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+        .threat-icon.high { 
+            background: rgba(217, 119, 6, 0.1); 
+            color: #f59e0b;
+            border: 1px solid rgba(217, 119, 6, 0.2);
+        }
+        .threat-icon.medium { 
+            background: rgba(2, 132, 199, 0.1); 
+            color: #38bdf8;
+            border: 1px solid rgba(2, 132, 199, 0.2);
+        }
+
+        .severity {
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .threat-content {
+            flex: 1;
+        }
+
+        .threat-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--muted-text);
+        }
+
+        .threat-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .title-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        .title-effects {
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Buttons */
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--text-color);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+            }
+
+            /* Responsive Design */
+        @media (max-width: 768px) {
+                .hero-container {
+                flex-direction: column;
+                    text-align: center;
+                }
+
+                .feature-tags {
+                    justify-content: center;
+                }
+
+            .hero-cta {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--darker-bg) !important;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            color: var(--accent-color) !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-color) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border-color: var(--border-color);
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.7)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            border-color: var(--accent-color);
+            }
+        </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">ShieldRaid</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <!-- Left Side: Content -->
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">ShieldRaid</span>
+                </h1>
+                <div class="hero-description">
+                    <p>Protect your applications with enterprise-grade security scanning powered by advanced AI technology.</p>
+                </div>
+                
+                <div class="feature-tags">
+                    <div class="tag">
+                        <i class="fas fa-robot"></i>
+                        <span>AI-Powered</span>
+                    </div>
+                    <div class="tag">
+                        <i class="fas fa-bolt"></i>
+                        <span>Real-Time</span>
+                    </div>
+                    <div class="tag">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    {% if 'user_id' in session %}
+                        <a href="{{ url_for('vulnscan') }}" class="btn-primary">
+                            <i class="fas fa-search-location"></i>
+                            <span>Start Scanning</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('register') }}" class="btn-primary">
+                            <i class="fas fa-shield-check"></i>
+                            <span>Get Protected</span>
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Sign In</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right Side: 3D Illustration -->
+            <div class="hero-illustration">
+                <div class="illustration-container">
+                    <!-- Main Shield -->
+                    <div class="shield-wrapper">
+                        <div class="shield">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="shield-glow"></div>
+                    </div>
+
+                    <!-- Orbiting Elements -->
+                    <div class="orbit-system">
+                        <div class="orbit orbit-1">
+                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-shield-virus"></i>
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="orbit orbit-2">
+                            <i class="fas fa-bug"></i>
+                            <i class="fas fa-search-location"></i>
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="orbit orbit-3">
+                            <i class="fas fa-fingerprint"></i>
+                            <i class="fas fa-key"></i>
+                            <i class="fas fa-shield-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-text">Key Features</span>
+        <div class="title-effects">
+            <div class="title-line"></div>
+        </div>
+    </h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-3d-wrapper">
+                    <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                            <div class="icon-3d-platform"></div>
+                    </div>
+                    <h3>Smart Detection</h3>
+                    <p>Advanced AI-powered vulnerability scanning with real-time threat detection and analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-3d-wrapper">
+                    <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                            <div class="icon-3d-platform"></div>
+                        </div>
+                    <h3>Real-time Monitoring</h3>
+                    <p>Monitor your security status in real-time with detailed analytics and reporting.</p>
+                    </div>
+                <div class="feature-card">
+                    <div class="feature-3d-wrapper">
+                    <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                            <div class="icon-3d-platform"></div>
+                        </div>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Leverage artificial intelligence for advanced threat detection and analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview Section -->
+    <section class="dashboard-preview-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-text">Security Dashboard</span>
+                <div class="title-effects">
+                    <div class="title-line"></div>
+                </div>
+            </h2>
+                    <div class="preview-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div class="window-title">ShieldRaid Dashboard</div>
+                        </div>
+                            <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                                    <h4>Active Threats</h4>
+                                    <div class="metric">
+                                        <span class="number">12</span>
+                                        <span class="label">Detected</span>
+                                    </div>
+                                </div>
+                    <div class="dashboard-card">
+                                    <h4>Vulnerabilities</h4>
+                                    <div class="metric">
+                                        <span class="number">28</span>
+                                        <span class="label">Found</span>
+                                    </div>
+                                </div>
+                    <div class="dashboard-card">
+                                    <h4>Security Score</h4>
+                                    <div class="metric">
+                                        <span class="number">94%</span>
+                                        <span class="label">Protected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Security Threats Section -->
+    <section class="threats-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-text">Latest Security Threats</span>
+                <div class="title-effects">
+                    <div class="title-line"></div>
+                </div>
+            </h2>
+            <div class="threats-grid">
+                <div class="threat-card">
+                    <div class="threat-icon critical">
+                        <i class="fas fa-radiation"></i>
+                        <span class="severity">Critical</span>
+                            </div>
+                    <div class="threat-content">
+                        <h3>SQL Injection Vulnerability</h3>
+                        <p>A critical vulnerability allowing attackers to execute malicious SQL commands.</p>
+                        <div class="threat-meta">
+                            <span><i class="fas fa-clock"></i> 2 hours ago</span>
+                            <span><i class="fas fa-shield-virus"></i> Active Threat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon high">
+                        <i class="fas fa-bug"></i>
+                        <span class="severity">High</span>
+                            </div>
+                    <div class="threat-content">
+                        <h3>Cross-Site Scripting (XSS)</h3>
+                        <p>High-risk vulnerability enabling injection of malicious scripts into web applications.</p>
+                        <div class="threat-meta">
+                            <span><i class="fas fa-clock"></i> 5 hours ago</span>
+                            <span><i class="fas fa-shield-virus"></i> Active Threat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon medium">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span class="severity">Medium</span>
+                            </div>
+                    <div class="threat-content">
+                        <h3>Authentication Bypass</h3>
+                        <p>Security flaw allowing unauthorized access to protected resources.</p>
+                        <div class="threat-meta">
+                            <span><i class="fas fa-clock"></i> 8 hours ago</span>
+                            <span><i class="fas fa-shield-virus"></i> Under Analysis</span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="title-text">Our Team</span>
+                <div class="title-effects">
+                    <div class="title-line"></div>
+                </div>
+            </h2>
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-card">
+                    <div class="member-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-social">
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Ahmed Hamdy</h3>
+                        <span class="role">Team Lead</span>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-card">
+                    <div class="member-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-social">
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Mahmoud Amr</h3>
+                        <span class="role">Security Engineer</span>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="team-card">
+                    <div class="member-image">
+                        <div class="image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-social">
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Marwan Mohamed</h3>
+                        <span class="role">Backend Developer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
